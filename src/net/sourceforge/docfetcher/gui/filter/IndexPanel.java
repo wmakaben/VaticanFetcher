@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2010, 2011 Tran Nam Quang.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *    Tran Nam Quang - initial API and implementation
- *******************************************************************************/
 
 package net.sourceforge.docfetcher.gui.filter;
 
@@ -25,8 +15,6 @@ import net.sourceforge.docfetcher.enums.Msg;
 import net.sourceforge.docfetcher.enums.ProgramConf;
 import net.sourceforge.docfetcher.enums.SettingsConf;
 import net.sourceforge.docfetcher.gui.MultiFileLauncher;
-import net.sourceforge.docfetcher.gui.indexing.IndexingDialog;
-import net.sourceforge.docfetcher.gui.indexing.SingletonDialogFactory;
 import net.sourceforge.docfetcher.model.Folder;
 import net.sourceforge.docfetcher.model.Folder.FolderEvent;
 import net.sourceforge.docfetcher.model.IndexRegistry;
@@ -57,7 +45,6 @@ import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.MenuAdapter;
 import org.eclipse.swt.events.MenuEvent;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Display;
@@ -73,74 +60,40 @@ import com.sun.jna.platform.win32.Shell32Util;
 
 public final class IndexPanel {
 	
-	private static abstract class DialogFactory extends SingletonDialogFactory<IndexingDialog> {
-		public DialogFactory(Shell shell) {
-			super(shell);
-		}
-	}
-	
 	public final Event<Void> evtCheckStatesChanged = new Event<Void>();
 	public final Event<Set<String>> evtListDocuments = new Event<Set<String>>();
-	public final Event<Rectangle> evtIndexingDialogMinimized = new Event<Rectangle>();
-	public final Event<Void> evtIndexingDialogOpened = new Event<Void>();
+	public final static Event<Void> evtSwitchToIndexingPanel = new Event<Void>();
 
 	private final SimpleTreeViewer<ViewNode> viewer;
 	private final Tree tree;
 	private final IndexRegistry indexRegistry;
-	private final DialogFactory dialogFactory;
 	private final Set<ViewNode> nodesToBeAdded = new HashSet<ViewNode>();
 	
 	@NotNull private MenuAction updateIndexAction;
 	@NotNull private MenuAction removeIndexAction;
 
-	public IndexPanel(	@NotNull final Composite parent,
-						@NotNull final IndexRegistry indexRegistry) {
+	public IndexPanel(@NotNull final Composite parent, @NotNull final IndexRegistry indexRegistry) {
 		Util.checkNotNull(parent, indexRegistry);
 		this.indexRegistry = indexRegistry;
 
-		dialogFactory = new DialogFactory(parent.getShell()) {
-			protected IndexingDialog createDialog(Shell shell) {
-				IndexingDialog indexingDialog = new IndexingDialog(shell, indexRegistry);
-				indexingDialog.evtDialogMinimized.add(new Event.Listener<Rectangle>() {
-					public void update(Rectangle eventData) {
-						evtIndexingDialogMinimized.fire(eventData);
-					}
-				});
-				return indexingDialog;
-			}
-		};
-		
-		dialogFactory.evtDialogOpened.add(new Event.Listener<Void>() {
-			public void update(Void eventData) {
-				evtIndexingDialogOpened.fire(eventData);
-			}
-		});
 		
 		final Comparator<ViewNode> viewNodeComparator = new Comparator<ViewNode>() {
 			public int compare(ViewNode o1, ViewNode o2) {
-				return AlphanumComparator.ignoreCaseInstance.compare(
-					o1.getDisplayName(), o2.getDisplayName());
+				return AlphanumComparator.ignoreCaseInstance.compare(o1.getDisplayName(), o2.getDisplayName());
 			}
 		};
 
 		viewer = new SimpleTreeViewer<ViewNode>(parent, SWT.CHECK | SWT.BORDER | SWT.MULTI) {
 			protected Iterable<ViewNode> getChildren(ViewNode element) {
 				/*
-				 * Workaround for bug #3534802: In earlier versions, the
-				 * children of the given element were returned directly, without
-				 * the additional filtering below. This caused the program to
-				 * crash in a rare concurrency situation: (1) The indexing
-				 * thread running in the background adds a new subfolder to a
-				 * certain folder. (2) Afterwards, it notifies a listener of
-				 * this addition. The listener runs in the GUI thread, and its
-				 * job is to create a new tree item for the newly added
-				 * subfolder. (3) Between the steps 1 and 2, the user expands a
-				 * folder in the Search Scope pane so that the newly added
-				 * subfolder ought to become visible. However, the tree item for
-				 * this subfolder hasn't been created yet (to be done in step
-				 * 2), and this crashes the program. (4) The workaround used
-				 * here is to filter out subfolders for which no tree item has
-				 * been created yet.
+				 * Workaround for bug #3534802: In earlier versions, the children of given elements were returned directly, without
+				 * the additional filtering below. This caused the program to crash in a rare concurrency situation: 
+				 * (1) The indexing thread running in the background adds a new subfolder to a certain folder. 
+				 * (2) Afterwards, it notifies a listener of the addition. Listener runs in the GUI thread, 
+				 * and its job is to create a new tree item for the newly added subfolder. 
+				 * (3) Between the steps 1 and 2, user expands a folder in Search Scope pane so that the newly added subfolder ought to become visible. 
+				 * However, the tree item for this subfolder hasn't been created yet (to be done in step 2), and this crashes the program. 
+				 * (4) The workaround used here is to filter out subfolders for which no tree item has been created yet.
 				 */
 				return Iterables.filter(element.getChildren(), new Predicate<ViewNode>() {
 					public boolean apply(ViewNode child) {
@@ -149,13 +102,9 @@ public final class IndexPanel {
 				});
 			}
 
-			protected String getLabel(ViewNode element) {
-				return element.getDisplayName();
-			}
+			protected String getLabel(ViewNode element) { return element.getDisplayName(); }
 			
-			protected boolean isChecked(ViewNode element) {
-				return element.isChecked();
-			}
+			protected boolean isChecked(ViewNode element) {	return element.isChecked();	}
 			
 			protected void setChecked(ViewNode element, boolean checked) {
 				setCheckedRecursively(element, checked);
@@ -163,16 +112,11 @@ public final class IndexPanel {
 				evtCheckStatesChanged.fire(null);
 			}
 			
-			protected void sort(List<ViewNode> unsortedElements) {
-				Collections.sort(unsortedElements, viewNodeComparator);
-			}
+			protected void sort(List<ViewNode> unsortedElements) { Collections.sort(unsortedElements, viewNodeComparator); }
 		};
 		tree = viewer.getControl();
 		
-		/*
-		 * Update the tree viewer when the internal tree structure changes. This
-		 * can be caused by an index update running in the background.
-		 */
+		/* Update the tree viewer when the internal tree structure changes. This can be caused by an index update running in the background. */
 		Folder.evtFolderAdding.add(new Event.Listener<FolderEvent>() {
 			public void update(final FolderEvent eventData) {
 				Util.runSwtSafe(tree, new Runnable() {
@@ -203,17 +147,12 @@ public final class IndexPanel {
 		});
 
 		/*
-		 * In the following added/removed handlers, the GUI must be accessed via
-		 * asyncExec calls, not via syncExec, otherwise a deadlock will occur if
-		 * the following happens: (1) Create or rebuild an index. There must be
-		 * exactly one tab open. (2) During indexing, click on the close button
-		 * of the tab or indexing window. A confirmation dialog shows up, but
-		 * don't click on any of the dialog buttons. Instead, keep the dialog
-		 * open and wait until the indexing in the background has finished. (3)
-		 * Now click on the "Keep" button to signal you want to keep the created
-		 * index. This results in a deadlock: One thread holds the model lock
-		 * and tries to access the GUI via syncExec, while another thread runs
-		 * in the GUI thread and tries to obtain the model lock.
+		 * In the following added/removed handlers, GUI must be accessed via asyncExec calls, not via syncExec, otherwise a deadlock will occur if the following happens: 
+		 * (1) Create or rebuild an index. There must be exactly one tab open. 
+		 * (2) During indexing, click on the close button of the tab or indexing window. A confirmation dialog shows up, but don't click on any of the dialog buttons. 
+		 * Instead, keep the dialog open and wait until the indexing in the background has finished. 
+		 * (3) Now click on the "Keep" button to signal you want to keep the created index. This results in a deadlock: 
+		 * One thread holds the model lock and tries to access the GUI via syncExec, while another thread runs in the GUI thread and tries to obtain the model lock.
 		 */
 		indexRegistry.addListeners(new ExistingIndexesHandler() {
 			public void handleExistingIndexes(List<LuceneIndex> indexes) {
@@ -246,43 +185,32 @@ public final class IndexPanel {
 		ContextMenuManager menuManager = new ContextMenuManager(tree);
 		
 		if (ProgramConf.Bool.AllowIndexCreation.get()) {
-			Menu indexSubMenu = menuManager.addSubmenu(new MenuAction(
-				Msg.create_index_from.get()));
+			Menu indexSubMenu = menuManager.addSubmenu(new MenuAction(Msg.create_index_from.get()));
 
-			menuManager.add(indexSubMenu, new MenuAction(
-				Img.FOLDER.get(), Msg.folder.get()) {
+			menuManager.add(indexSubMenu, new MenuAction(Img.FOLDER.get(), Msg.folder.get()) {
 				public void run() {
-					createFileTaskFromDialog(
-						tree.getShell(), indexRegistry, dialogFactory, true);
+					createFileTaskFromDialog(tree.getShell(), indexRegistry, true);
 				}
 			});
 
 			menuManager.addSeparator(indexSubMenu);
 
-			menuManager.add(indexSubMenu, new MenuAction(
-				Img.PACKAGE.get(), Msg.archive.get()) {
+			menuManager.add(indexSubMenu, new MenuAction(Img.PACKAGE.get(), Msg.archive.get()) {
 				public void run() {
-					createFileTaskFromDialog(
-						tree.getShell(), indexRegistry, dialogFactory, false);
+					createFileTaskFromDialog(tree.getShell(), indexRegistry, false);
 				}
 			});
 
-			menuManager.add(indexSubMenu, new MenuAction(
-				Img.EMAIL.get(), Msg.outlook_pst.get()) {
+			menuManager.add(indexSubMenu, new MenuAction(Img.EMAIL.get(), Msg.outlook_pst.get()) {
 				public void run() {
-					createOutlookTaskFromDialog(
-						tree.getShell(), indexRegistry, dialogFactory);
+					createOutlookTaskFromDialog(tree.getShell(), indexRegistry);
 				}
 			});
 
-			String clipboardLabel = Util.IS_MAC_OS_X
-			? Msg.clipboard_macosx.get()
-				: Msg.clipboard.get();
-			menuManager.add(indexSubMenu, new MenuAction(
-				Img.CLIPBOARD.get(), clipboardLabel) {
+			String clipboardLabel = Util.IS_MAC_OS_X ? Msg.clipboard_macosx.get() : Msg.clipboard.get();
+			menuManager.add(indexSubMenu, new MenuAction(Img.CLIPBOARD.get(), clipboardLabel) {
 				public void run() {
-					createTaskFromClipboard(
-						tree.getShell(), indexRegistry, dialogFactory);
+					createTaskFromClipboard(tree.getShell(), indexRegistry);
 				}
 			});
 		}
@@ -298,20 +226,16 @@ public final class IndexPanel {
 			}
 			public void run() {
 				IndexingQueue queue = indexRegistry.getQueue();
-				IndexAction action = isUpdate
-				? IndexAction.UPDATE
-					: IndexAction.REBUILD;
+				IndexAction action = isUpdate ? IndexAction.UPDATE : IndexAction.REBUILD;
 				List<LuceneIndex> sel = getSelectedIndexes();
 				if (!isUpdate)
 					indexRegistry.removeIndexes(sel, false);
 
 				/*
-				 * The indexing dialog must be opened *before* adding the tasks
-				 * to the queue. Otherwise, it may happen that the tasks are
-				 * completed before the dialog is opened, in which case the
-				 * dialog will be empty and won't close automatically.
+				 * The indexing dialog must be opened *before* adding the tasks to the queue. Otherwise, it may happen that the tasks are
+				 * completed before the dialog is opened, in which case the dialog will be empty and won't close automatically.
 				 */
-				dialogFactory.open();
+				switchToIndexing();
 
 				for (LuceneIndex index : sel) {
 					Rejection rejection = queue.addTask(index, action);
@@ -453,10 +377,7 @@ public final class IndexPanel {
 			}
 		});
 		
-		/*
-		 * Hide the context menu if the tree element on which the user opened
-		 * the menu is removed by an index update running in the background.
-		 */
+		/* Hide the context menu if the tree element on which the user opened the menu is removed by an index update running in the background. */
 		final Menu menu = tree.getMenu();
 		final ViewNode[] clickedNode = { null };
 		final Event.Listener<FolderEvent> menuHider = new Event.Listener<FolderEvent>() {
@@ -492,18 +413,15 @@ public final class IndexPanel {
 		tree.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
 				if (e.keyCode == SWT.F5) {
-					if (updateIndexAction.isEnabled()
-							&& ProgramConf.Bool.AllowIndexUpdate.get())
+					if (updateIndexAction.isEnabled() && ProgramConf.Bool.AllowIndexUpdate.get())
 						updateIndexAction.run();
 				}
 				else if (e.stateMask == SWT.MOD1 && e.keyCode == 'v') {
 					if (ProgramConf.Bool.AllowIndexCreation.get())
-						createTaskFromClipboard(
-							tree.getShell(), indexRegistry, dialogFactory);
+						createTaskFromClipboard(tree.getShell(), indexRegistry);
 				}
 				else if (e.keyCode == SWT.DEL) {
-					if (removeIndexAction.isEnabled()
-							&& ProgramConf.Bool.AllowIndexDeletion.get())
+					if (removeIndexAction.isEnabled() && ProgramConf.Bool.AllowIndexDeletion.get())
 						removeIndexAction.run();
 				}
 			}
@@ -533,8 +451,7 @@ public final class IndexPanel {
 	}
 	
 	@RecursiveMethod
-	private void setCheckedRecursively(	@NotNull ViewNode element,
-										boolean checked) {
+	private void setCheckedRecursively(	@NotNull ViewNode element, boolean checked) {
 		element.setChecked(checked);
 		for (ViewNode child : element.getChildren())
 			setCheckedRecursively(child, checked);
@@ -547,8 +464,7 @@ public final class IndexPanel {
 			setCheckedRecursively(child, checked);
 	}
 	
-	// Returns nearest parent file that is an existing directory or the
-	// root file. The path of the returned file is in canonical form.
+	// Returns nearest parent file that is an existing directory or the root file. The path of the returned file is in canonical form.
 	@NotNull
 	@RecursiveMethod
 	private static File getNearestFile(@NotNull Folder<?, ?> folder) {
@@ -562,19 +478,12 @@ public final class IndexPanel {
 	}
 
 	@NotNull
-	public Tree getControl() {
-		return tree;
-	}
+	public Tree getControl() { return tree;	}
 	
 	@NotNull
-	public IndexRegistry getIndexRegistry() {
-		return indexRegistry;
-	}
+	public IndexRegistry getIndexRegistry() { return indexRegistry; }
 
-	public static boolean createFileTaskFromDialog(	@NotNull final Shell shell,
-													@NotNull final IndexRegistry indexRegistry,
-													@Nullable final DialogFactory dialogFactory,
-													final boolean dirNotFile) {
+	public static boolean createFileTaskFromDialog(	@NotNull final Shell shell,	@NotNull final IndexRegistry indexRegistry, final boolean dirNotFile) {
 		String lastPath = SettingsConf.Str.LastIndexedFolder.get();
 		if (!new File(lastPath).exists())
 			lastPath = SettingsConf.Str.LastIndexedFolder.defaultValue;
@@ -603,8 +512,7 @@ public final class IndexPanel {
 				if (overlapMsg != null)
 					return overlapMsg;
 				FileIndex index = new FileIndex(indexParentDir, targetFile);
-				Rejection rejection = indexRegistry.getQueue().addTask(
-					index, IndexAction.CREATE);
+				Rejection rejection = indexRegistry.getQueue().addTask(index, IndexAction.CREATE);
 				if (rejection == null)
 					return null;
 				return getMessage(rejection);
@@ -613,8 +521,7 @@ public final class IndexPanel {
 			protected Object onAccept(String newValue) {
 				String absPath = Util.getSystemAbsPath(newValue);
 				SettingsConf.Str.LastIndexedFolder.set(absPath); // TODO test
-				if (dialogFactory != null)
-					dialogFactory.open();
+				switchToIndexing();
 				return new Object();
 			}
 		}.run(lastPath);
@@ -622,9 +529,7 @@ public final class IndexPanel {
 		return success != null;
 	}
 
-	public static boolean createOutlookTaskFromDialog(	@NotNull final Shell shell,
-														@NotNull final IndexRegistry indexRegistry,
-														@Nullable final DialogFactory dialogFactory) {
+	public static boolean createOutlookTaskFromDialog(	@NotNull final Shell shell,	@NotNull final IndexRegistry indexRegistry) {
 		String lastPath = SettingsConf.Str.LastIndexedPSTFile.get();
 		if (!lastPath.equals("") && !new File(lastPath).isFile())
 			lastPath = SettingsConf.Str.LastIndexedPSTFile.defaultValue;
@@ -665,8 +570,7 @@ public final class IndexPanel {
 			protected Void onAccept(String newValue) {
 				String path = Util.getSystemAbsPath(newValue);
 				SettingsConf.Str.LastIndexedPSTFile.set(path); // TODO test
-				if (dialogFactory != null)
-					dialogFactory.open();
+				switchToIndexing();
 				return null;
 			}
 		}.run(lastPath);
@@ -675,9 +579,8 @@ public final class IndexPanel {
 	}
 
 	/**
-	 * Returns a file object representing the Outlook PST file of the Outlook
-	 * instance installed on the system, or null if no such file is found. This
-	 * method always returns null on non-Windows platforms.
+	 * Returns a file object representing the Outlook PST file of the Outlook instance installed on the system, 
+	 * or null if no such file is found. This method always returns null on non-Windows platforms.
 	 */
 	@Nullable
 	private static File getOutlookPSTFile() {
@@ -699,9 +602,7 @@ public final class IndexPanel {
 		return pstFile.isFile() ? pstFile : null;
 	}
 	
-	public static void createTaskFromClipboard(	@NotNull final Shell shell,
-												@NotNull final IndexRegistry indexRegistry,
-												@Nullable final DialogFactory dialogFactory) {
+	public static void createTaskFromClipboard(	@NotNull final Shell shell,	@NotNull final IndexRegistry indexRegistry) {
 		List<File> files = Util.getFilesFromClipboard();
 		if (files == null) {
 			AppUtil.showError(Msg.no_files_in_cb.get(), true, true);
@@ -730,13 +631,10 @@ public final class IndexPanel {
 		
 		if (rejection != null)
 			AppUtil.showError(getMessage(rejection), true, true);
-		else if (dialogFactory != null)
-			dialogFactory.open();
+		switchToIndexing();
 	}
 	
-	public void openIndexingDialog() {
-		dialogFactory.open();
-	}
+	public void openIndexingDialog() { switchToIndexing(); }
 	
 	@NotNull
 	private static String getMessage(@NotNull Rejection rejection) {
@@ -751,12 +649,13 @@ public final class IndexPanel {
 	}
 	
 	@Nullable
-	private static String checkIndexDirOverlap(	@NotNull File indexParentDir,
-												@NotNull File targetFile) {
-		if (Util.isCanonicallyEqual(indexParentDir, targetFile)
-				|| Util.contains(indexParentDir, targetFile))
+	private static String checkIndexDirOverlap(	@NotNull File indexParentDir, @NotNull File targetFile) {
+		if (Util.isCanonicallyEqual(indexParentDir, targetFile) || Util.contains(indexParentDir, targetFile))
 			return Msg.overlap_with_index_dir.get();
 		return null;
 	}
 
+	private static void switchToIndexing(){
+		evtSwitchToIndexingPanel.fire(null);
+	}
 }

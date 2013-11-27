@@ -244,6 +244,8 @@ public enum Msg {
 	// Various GUI controls
 	search ("Search",
 		"Label of the 'Search' button right next to the search field."),
+	switch_orientation("Change View",
+			"Switch between a horizontal or vertical view"),
 	open_manual ("Open Manual (F1)",
 		"Tooltip text for the '?' button to open the manual."),
 	preferences ("Preferences",

@@ -71,9 +71,9 @@ public final class SystemTrayHider {
 		// Set system tray icon
 		if (Util.IS_LINUX)
 			// On Linux, the 16x16 pixel icon would be too small
-			trayItem.setImage(Img.DOCFETCHER_24.get());
+			trayItem.setImage(Img.RV_ICON.get());
 		else
-			trayItem.setImage(Img.DOCFETCHER_16.get());
+			trayItem.setImage(Img.RV_ICON.get());
 		
 		final Menu trayMenu = new Menu(shell, SWT.POP_UP);
 		MenuItem restoreItem = new MenuItem(trayMenu, SWT.PUSH);

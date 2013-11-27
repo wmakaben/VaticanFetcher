@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011 Tran Nam Quang.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *    Tran Nam Quang - initial API and implementation
- *******************************************************************************/
 
 package net.sourceforge.docfetcher.gui;
 
@@ -19,17 +9,13 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import net.sourceforge.docfetcher.enums.Img;
 import net.sourceforge.docfetcher.enums.Msg;
 import net.sourceforge.docfetcher.enums.ProgramConf;
 import net.sourceforge.docfetcher.gui.ResultPanel.HeaderMode;
-import net.sourceforge.docfetcher.gui.filter.FileTypePanel;
-import net.sourceforge.docfetcher.gui.filter.FilesizePanel;
 import net.sourceforge.docfetcher.gui.filter.IndexPanel;
 import net.sourceforge.docfetcher.model.IndexRegistry;
 import net.sourceforge.docfetcher.model.LuceneIndex;
 import net.sourceforge.docfetcher.model.TreeCheckState;
-import net.sourceforge.docfetcher.model.parse.Parser;
 import net.sourceforge.docfetcher.model.search.ResultDocument;
 import net.sourceforge.docfetcher.model.search.SearchException;
 import net.sourceforge.docfetcher.model.search.Searcher;
@@ -39,29 +25,20 @@ import net.sourceforge.docfetcher.util.Event;
 import net.sourceforge.docfetcher.util.Util;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 import net.sourceforge.docfetcher.util.annotations.Nullable;
-import net.sourceforge.docfetcher.util.collect.ListMap;
-import net.sourceforge.docfetcher.util.collect.ListMap.Entry;
-
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.Sets;
 
-/**
- * @author Tran Nam Quang
- */
 public final class SearchQueue {
 	
 	private static enum GuiEvent {
-		SEARCH_OR_LIST, SIZE, TYPE, LOCATION
+		SEARCH_OR_LIST, LOCATION
 	}
 	
 	private static final String spaces = Strings.repeat(" ", 5);
 
 	private final SearchBar searchBar;
-	private final FilesizePanel filesizePanel;
-	private final FileTypePanel fileTypePanel;
 	private final IndexPanel indexPanel;
 	private final ResultPanel resultPanel;
 	private final StatusBar statusBar;
@@ -74,25 +51,16 @@ public final class SearchQueue {
 	@Nullable private volatile String query;
 	@Nullable private volatile Set<String> listDocIds;
 	@Nullable private List<ResultDocument> results;
-	@Nullable private Set<String> checkedParsers;
 	@Nullable private TreeCheckState treeCheckState;
-	private boolean allParsersChecked;
 	
-	public SearchQueue(	@NotNull SearchBar searchBar,
-						@NotNull FilesizePanel filesizePanel,
-						@NotNull FileTypePanel fileTypePanel,
-						@NotNull IndexPanel indexPanel,
-						@NotNull ResultPanel resultPanel,
-						@NotNull StatusBar statusBar) {
-		Util.checkNotNull(searchBar, filesizePanel, fileTypePanel);
-		Util.checkNotNull(indexPanel, resultPanel, statusBar);
+	public SearchQueue(	@NotNull SearchBar searchBar, @NotNull IndexPanel indexPanel, @NotNull ResultPanel resultPanel,	@NotNull StatusBar statusBar) {
+		Util.checkNotNull(searchBar, indexPanel, resultPanel, statusBar);
 		this.searchBar = searchBar;
-		this.filesizePanel = filesizePanel;
-		this.fileTypePanel = fileTypePanel;
 		this.indexPanel = indexPanel;
 		this.resultPanel = resultPanel;
 		this.statusBar = statusBar;
 		
+		// Updates info display in status bar when files are selected
 		resultPanel.evtSelection.add(new Event.Listener<List<ResultDocument>>() {
 			public void update(List<ResultDocument> eventData) {
 				updateResultStatus();
@@ -123,32 +91,6 @@ public final class SearchQueue {
 					query = eventData;
 					searchBar.setEnabled(false);
 					queue.add(GuiEvent.SEARCH_OR_LIST);
-					queueNotEmpty.signal();
-				}
-				finally {
-					lock.unlock();
-				}
-			}
-		});
-		
-		filesizePanel.evtValuesChanged.add(new Event.Listener<Void>() {
-			public void update(Void eventData) {
-				lock.lock();
-				try {
-					queue.add(GuiEvent.SIZE);
-					queueNotEmpty.signal();
-				}
-				finally {
-					lock.unlock();
-				}
-			}
-		});
-		
-		fileTypePanel.evtCheckStatesChanged.add(new Event.Listener<Void>() {
-			public void update(Void eventData) {
-				lock.lock();
-				try {
-					queue.add(GuiEvent.TYPE);
 					queueNotEmpty.signal();
 				}
 				finally {
@@ -217,19 +159,11 @@ public final class SearchQueue {
 				Searcher searcher = indexRegistry.getSearcher(); // might block
 				
 				/*
-				 * Bug #3538102: The returned searcher is null if
-				 * IndexRegistry.getSearcher() was blocking and the thread is
-				 * interrupted. This can happen as follows: (1) The user has a
-				 * lot of indexes and/or the indexes are very large, so that
-				 * loading them on startup takes a long time. (2) During
-				 * startup, when the indexes are loaded, the user enters
-				 * something into the search field and presses Enter. (3)
-				 * DocFetcher blocks because it can't start searching until all
-				 * indexes have been loaded. Seeing that the program has
-				 * apparently frozen, the user closes the program. This
-				 * interrupts the searcher thread, causing the
-				 * IndexRegistry.getSearcher() method to unblock and return
-				 * null.
+				 * Bug #3538102: The returned searcher is null if IndexRegistry.getSearcher() was blocking and the thread is interrupted. This can happen as follows: 
+				 * (1) The user has a lot of indexes and/or the indexes are very large, so that loading them on startup takes a long time. 
+				 * (2) During startup, when the indexes are loaded, the user enters something into the search field and presses Enter. 
+				 * (3) DocFetcher blocks because it can't start searching until all indexes have been loaded. Seeing that the program has apparently frozen, 
+				 * the user closes the program. This interrupts the searcher thread, causing the IndexRegistry.getSearcher() method to unblock and return null.
 				 */
 				if (searcher == null)
 					return false;
@@ -257,47 +191,18 @@ public final class SearchQueue {
 			}
 		}
 		
-		// Build parser filter
-		if (checkedParsers == null || queueCopy.contains(GuiEvent.TYPE)) {
-			Util.runSyncExec(fileTypePanel.getControl(), new Runnable() {
-				public void run() {
-					updateParserFilter();
-				}
-			});
-		}
-		
 		// Build location filter
 		if (treeCheckState == null || queueCopy.contains(GuiEvent.LOCATION))
 			treeCheckState = indexRegistry.getTreeCheckState();
 		
-		/*
-		 * No need to update the result panel if the user changed the filter
-		 * settings before having run any searches.
-		 */
+		/* No need to update the result panel if the user changed the filter settings before having run any searches. */
 		if (results == null)
 			return true;
 		
-		Long[] minMax = filesizePanel.getValuesInKB();
 		final List<ResultDocument> visibleResults = new ArrayList<ResultDocument>();
 
 		// Apply filters
 		for (ResultDocument doc : results) {
-			if (minMax != null) {
-				long size = doc.getSizeInKB();
-				if (minMax[0] != null && size < minMax[0])
-					continue;
-				if (minMax[1] != null && size > minMax[1])
-					continue;
-			}
-			if (!doc.isEmail()) {
-				if (checkedParsers.isEmpty())
-					continue;
-				if (!allParsersChecked) {
-					String parserName = doc.getParserName();
-					if (!checkedParsers.contains(parserName))
-						continue;
-				}
-			}
 			if (!treeCheckState.isChecked(doc.getParentPath()))
 				continue;
 			visibleResults.add(doc);
@@ -330,20 +235,6 @@ public final class SearchQueue {
 		
 		return true;
 	}
-
-	private void updateParserFilter() {
-		ListMap<Parser, Boolean> map = fileTypePanel.getParserStateMap();
-		checkedParsers = Sets.newHashSetWithExpectedSize(map.size());
-		for (Entry<Parser, Boolean> entry : map) {
-			if (!entry.getValue())
-				continue;
-			String parserName = entry.getKey()
-					.getClass()
-					.getSimpleName();
-			checkedParsers.add(parserName);
-		}
-		allParsersChecked = checkedParsers.size() == map.size();
-	}
 	
 	private void updateResultStatus() {
 		int resultCount = resultPanel.getItemCount();
@@ -353,7 +244,8 @@ public final class SearchQueue {
 		int selCount = resultPanel.getSelection().size();
 		if (selCount > 1)
 			msg += spaces + Msg.num_sel_results.format(selCount);
-		statusBar.getLeftPart().setContents(Img.INFO.get(), msg);
+		statusBar.setResultLabelVisible(true);
+		statusBar.setResultLabelText(msg);
 	}
 
 }

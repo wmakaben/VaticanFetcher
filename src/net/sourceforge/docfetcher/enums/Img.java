@@ -34,14 +34,9 @@ import org.eclipse.swt.graphics.Image;
  * @author Tran Nam Quang
  */
 public enum Img implements FilenameProvider {
+	RV_ICON("rv_icon16.png"),
 	
-	DOCFETCHER_16 ("docfetcher16.png"),
-	DOCFETCHER_24 ("docfetcher24.png"),
-	DOCFETCHER_32 ("docfetcher32.png"),
-	DOCFETCHER_48 ("docfetcher48.png"),
-	DOCFETCHER_64 ("docfetcher64.png"),
-	DOCFETCHER_128 ("docfetcher128.png"),
-	
+	SWITCH_ORIENTATION("switch_orientation.png"),
 	HELP ("help.gif"),
 	INFO ("info.gif"),
 	PREFERENCES ("preferences.gif"),
@@ -69,7 +64,7 @@ public enum Img implements FilenameProvider {
 	CLIPBOARD ("clipboard.gif"),
 	ADD ("add.gif"),
 	REMOVE ("remove.gif"),
-	LIST ("list.gif"), // TODO pre-release: Currently not used
+	LIST ("list.gif"),
 	CHECK ("check.gif"),
 	TREE ("tree.gif"),
 	BROWSER ("browser.gif"),
@@ -79,30 +74,21 @@ public enum Img implements FilenameProvider {
 	
 	private static LazyImageCache lazyImageCache;
 
-	public static void initialize(@NotNull LazyImageCache lazyImageCache) {
-		Img.lazyImageCache = lazyImageCache;
-	}
+	public static void initialize(@NotNull LazyImageCache lazyImageCache) {	Img.lazyImageCache = lazyImageCache; }
 	
 	@NotNull private final String filename;
 	
-	private Img(@NotNull String filename) {
-		this.filename = filename;
-	}
+	private Img(@NotNull String filename) { this.filename = filename; }
 	
 	/**
-	 * Returns the <tt>Image</tt> object corresponding to this enumeration
-	 * constant. It is disposed of automatically after program termination. If
-	 * the image cannot be loaded, null is returned.
+	 * Returns the <tt>Image</tt> object corresponding to this enumeration constant. It is disposed 
+	 * of automatically after program termination. If the image cannot be loaded, null is returned.
 	 */
 	@Nullable
-	public Image get() {
-		return lazyImageCache.getImage(filename);
-	}
+	public Image get() { return lazyImageCache.getImage(filename); }
 
 	@NotNull
-	public String getFilename() {
-		return filename;
-	}
+	public String getFilename() { return filename; }
 
 }
 

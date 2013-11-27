@@ -8,6 +8,9 @@
  * Contributors:
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
+/**
+ * @author Tran Nam Quang
+ */
 
 package net.sourceforge.docfetcher.gui;
 
@@ -39,9 +42,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.ToolBar;
 
-/**
- * @author Tran Nam Quang
- */
 public final class SearchBar {
 
 	private static final int MARGIN = Util.IS_WINDOWS ? 1 : 0;
@@ -51,6 +51,7 @@ public final class SearchBar {
 	public final Event<Void> evtHideInSystemTray = new Event<Void>();
 	public final Event<Void> evtOpenManual = new Event<Void>();
 	public final Event<Void> evtOKClicked = new Event<Void> ();
+	public final Event<Void> evtChangeView = new Event<Void> ();
 
 	private final Composite comp;
 	private final Combo searchBox;
@@ -93,43 +94,34 @@ public final class SearchBar {
 
 		toolBar = new ToolBar(comp, SWT.FLAT);
 		ToolItemFactory tif = new ToolItemFactory(toolBar);
+		
+		tif.image(Img.SWITCH_ORIENTATION.get()).toolTip(Msg.switch_orientation.get()).listener(new SelectionAdapter(){
+			public void widgetSelected(SelectionEvent e){
+				evtChangeView.fire(null);
+			}
+		}).create();
 
-		tif.image(Img.HELP.get()).toolTip(Msg.open_manual.get())
-				.listener(new SelectionAdapter() {
-					public void widgetSelected(SelectionEvent e) {
-						evtOpenManual.fire(null);
+		tif.image(Img.HELP.get()).toolTip(Msg.open_manual.get()).listener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				evtOpenManual.fire(null);
+			}
+		}).create();
+
+		tif.image(Img.PREFERENCES.get()).toolTip(Msg.preferences.get()).listener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				PrefDialog prefDialog = new PrefDialog(comp.getShell(), programConfFile);
+				prefDialog.evtOKClicked.add(new Event.Listener<Void> () {
+					public void update(Void eventData) {
+						evtOKClicked.fire(null);
 					}
-				}).create();
+				});
+				prefDialog.open();
+			}
+		}).create();
 
-		tif.image(Img.PREFERENCES.get()).toolTip(Msg.preferences.get())
-				.listener(new SelectionAdapter() {
-					public void widgetSelected(SelectionEvent e) {
-						PrefDialog prefDialog = new PrefDialog(comp.getShell(), programConfFile);
-						prefDialog.evtOKClicked.add(new Event.Listener<Void> () {
-						    public void update(Void eventData) {
-						    	evtOKClicked.fire(null);
-						    }
-						});
-						prefDialog.open();
-					}
-				}).create();
-
-		// TODO web interface
-//		tif.image(Img.BROWSER.get()).toolTip(Msg.web_interface.get())
-//				.listener(new SelectionAdapter() {
-//					public void widgetSelected(SelectionEvent e) {
-//						WebInterfaceDialog dialog = new WebInterfaceDialog(comp.getShell());
-//						dialog.open();
-//					}
-//				}).create();
-
-		/*
-		 * On Ubuntu Unity, disable hiding in system tray. See bug #3457028 and
-		 * follow-up bug #3457035.
-		 */
+		/* On Ubuntu Unity, disable hiding in system tray. See bug #3457028 and follow-up bug #3457035. */
 		if (!Util.IS_UBUNTU_UNITY) {
-			tif.image(Img.HIDE.get()).toolTip(Msg.to_systray.get())
-			.listener(new SelectionAdapter() {
+			tif.image(Img.HIDE.get()).toolTip(Msg.to_systray.get()).listener(new SelectionAdapter() {
 				public void widgetSelected(SelectionEvent e) {
 					evtHideInSystemTray.fire(null);
 				}
@@ -165,11 +157,7 @@ public final class SearchBar {
 		});
 	}
 
-	private void setBounds(	@NotNull Control control,
-							int x,
-							int width,
-							int compHeight,
-							int controlHeight) {
+	private void setBounds(	@NotNull Control control, int x, int width, int compHeight, int controlHeight) {
 		int y = Math.max(0, (compHeight - controlHeight) / 2);
 		control.setLocation(x, y);
 		control.setSize(width, Math.min(compHeight, controlHeight));
@@ -213,26 +201,18 @@ public final class SearchBar {
 	}
 
 	@NotNull
-	private String[] getHistoryArray() {
-		return searchHistory.toArray(new String[searchHistory.size()]);
-	}
+	private String[] getHistoryArray() { return searchHistory.toArray(new String[searchHistory.size()]); }
 
 	@NotNull
-	public Control getControl() {
-		return comp;
-	}
+	public Control getControl() { return comp; }
 
-	public boolean isEnabled() {
-		return searchBox.isEnabled();
-	}
+	public boolean isEnabled() { return searchBox.isEnabled(); }
 
 	public void setEnabled(boolean enabled) {
 		searchBox.setEnabled(enabled);
 		searchBt.setEnabled(enabled);
 	}
 
-	public boolean setFocus() {
-		return searchBox.setFocus();
-	}
+	public boolean setFocus() {	return searchBox.setFocus(); }
 
 }

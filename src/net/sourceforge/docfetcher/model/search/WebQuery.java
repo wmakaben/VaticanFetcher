@@ -13,7 +13,6 @@ package net.sourceforge.docfetcher.model.search;
 
 import java.util.Collection;
 
-import net.sourceforge.docfetcher.gui.filter.FilesizeUnit;
 import net.sourceforge.docfetcher.model.LuceneIndex;
 import net.sourceforge.docfetcher.model.parse.Parser;
 import net.sourceforge.docfetcher.util.Util;
@@ -49,24 +48,6 @@ public final class WebQuery {
 	public WebQuery(@NotNull String query, int pageIndex) {
 		this.query = Util.checkNotNull(query);
 		this.pageIndex = pageIndex;
-	}
-	
-	/**
-	 * Sets the minimum filesize for the results to be returned. If the given
-	 * minimum filesize is null, the results will have no lower filesize bound.
-	 */
-	public void setMinimumSize(	@Nullable Long minSize,
-								@Nullable FilesizeUnit unit) {
-		this.minSize = FilesizeUnit.Byte.convert(minSize, unit);
-	}
-	
-	/**
-	 * Sets the maximum filesize for the results to be returned. If the given
-	 * maximum filesize is null, the results will have no upper filesize bound.
-	 */
-	public void setMaximumSize(	@Nullable Long maxSize,
-								@Nullable FilesizeUnit unit) {
-		this.maxSize = FilesizeUnit.Byte.convert(maxSize, unit);
 	}
 
 	/**

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>DocFetcher-1.1</name>
+	<name>Radio Vaticana DocFetcher</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -15,4 +15,11 @@
 		<nature>org.eclipse.ajdt.ui.ajnature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>dist/help</name>
+			<type>2</type>
+			<locationURI>PARENT-2-PROJECT_LOC/Eclipse_Docs/Radio%20Vaticana%20DocFetcher/dist/help</locationURI>
+		</link>
+	</linkedResources>
 </projectDescription>

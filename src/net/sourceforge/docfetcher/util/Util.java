@@ -8,6 +8,9 @@
  * Contributors:
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
+/**
+ * @author Tran Nam Quang
+ */
 
 package net.sourceforge.docfetcher.util;
 
@@ -78,15 +81,9 @@ import com.sun.jna.Library;
 import com.sun.jna.Native;
 import com.sun.jna.WString;
 
-/**
- * @author Tran Nam Quang
- */
 public final class Util {
 
-	/*
-	 * TODO pre-release: consider structuring the methods in this class by putting them into
-	 * public static inner classes.
-	 */
+	/* TODO pre-release: consider structuring the methods in this class by putting them into public static inner classes. */
 
 	/** Whether the platform is Windows. */
 	public static final boolean IS_WINDOWS;
@@ -120,15 +117,10 @@ public final class Util {
 	/** Line separator character ('\r\n' on Windows, '\n' on Linux). */
 	public static final String LS = System.getProperty("line.separator");
 
-	/**
-	 * File separator character. On Windows, this is '\', and on Linux, it's
-	 * '/'.
-	 */
+	/** File separator character. On Windows, this is '\', and on Linux, it's '/'. */
 	public static final String FS = System.getProperty("file.separator");
 
-	/**
-	 * Default minimum value for the width of a button.
-	 */
+	/** Default minimum value for the width of a button. */
 	public static final int BTW = 75;
 
 	static {
@@ -170,8 +162,7 @@ public final class Util {
 	}
 	
 	@NotNull
-	private static String getProcessOutput(@NotNull String command)
-			throws IOException {
+	private static String getProcessOutput(@NotNull String command)	throws IOException {
 		Process p = Runtime.getRuntime().exec(command);
 		BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
 		StringBuilder sb = new StringBuilder();
@@ -190,13 +181,10 @@ public final class Util {
 	}
 
 	/**
-	 * Splits the given string into an integer array. Any characters other than
-	 * digits and the 'minus' are treated as separators.
+	 * Splits the given string into an integer array. Any characters other than digits and the 'minus' are treated as separators.
 	 * <p>
-	 * If the string cannot be parsed, the given array of default values is
-	 * returned. If the string contains numbers that are greater than
-	 * {@code Integer.MAX_VALUE} or less than {@code Integer.MIN_VALUE}, those
-	 * numbers will be clamped.
+	 * If the string cannot be parsed, the given array of default values is returned. If the string contains numbers that are greater than
+	 * {@code Integer.MAX_VALUE} or less than {@code Integer.MIN_VALUE}, those numbers will be clamped.
 	 */
 	public static int[] toIntArray(String str, int[] defaultValues) {
 		if (str.trim().equals(""))
@@ -220,11 +208,9 @@ public final class Util {
 	}
 
 	/**
-	 * Returns the given integer string as an {@code int} value. Leading and
-	 * trailing whitespaces are ignored. If the string cannot be parsed, the
-	 * given default value is returned. If the string is a number, but greater
-	 * than {@code Integer.MAX_VALUE} or less than {@code Integer.MIN_VALUE}, a
-	 * clamped value is returned.
+	 * Returns the given integer string as an {@code int} value. Leading and trailing whitespaces are ignored. 
+	 * If the string cannot be parsed, the given default value is returned. If the string is a number, but greater 
+	 * than {@code Integer.MAX_VALUE} or less than {@code Integer.MIN_VALUE}, a clamped value is returned.
 	 */
 	public static int toInt(String value, int defaultValue) {
 		value = value.trim();
@@ -241,17 +227,14 @@ public final class Util {
 	}
 
 	/**
-	 * Encodes the given collection of strings into a single string, using the
-	 * specified separator. The resulting string is a concatenation of the
-	 * elements of the collection, which are separated by the given separator
-	 * and where occurrences of the separator and backslashes are escaped
-	 * appropriately.
+	 * Encodes the given collection of strings into a single string, using the specified separator. 
+	 * The resulting string is a concatenation of the elements of the collection, which are separated 
+	 * by the given separator and where occurrences of the separator and backslashes are escaped appropriately.
 	 *
 	 * @see Util#decodeStrings(String, char)
 	 */
 	@NotNull
-	public static String encodeStrings(	@NotNull String sep,
-										@NotNull Collection<String> parts) {
+	public static String encodeStrings(	@NotNull String sep, @NotNull Collection<String> parts) {
 		Util.checkNotNull(sep, parts);
 		if (parts.isEmpty())
 			return "";
@@ -267,12 +250,10 @@ public final class Util {
 	}
 
 	/**
-	 * Decodes the given string into a list of strings, using the specified
-	 * separator. This method basically splits the given string at those
-	 * occurrences of the separator that aren't escaped with a backslash.
+	 * Decodes the given string into a list of strings, using the specified separator. This method 
+	 * basically splits the given string at those occurrences of the separator that aren't escaped with a backslash.
 	 * <p>
-	 * Special case: If the given string is an empty or a blank string, an empty
-	 * list is returned.
+	 * Special case: If the given string is an empty or a blank string, an empty list is returned.
 	 *
 	 * @see Util#encodeStrings(String, char)
 	 */
@@ -302,9 +283,7 @@ public final class Util {
 		return parts;
 	}
 
-	/**
-	 * Shortens the given string if its length exceeds a fixed limit.
-	 */
+	/** Shortens the given string if its length exceeds a fixed limit. */
 	@NotNull
 	public static String truncate(@NotNull String str) {
 		if (str.length() > 32)
@@ -313,8 +292,7 @@ public final class Util {
 	}
 	
 	/**
-	 * Removes any leading whitespace from the input string and returns the
-	 * resulting string.
+	 * Removes any leading whitespace from the input string and returns the resulting string.
 	 *
 	 * @throws IllegalArgumentException
 	 *             if the input string is null.
@@ -333,8 +311,7 @@ public final class Util {
 	}
 
 	/**
-	 * Removes any trailing whitespace from the input string and returns the
-	 * resulting string.
+	 * Removes any trailing whitespace from the input string and returns the resulting string.
 	 *
 	 * @throws IllegalArgumentException
 	 *             if the input string is null.
@@ -364,9 +341,7 @@ public final class Util {
 		return true;
 	}
 
-	public static String ensureLinuxLineSep(@NotNull String input) {
-		return input.replace("\r\n", "\n");
-	}
+	public static String ensureLinuxLineSep(@NotNull String input) { return input.replace("\r\n", "\n"); }
 
 	public static String ensureWindowsLineSep(@NotNull String input) {
 		// Two replace passes are needed to avoid converting "\r\n" to "\r\r\n".
@@ -374,13 +349,10 @@ public final class Util {
 	}
 
 	/**
-	 * Centers the given shell relative to its parent shell and sets the shell's
-	 * width and height. If there is no parent shell, the given shell is
-	 * centered relative to the screen.
+	 * Centers the given shell relative to its parent shell and sets the shell's width and height. 
+	 * If there is no parent shell, the given shell is centered relative to the screen.
 	 */
-	public static void setCenteredBounds(	@NotNull Shell shell,
-											int width,
-											int height) {
+	public static void setCenteredBounds(@NotNull Shell shell, int width, int height) {
 		shell.setSize(width, height);
 		Composite parent = shell.getParent();
 		Rectangle parentBounds = null;
@@ -399,8 +371,7 @@ public final class Util {
 
 	/**
 	 * Packs the given shell and then centers it relative to its parent shell.
-	 * If there is no parent shell, the given shell is centered relative to the
-	 * screen.
+	 * If there is no parent shell, the given shell is centered relative to the screen.
 	 */
 	public static void setCenteredBounds(@NotNull Shell shell) {
 		shell.pack();
@@ -423,8 +394,7 @@ public final class Util {
 	/**
 	 * Packs the given shell and then centers it relative to the given control.
 	 */
-	public static void setCenteredBounds(	@NotNull Shell shell,
-											@NotNull Control control) {
+	public static void setCenteredBounds(@NotNull Shell shell, @NotNull Control control) {
 		shell.pack();
 		Point shellSize = shell.getSize();
 		Composite parent = control.getParent();
@@ -436,14 +406,11 @@ public final class Util {
 	}
 
 	/**
-	 * Centers the given shell relative to its parent shell and sets the shell's
-	 * minimum width and height. The actual width and height may be greater to
-	 * provide enough space for the shell's children. If the given shell has no
-	 * parent shell, it is centered relative to the screen.
+	 * Centers the given shell relative to its parent shell and sets the shell's minimum width and height. 
+	 * The actual width and height may be greater to provide enough space for the shell's children. 
+	 * If the given shell has no parent shell, it is centered relative to the screen.
 	 */
-	public static void setCenteredMinBounds(@NotNull Shell shell,
-											int minWidth,
-											int minHeight) {
+	public static void setCenteredMinBounds(@NotNull Shell shell, int minWidth, int minHeight) {
 		Point prefSize = shell.computeSize(SWT.DEFAULT, SWT.DEFAULT);
 		int width = Math.max(prefSize.x, minWidth);
 		int height = Math.max(prefSize.y, minHeight);
@@ -451,8 +418,7 @@ public final class Util {
 	}
 
 	@NotNull
-	public static Button[] maybeSwapButtons(@NotNull Button b1,
-											@NotNull Button b2) {
+	public static Button[] maybeSwapButtons(@NotNull Button b1,@NotNull Button b2) {
 		boolean leftAlign = b1.getDisplay().getDismissalAlignment() == SWT.LEFT;
 		return new Button[] { leftAlign ? b1 : b2, leftAlign ? b2 : b1 };
 	}
@@ -466,20 +432,14 @@ public final class Util {
 		return (bit1 & bit2) == bit2;
 	}
 
-	/**
-	 * Creates and returns a {@link org.eclipse.swt.layout.FillLayout
-	 * FillLayout} with the given margin.
-	 */
+	/** Creates and returns a {@link org.eclipse.swt.layout.FillLayout FillLayout} with the given margin. */
 	public static FillLayout createFillLayout(int margin) {
 		FillLayout layout = new FillLayout();
 		layout.marginWidth = layout.marginHeight = margin;
 		return layout;
 	}
 
-	/**
-	 * Creates and returns a {@link org.eclipse.swt.layout.GridLayout
-	 * GridLayout} with the given arguments.
-	 */
+	/** Creates and returns a {@link org.eclipse.swt.layout.GridLayout GridLayout} with the given arguments. */
 	public static GridLayout createGridLayout(int numColumns, boolean makeColumsEqualWidth, int margin, int spacing) {
 		GridLayout layout = new GridLayout(numColumns, makeColumsEqualWidth);
 		layout.marginWidth = layout.marginHeight = margin;
@@ -487,10 +447,7 @@ public final class Util {
 		return layout;
 	}
 
-	/**
-	 * Creates and returns a {@link org.eclipse.swt.layout.FormLayout
-	 * FormLayout} with the given margin.
-	 */
+	/** Creates and returns a {@link org.eclipse.swt.layout.FormLayout FormLayout} with the given margin. */
 	public static FormLayout createFormLayout(int margin) {
 		FormLayout layout = new FormLayout();
 		layout.marginWidth = layout.marginHeight = margin;
@@ -498,8 +455,7 @@ public final class Util {
 	}
 
 	@NotNull
-	public static Text createLabeledGridText(	@NotNull Composite parent,
-												@NotNull String labelText) {
+	public static Text createLabeledGridText(@NotNull Composite parent, @NotNull String labelText) {
 		Label label = new Label(parent, SWT.NONE);
 		label.setText(labelText);
 		label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
@@ -509,8 +465,7 @@ public final class Util {
 	}
 
 	@NotNull
-	public static StyledText createLabeledGridStyledText(	@NotNull Composite parent,
-															@NotNull String labelText) {
+	public static StyledText createLabeledGridStyledText(@NotNull Composite parent, @NotNull String labelText) {
 		Label label = new Label(parent, SWT.NONE);
 		label.setText(labelText);
 		label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
@@ -520,17 +475,14 @@ public final class Util {
 	}
 
 	@NotNull
-	public static Button createCheckButton(	@NotNull Composite parent,
-											@NotNull String label) {
+	public static Button createCheckButton(@NotNull Composite parent, @NotNull String label) {
 		Button bt = new Button(parent, SWT.CHECK);
 		bt.setText(label);
 		return bt;
 	}
 
 	@NotNull
-	public static Button createPushButton(	@NotNull Composite parent,
-											@NotNull String label,
-											@NotNull SelectionListener listener) {
+	public static Button createPushButton(@NotNull Composite parent, @NotNull String label,	@NotNull SelectionListener listener) {
 		Button bt = new Button(parent, SWT.PUSH);
 		bt.setText(label);
 		bt.addSelectionListener(listener);
@@ -538,10 +490,7 @@ public final class Util {
 	}
 
 	@NotNull
-	public static Button createPushButton(	@NotNull Composite parent,
-											@Nullable Image image,
-											@Nullable String toolTip,
-											@NotNull SelectionListener listener) {
+	public static Button createPushButton(@NotNull Composite parent, @Nullable Image image, @Nullable String toolTip, @NotNull SelectionListener listener) {
 		Button bt = new Button(parent, SWT.PUSH);
 		bt.setImage(image);
 		if (toolTip != null)
@@ -552,8 +501,7 @@ public final class Util {
 
 	/**
 	 * Returns a suitable text foreground color for the given background color.
-	 * The returned color is either black or white, depending on the perceived
-	 * luminance of the given background color.
+	 * The returned color is either black or white, depending on the perceived luminance of the given background color.
 	 */
 	@NotNull
 	public static Color getTextForeground(@NotNull Color background) {
@@ -565,16 +513,14 @@ public final class Util {
 	}
 
 	/**
-	 * Splits the given file path at any path separators, i.e. forward or
-	 * backward slashes. Example:
+	 * Splits the given file path at any path separators, i.e. forward or backward slashes. Example:
 	 *
 	 * <pre>
 	 * /path/to/file/ -> '', 'path', 'to', 'file'
 	 * </pre>
 	 *
 	 * Note that a leading path separator will produce an empty string at the
-	 * beginning of the returned list, while a (single) trailing path separator
-	 * won't.
+	 * beginning of the returned list, while a (single) trailing path separator won't.
 	 */
 	@MutableCopy
 	@NotNull
@@ -595,24 +541,20 @@ public final class Util {
 
 	/**
 	 * A {@link com.google.common.base.CharMatcher CharMatcher} that matches
-	 * forward and backward slashes. See the {@code CharMatcher} Javadocs for
-	 * more.
+	 * forward and backward slashes. See the {@code CharMatcher} Javadocs for more.
 	 */
 	public static final CharMatcher fileSepMatcher = CharMatcher.anyOf("/\\").precomputed();
 
 	/**
-	 * Creates a file path by joining the given parts. All leading and trailing
-	 * forward and backward slashes are stripped from the parts, except for the
-	 * first part, where only the trailing slashes are stripped. All backward
-	 * slashes are replaced by forward slashes.
+	 * Creates a file path by joining the given parts. All leading and trailing forward and backward 
+	 * slashes are stripped from the parts, except for the first part, where only the trailing slashes 
+	 * are stripped. All backward slashes are replaced by forward slashes.
 	 * <p>
 	 * Special case: If only two path parts are given and one of them is empty,
 	 * the other path part is returned, without any additional file separators.
 	 */
 	@NotNull
-	public static String joinPath(	@NotNull String first,
-									@NotNull String second,
-									@NotNull String... more) {
+	public static String joinPath(@NotNull String first, @NotNull String second, @NotNull String... more) {
 		if (more.length == 0) {
 			if (first.isEmpty())
 				return second;
@@ -630,10 +572,7 @@ public final class Util {
 		return toForwardSlashes(sb.toString());
 	}
 
-	/**
-	 * Same as {@link #joinPath(String...)}, but reads the parts from an
-	 * <tt>Iterable</tt>.
-	 */
+	/** Same as {@link #joinPath(String...)}, but reads the parts from an <tt>Iterable</tt>. */
 	@NotNull
 	public static String joinPath(@NotNull Iterable<?> parts) {
 		Iterator<?> it = parts.iterator();
@@ -679,11 +618,9 @@ public final class Util {
 	}
 
 	/**
-	 * For the given file, returns an absolute path in which all backward
-	 * slashes have been replaced by forward slashes.
+	 * For the given file, returns an absolute path in which all backward slashes have been replaced by forward slashes.
 	 * <p>
-	 * Exception: If the file's path is a UNC path, the UNC path is returned as
-	 * is.
+	 * Exception: If the file's path is a UNC path, the UNC path is returned as is.
 	 */
 	@NotNull
 	@SuppressAjWarnings
@@ -692,26 +629,19 @@ public final class Util {
 		if (absPath.startsWith("\\\\")) // UNC path?
 			return absPath;
 		/*
-		 * We'll replace "//" with "/" here due to a bug in the
-		 * File.getAbsolutePath method: On Windows, if the given file has the
-		 * path "SOME_PATH" and the current working directory is the root of a
-		 * device, e.g. "C:\", then getAbsolutePath will return "C:\\SOME_PATH"
-		 * rather than the more sensible value "C:\SOME_PATH".
+		 * We'll replace "//" with "/" here due to a bug in the* File.getAbsolutePath method: On Windows, 
+		 * if the given file has the path "SOME_PATH" and the current working directory is the root of a device, 
+		 * e.g. "C:\", then getAbsolutePath will return "C:\\SOME_PATH" rather than the more sensible value "C:\SOME_PATH".
 		 */
 		return absPath.replace('\\', '/').replace("//", "/");
 	}
 	
-	/**
-	 * Returns whether given file's path is a UNC path.
-	 */
+	/** Returns whether given file's path is a UNC path. */
 	public static boolean isUncPath(@NotNull File file) {
 		return file.getPath().startsWith("\\\\");
 	}
 
-	/**
-	 * For the given path string, returns an absolute path in which all backward
-	 * slashes have been replaced by forward slashes.
-	 */
+	/** For the given path string, returns an absolute path in which all backward slashes have been replaced by forward slashes. */
 	@NotNull
 	public static String getAbsPath(@NotNull String path) {
 		return getAbsPath(new File(path));
@@ -722,19 +652,14 @@ public final class Util {
 		return new File(getAbsPath(file));
 	}
 
-	/**
-	 * Equivalent to {@link java.io.File#getAbsolutePath()}.
-	 */
+	/** Equivalent to {@link java.io.File#getAbsolutePath()}. */
 	@NotNull
 	@SuppressAjWarnings
 	public static String getSystemAbsPath(@NotNull File file) {
 		return file.getAbsolutePath();
 	}
 
-	/**
-	 * Equivalent to {@link java.io.File#getAbsolutePath() new
-	 * java.io.File(path).getAbsolutePath()}.
-	 */
+	/** Equivalent to {@link java.io.File#getAbsolutePath() new java.io.File(path).getAbsolutePath()}. */
 	@NotNull
 	@SuppressAjWarnings
 	public static String getSystemAbsPath(@NotNull String path) {
@@ -775,18 +700,15 @@ public final class Util {
 		return file.getAbsolutePath();
 	}
 	
-	public static boolean isCanonicallyEqual(	@Nullable File file1,
-												@Nullable File file2) {
+	public static boolean isCanonicallyEqual(@Nullable File file1,@Nullable File file2) {
 		if (file1 == null || file2 == null)
 			return false;
 		return getCanonicalFile(file1).equals(getCanonicalFile(file2));
 	}
 
 	/**
-	 * Returns all files and directories directly underneath the given
-	 * directory. This works like {@link File#listFiles()}, except that when
-	 * access to the directory is denied, an empty array is returned, not a null
-	 * pointer.
+	 * Returns all files and directories directly underneath the given directory. This works like {@link File#listFiles()}, 
+	 * except that when access to the directory is denied, an empty array is returned, not a null pointer.
 	 */
 	@NotNull
 	@SuppressAjWarnings
@@ -796,49 +718,42 @@ public final class Util {
 	}
 
 	/**
-	 * Returns all files and directories directly underneath the given directory
-	 * that are not filtered by the given {@code filter}. This works like
-	 * {@link File#listFiles(FilenameFilter)}, except that when access to the
-	 * directory is denied, an empty array is returned, not a null pointer.
+	 * Returns all files and directories directly underneath the given directory that are not filtered 
+	 * by the given {@code filter}. This works like {@link File#listFiles(FilenameFilter)}, except that 
+	 * when access to the directory is denied, an empty array is returned, not a null pointer.
 	 */
 	@NotNull
 	@SuppressAjWarnings
-	public static File[] listFiles(	@NotNull File dir,
-									@Nullable FilenameFilter filter) {
+	public static File[] listFiles(	@NotNull File dir,	@Nullable FilenameFilter filter) {
 		File[] files = dir.listFiles(filter);
 		return files == null ? new File[0] : files;
 	}
 
 	/**
-	 * Returns all files and directories directly underneath the given directory
-	 * that are not filtered by the given {@code filter}. This works like
-	 * {@link File#listFiles(FileFilter)}, except that when access to the
-	 * directory is denied, an empty array is returned, not a null pointer.
+	 * Returns all files and directories directly underneath the given directory that are not 
+	 * filtered by the given {@code filter}. This works like {@link File#listFiles(FileFilter)}, 
+	 * except that when access to the directory is denied, an empty array is returned, not a null pointer.
 	 */
 	@NotNull
 	@SuppressAjWarnings
-	public static File[] listFiles(	@NotNull File dir,
-									@Nullable FileFilter filter) {
+	public static File[] listFiles(	@NotNull File dir,@Nullable FileFilter filter) {
 		File[] files = dir.listFiles(filter);
 		return files == null ? new File[0] : files;
 	}
 
 	/**
-	 * Returns whether the given file is a symlink. Returns false if the file
-	 * doesn't exists or if an IOException occured. The symlink detection is
-	 * based on the comparison of the absolute and canonical path of a link: If
-	 * those two differ, the given file can be assumed to be a symlink.
+	 * Returns whether the given file is a symlink. Returns false if the file doesn't exists or if an IOException occured. 
+	 * The symlink detection is based on the comparison of the absolute and canonical path of a link: 
+	 * If those two differ, the given file can be assumed to be a symlink.
 	 * <p>
-	 * Note: If the given file is an instance of TFile and
-	 * represents an archive entry, this method always returns false.
+	 * Note: If the given file is an instance of TFile and represents an archive entry, this method always returns false.
 	 */
 	@SuppressAjWarnings
 	public static boolean isSymLink(@NotNull File file) {
 		try {
 			/*
-			 * Earlier versions simply compared the absolute and canonical path
-			 * of the given file. This did not work for files with 8.3
-			 * filenames, which were incorrectly identified as symlinks.
+			 * Earlier versions simply compared the absolute and canonical path of the given file. 
+			 * This did not work for files with 8.3 filenames, which were incorrectly identified as symlinks.
 			 */
 			File canon;
 			if (file.getParent() == null) {
@@ -871,12 +786,10 @@ public final class Util {
 	}
 
 	/**
-	 * Returns whether the given file is a Windows junction or symlink. Returns
-	 * false if the platform is not Windows, if the file doesn't exists or if an
-	 * IOException occured.
+	 * Returns whether the given file is a Windows junction or symlink. Returns false if the platform is not Windows, 
+	 * if the file doesn't exists or if an IOException occured.
 	 * <p>
-	 * Note: If the given file is an instance of TFile and
-	 * represents an archive entry, this method always returns false.
+	 * Note: If the given file is an instance of TFile and represents an archive entry, this method always returns false.
 	 */
 	public static boolean isJunctionOrSymlink(@NotNull File file) {
 		if (! IS_WINDOWS)
@@ -892,9 +805,8 @@ public final class Util {
 	}
 
 	/**
-	 * Returns the parent of the given file. Unlike the standard method
-	 * {@link File#getParentFile()}, this method will not return null if the
-	 * given file was constructed with a relative path.
+	 * Returns the parent of the given file. Unlike the standard method {@link File#getParentFile()}, 
+	 * this method will not return null if the given file was constructed with a relative path.
 	 */
 	@NotNull
 	@SuppressAjWarnings
@@ -913,9 +825,7 @@ public final class Util {
 		return path.replace('\\', '/');
 	}
 
-	/**
-	 * @see #getParentFile(File)
-	 */
+	/** @see #getParentFile(File) */
 	@NotNull
 	@SuppressAjWarnings
 	public static File getParentFile(@NotNull String path) {
@@ -927,12 +837,8 @@ public final class Util {
 		return parent;
 	}
 
-	/**
-	 * Returns true if <tt>objects</tt> contains an object that is equal to
-	 * <tt>object</tt>. Returns false if <tt>objects</tt> is null.
-	 */
-	public static boolean containsEquality(	@Nullable Object[] objects,
-											@Nullable Object object) {
+	/** Returns true if <tt>objects</tt> contains an object that is equal to <tt>object</tt>. Returns false if <tt>objects</tt> is null. */
+	public static boolean containsEquality(	@Nullable Object[] objects,	@Nullable Object object) {
 		if (objects == null)
 			return false;
 		for (Object candidate : objects)
@@ -952,15 +858,12 @@ public final class Util {
 	}
 
 	/**
-	 * Splits the given filename into a base name and the file extension,
-	 * omitting the '.' character, e.g. "data.xml" -> ["data", "xml"]. The file
-	 * extension is an empty string if the file has no extension (i.e. it
-	 * doesn't contain the '.' character). The returned file extension is always
-	 * lowercase, even if it wasn't lowercased in the given filename. It is also
-	 * guaranteed that the returned array is always of length 2.
+	 * Splits the given filename into a base name and the file extension, omitting the '.' character, e.g. "data.xml" -> ["data", "xml"]. 
+	 * The file extension is an empty string if the file has no extension (i.e. it doesn't contain the '.' character). 
+	 * The returned file extension is always lowercase, even if it wasn't lowercased in the given filename. 
+	 * It is also guaranteed that the returned array is always of length 2.
 	 * <p>
-	 * Exception: If the file ends with ".xxx.gz", then the returned file
-	 * extension is "xxx.gz", not "gz". Examples:
+	 * Exception: If the file ends with ".xxx.gz", then the returned file extension is "xxx.gz", not "gz". Examples:
 	 * <ul>
 	 * <li>"archive.tar.gz" -> ["archive", "tar.gz"]
 	 * <li>"abiword.abw.gz" -> ["abiword", "abw.gz"]
@@ -1000,18 +903,23 @@ public final class Util {
 	}
 
 	/**
-	 * For the given filename and a list of file extensions, this method returns
-	 * true if any of the file extensions match the filename. A match occurs
-	 * when the given filename, after being lower-cased, ends with '.' and the
-	 * matching lower-cased file extension.
+	 * For the given filename and a list of file extensions, this method returns true if any of the file extensions match 
+	 * the filename. A match occurs when the given filename, after being lower-cased, ends with '.' and the matching lower-cased file extension.
 	 * <p>
-	 * Example: The filename <code>'some_file.TXT'</code> matches the file
-	 * extension <code>'txt'</code>.
+	 * Example: The filename <code>'some_file.TXT'</code> matches the file extension <code>'txt'</code>.
 	 * <p>
 	 * Note: This method also accepts filepaths.
 	 */
-	public static boolean hasExtension(	@NotNull String filename,
-										@NotNull String... extensions) {
+	public static boolean hasExtension(	@NotNull String filename, @NotNull String... extensions) {
+		filename = filename.toLowerCase();
+		for (String ext : extensions)
+			if (filename.endsWith("." + ext.toLowerCase()))
+				return true;
+		return false;
+	}
+
+	/** @see #hasExtension(String, String...) */
+	public static boolean hasExtension(@NotNull String filename, @NotNull Collection<String> extensions) {
 		filename = filename.toLowerCase();
 		for (String ext : extensions)
 			if (filename.endsWith("." + ext.toLowerCase()))
@@ -1020,24 +928,10 @@ public final class Util {
 	}
 
 	/**
-	 * @see #hasExtension(String, String...)
-	 */
-	public static boolean hasExtension(@NotNull String filename,
-	                                   @NotNull Collection<String> extensions) {
-		filename = filename.toLowerCase();
-		for (String ext : extensions)
-			if (filename.endsWith("." + ext.toLowerCase()))
-				return true;
-		return false;
-	}
-
-	/**
-	 * Deletes all the files within a directory. Does not delete the directory
-	 * itself.
+	 * Deletes all the files within a directory. Does not delete the directory itself.
 	 * <p>
-	 * If the file argument is a symbolic link or there is a symbolic link in
-	 * the path leading to the directory, this method will do nothing. Symbolic
-	 * links within the directory are not followed.
+	 * If the file argument is a symbolic link or there is a symbolic link in the path leading  to the 
+	 * directory, this method will do nothing. Symbolic links within the directory are not followed.
 	 */
 	public static void deleteContents(@NotNull File directory)
 			throws IOException {
@@ -1051,9 +945,8 @@ public final class Util {
 	/**
 	 * Deletes a file or directory and all contents recursively.
 	 * <p>
-	 * If the file argument is a symbolic link the link will be deleted but not
-	 * the target of the link. If the argument is a directory, symbolic links
-	 * within the directory will not be followed.
+	 * If the file argument is a symbolic link the link will be deleted but not the target of the link. 
+	 * If the argument is a directory, symbolic links within the directory will not be followed.
 	 */
 	public static void deleteRecursively(@NotNull File file) throws IOException {
 		if (file.isDirectory())
@@ -1063,29 +956,21 @@ public final class Util {
 	}
 
 	/**
-	 * Returns the name of the given file. In contrast to the default
-	 * {@link File#getName()} method, this method will return a drive letter
-	 * instead of an empty string if the given file is a Windows root such as
-	 * "C:". The {@code letterSuffix} argument is a string that will be appended
+	 * Returns the name of the given file. In contrast to the default {@link File#getName()} method, 
+	 * this method will return a drive letter instead of an empty string if the given file is a Windows 
+	 * root such as "C:". The {@code letterSuffix} argument is a string that will be appended
 	 * to the drive letter, if one is returned.
 	 */
 	@NotNull
-	public static String getNameOrLetter(	@NotNull File file,
-											@NotNull String letterSuffix) {
+	public static String getNameOrLetter(@NotNull File file, @NotNull String letterSuffix) {
 		Util.checkNotNull(file, letterSuffix);
 		String filename = file.getName();
 
-		/*
-		 * Special case: If the file was created as 'new File("")', then its
-		 * filename will be an empty string.
-		 */
+		/* Special case: If the file was created as 'new File("")', then its filename will be an empty string. */
 		if (file.getAbsoluteFile().equals(USER_DIR))
 			return USER_DIR.getName();
 
-		/*
-		 * Note: Do not use absolute files here, because this would turn "C:"
-		 * into the working directory! (Strange but true.)
-		 */
+		/* Note: Do not use absolute files here, because this would turn "C:" into the working directory! (Strange but true.) */
 		if (IS_WINDOWS && filename.length() == 0 && getParentFile(file) == null) {
 			String driveLetter = getDriveLetter(file.getPath());
 			if (driveLetter != null)
@@ -1098,8 +983,7 @@ public final class Util {
 	private static Pattern driveOnlyPattern = Pattern.compile("(?:[a-zA-Z]):(?:\\\\|/)*");
 
 	/**
-	 * Returns the drive letter at the beginning of the given Windows path, or
-	 * null if the path doesn't start with a drive letter.
+	 * Returns the drive letter at the beginning of the given Windows path, or null if the path doesn't start with a drive letter.
 	 * <p>
 	 * Example: For "C:\Windows" this method returns "C".
 	 */
@@ -1121,36 +1005,25 @@ public final class Util {
 			throw new IllegalStateException();
 	}
 
-	/**
-	 * Throws an <code>IllegalArgumentException</code> if the given condition is
-	 * false.
-	 */
+	/** Throws an <code>IllegalArgumentException</code> if the given condition is false. */
 	public static void checkThat(boolean condition) {
 		if (!condition)
 			throw new IllegalArgumentException();
 	}
 
-	/**
-	 * Throws an <code>IllegalArgumentException</code> with the given error
-	 * message if the given condition is false.
-	 */
+	/** Throws an <code>IllegalArgumentException</code> with the given error message if the given condition is false. */
 	public static void checkThat(boolean condition, @NotNull String message) {
 		if (!condition)
 			throw new IllegalArgumentException(message);
 	}
 
-	/**
-	 * Throws an <code>IllegalArgumentException</code> if the provided argument
-	 * is null. If not, the argument is returned.
-	 */
+	/** Throws an <code>IllegalArgumentException</code> if the provided argument is null. If not, the argument is returned. */
 	public static <T> T checkNotNull(T a) {
 		/*
-		 * Generally, it does not make sense to check that a method argument of
-		 * type Boolean is not null - if the Boolean is not allowed to be null,
-		 * one could use a primitive boolean instead. If someone does call this
-		 * method with a Boolean, he/she might have done so by accident by
-		 * confusing checkNotNull with checkThat. To prevent this, we'll throw
-		 * an exception.
+		 * Generally, it does not make sense to check that a method argument of type Boolean is not null 
+		 * - if the Boolean is not allowed to be null, one could use a primitive boolean instead. If someone 
+		 * does call this method with a Boolean, he/she might have done so by accident by
+		 * confusing checkNotNull with checkThat. To prevent this, we'll throw an exception.
 		 */
 		if (a instanceof Boolean)
 			throw new UnsupportedOperationException();
@@ -1159,46 +1032,31 @@ public final class Util {
 		return a;
 	}
 
-	/**
-	 * Throws an <code>IllegalArgumentException</code> if any of the provided
-	 * arguments is null.
-	 */
+	/** Throws an <code>IllegalArgumentException</code> if any of the provided arguments is null. */
 	public static void checkNotNull(Object a, Object b) {
 		if (a == null || b == null)
 			throw new IllegalArgumentException();
 	}
 
-	/**
-	 * Throws an <code>IllegalArgumentException</code> if any of the provided
-	 * arguments is null.
-	 */
+	/** Throws an <code>IllegalArgumentException</code> if any of the provided arguments is null. */
 	public static void checkNotNull(Object a, Object b, Object c) {
 		if (a == null || b == null || c == null)
 			throw new IllegalArgumentException();
 	}
 
-	/**
-	 * Throws an <code>IllegalArgumentException</code> if any of the provided
-	 * arguments is null.
-	 */
+	/** Throws an <code>IllegalArgumentException</code> if any of the provided arguments is null.*/
 	public static void checkNotNull(Object a, Object b, Object c, Object d) {
 		if (a == null || b == null || c == null || d == null)
 			throw new IllegalArgumentException();
 	}
 
-	/**
-	 * Throws an <code>IllegalArgumentException</code> if any of the provided
-	 * arguments is null.
-	 */
+	/** Throws an <code>IllegalArgumentException</code> if any of the provided arguments is null. */
 	public static void checkNotNull(Object a, Object b, Object c, Object d, Object e) {
 		if (a == null || b == null || c == null || d == null || e == null)
 			throw new IllegalArgumentException();
 	}
 	
-	/**
-	 * Returns the given string if it is not null, otherwise returns an empty
-	 * string.
-	 */
+	/** Returns the given string if it is not null, otherwise returns an empty string. */
 	@NotNull
 	public static String notNull(@Nullable String string) {
 		return string == null ? "" : string;
@@ -1208,15 +1066,11 @@ public final class Util {
 
 	/**
 	 * Returns a unique identifier based on {@link System#currentTimeMillis()}.
-	 * The returned ID is guaranteed to differ from all previous IDs obtained by
-	 * this method.
+	 * The returned ID is guaranteed to differ from all previous IDs obtained by this method.
 	 */
 	@ThreadSafe
 	public static synchronized long getTimestamp() {
-		/*
-		 * Try to create a timestamp and don't return until the last timestamp
-		 * and the current one are unequal.
-		 */
+		/* Try to create a timestamp and don't return until the last timestamp and the current one are unequal. */
 		long newTimeStamp = System.currentTimeMillis();
 		while (newTimeStamp == lastTimeStamp)
 			newTimeStamp = System.currentTimeMillis();
@@ -1225,22 +1079,18 @@ public final class Util {
 	}
 
 	/**
-	 * Returns true if the directory given by <tt>dir</tt> is a direct or
-	 * indirect parent directory of the file or directory given by
-	 * <tt>fileOrDir</tt>.
+	 * Returns true if the directory given by <tt>dir</tt> is a direct or indirect parent 
+	 * directory of the file or directory given by <tt>fileOrDir</tt>.
 	 */
-	public static boolean contains(	@NotNull File dir,
-									@NotNull File fileOrDir) {
+	public static boolean contains(	@NotNull File dir, @NotNull File fileOrDir) {
 		return contains(getAbsPath(dir), getAbsPath(fileOrDir));
 	}
 
 	/**
-	 * Returns true if the directory given by the absolute path <tt>dirPath</tt>
-	 * is a direct or indirect parent directory of the file or directory given
-	 * by the absolute path <tt>fileOrDirPath</tt>.
+	 * Returns true if the directory given by the absolute path <tt>dirPath</tt> is a direct or indirect 
+	 * parent directory of the file or directory given by the absolute path <tt>fileOrDirPath</tt>.
 	 */
-	public static boolean contains(	@NotNull String dirPath,
-									@NotNull String fileOrDirPath) {
+	public static boolean contains(	@NotNull String dirPath,@NotNull String fileOrDirPath) {
 		dirPath = dirPath.replace('\\', '/');
 		fileOrDirPath = fileOrDirPath.replace('\\', '/');
 		if (dirPath.length() >= fileOrDirPath.length())
@@ -1254,8 +1104,7 @@ public final class Util {
 	}
 
 	/**
-	 * Returns the last element of the given list. Returns null if the given
-	 * list is empty or null.
+	 * Returns the last element of the given list. Returns null if the given list is empty or null.
 	 */
 	@Nullable
 	public static <T> T getLast(@Nullable List<T> list) {
@@ -1267,8 +1116,7 @@ public final class Util {
 
 	@MutableCopy
 	@NotNull
-	public static <T> List<T> createList(	int extraCapacity,
-											@NotNull T... elements) {
+	public static <T> List<T> createList(	int extraCapacity,	@NotNull T... elements) {
 		Util.checkNotNull(elements);
 		List<T> newList = new ArrayList<T>(elements.length + extraCapacity);
 		for (T element : elements)
@@ -1277,15 +1125,13 @@ public final class Util {
 	}
 
 	/**
-	 * Creates a new list from the given collection and elements. The given
-	 * collection is added first to the returned list.
+	 * Creates a new list from the given collection and elements. The given collection is added first to the returned list.
 	 *
 	 * @see #createListReverse(Collection, Object...)
 	 */
 	@MutableCopy
 	@NotNull
-	public static <T> List<T> createList(	@NotNull Collection<? extends T> col,
-											@NotNull T... elements) {
+	public static <T> List<T> createList(	@NotNull Collection<? extends T> col, @NotNull T... elements) {
 		Util.checkNotNull(col, elements);
 		List<T> newList = new ArrayList<T>(col.size() + elements.length);
 		newList.addAll(col);
@@ -1295,15 +1141,13 @@ public final class Util {
 	}
 
 	/**
-	 * Creates a new list from the given collection and elements. The given
-	 * elements are added first to the returned list.
+	 * Creates a new list from the given collection and elements. The given elements are added first to the returned list.
 	 *
 	 * @see #createList(Collection, Object...)
 	 */
 	@MutableCopy
 	@NotNull
-	public static <T> List<T> createListReversed(	@NotNull Collection<? extends T> col,
-													@NotNull T... elements) {
+	public static <T> List<T> createListReversed(	@NotNull Collection<? extends T> col, @NotNull T... elements) {
 		Util.checkNotNull(col, elements);
 		List<T> newList = new ArrayList<T>(col.size() + elements.length);
 		for (T element : elements)
@@ -1321,19 +1165,15 @@ public final class Util {
 	}
 
 	/**
-	 * Runs the given {@code Runnable} in a way that avoids throwing errors of
-	 * the type {@link SWT#ERROR_THREAD_INVALID_ACCESS}. This is useful for
-	 * running GUI-accessing code from non-GUI threads.
+	 * Runs the given {@code Runnable} in a way that avoids throwing errors of the type {@link SWT#ERROR_THREAD_INVALID_ACCESS}. 
+	 * This is useful for running GUI-accessing code from non-GUI threads.
 	 * <p>
-	 * The given Runnable is <b>not</b> run if the given given widget is null or
-	 * disposed. This helps avoid the common pitfall of trying to access widgets
-	 * from a non-GUI thread when these widgets have already been disposed.
+	 * The given Runnable is <b>not</b> run if the given given widget is null or disposed. This helps avoid the
+	 * common pitfall of trying to access widgets from a non-GUI thread when these widgets have already been disposed.
 	 * <p>
-	 * The returned Boolean indicates whether the Runnable was run (true) or not
-	 * (false).
+	 * The returned Boolean indicates whether the Runnable was run (true) or not (false).
 	 */
-	public static boolean runSwtSafe(	@Nullable final Widget widget,
-										@NotNull final Runnable runnable) {
+	public static boolean runSwtSafe(	@Nullable final Widget widget,@NotNull final Runnable runnable) {
 		if (Display.getCurrent() != null) {
 			boolean wasRun = widget != null && !widget.isDisposed();
 			if (wasRun)
@@ -1345,11 +1185,8 @@ public final class Util {
 		}
 	}
 
-	/**
-	 * @see #runSwtSafe(Widget, Runnable)
-	 */
-	public static boolean runSwtSafe(	@Nullable final Display display,
-										@NotNull final Runnable runnable) {
+	/** @see #runSwtSafe(Widget, Runnable) */
+	public static boolean runSwtSafe(	@Nullable final Display display,@NotNull final Runnable runnable) {
 		if (Display.getCurrent() != null) {
 			boolean wasRun = display != null && !display.isDisposed();
 			if (wasRun)
@@ -1362,18 +1199,14 @@ public final class Util {
 	}
 
 	/**
-	 * Runs the given {@code Runnable} via {@link Display#syncExec(Runnable)}.
-	 * This is useful for running GUI-accessing code from non-GUI threads.
+	 * Runs the given {@code Runnable} via {@link Display#syncExec(Runnable)}. This is useful for running GUI-accessing code from non-GUI threads.
 	 * <p>
-	 * The given Runnable is <b>not</b> run if the given given widget is null or
-	 * disposed. This helps avoid the common pitfall of trying to access widgets
-	 * from a non-GUI thread when these widgets have already been disposed.
+	 * The given Runnable is <b>not</b> run if the given given widget is null or disposed. This helps avoid the 
+	 * common pitfall of trying to access widgets from a non-GUI thread when these widgets have already been disposed.
 	 * <p>
-	 * The returned Boolean indicates whether the Runnable was run (true) or not
-	 * (false).
+	 * The returned Boolean indicates whether the Runnable was run (true) or not (false).
 	 */
-	public static boolean runSyncExec(	@Nullable final Widget widget,
-										@NotNull final Runnable runnable) {
+	public static boolean runSyncExec(	@Nullable final Widget widget,@NotNull final Runnable runnable) {
 		if (widget == null || widget.isDisposed())
 			return false;
 		final boolean[] wasRun = { false };
@@ -1387,11 +1220,8 @@ public final class Util {
 		return wasRun[0];
 	}
 
-	/**
-	 * @see #runSyncExec(Widget, Runnable)
-	 */
-	public static boolean runSyncExec(	@Nullable final Display display,
-										@NotNull final Runnable runnable) {
+	/** @see #runSyncExec(Widget, Runnable) */
+	public static boolean runSyncExec(	@Nullable final Display display,@NotNull final Runnable runnable) {
 		if (display == null || display.isDisposed())
 			return false;
 		final boolean[] wasRun = { false };
@@ -1413,12 +1243,10 @@ public final class Util {
 	 * disposed. This helps avoid the common pitfall of trying to access widgets
 	 * from a non-GUI thread when these widgets have already been disposed.
 	 */
-	public static void runAsyncExec(@Nullable final Widget widget,
-									@NotNull final Runnable runnable) {
+	public static void runAsyncExec(@Nullable final Widget widget,	@NotNull final Runnable runnable) {
 		/*
-		 * Note: Unlike the syncExec variant, here it's not possible to return a
-		 * boolean flag that indicates whether the Runnable was run, since
-		 * asyncExec may not execute the Runnable immediately.
+		 * Note: Unlike the syncExec variant, here it's not possible to return a boolean flag 
+		 * that indicates whether the Runnable was run, since asyncExec may not execute the Runnable immediately.
 		 */
 		if (widget == null || widget.isDisposed())
 			return;
@@ -1438,8 +1266,7 @@ public final class Util {
 	 * disposed. This helps avoid the common pitfall of trying to access widgets
 	 * from a non-GUI thread when these widgets have already been disposed.
 	 */
-	public static void runAsyncExec(@Nullable final Display display,
-									@NotNull final Runnable runnable) {
+	public static void runAsyncExec(@Nullable final Display display,@NotNull final Runnable runnable) {
 		/*
 		 * Note: Unlike the syncExec variant, here it's not possible to return a
 		 * boolean flag that indicates whether the Runnable was run, since
@@ -1456,21 +1283,16 @@ public final class Util {
 	}
 
 	/**
-	 * Launches the given filename or filepath, and returns whether the file was
-	 * successfully launched. This method first tries to launch the file via the
-	 * SWT method {@link Program#launch(String)}. If this fails and the
-	 * application is running on Linux, this method tries to call xdg-open. This
-	 * is what usually happens on KDE-based Linux variants, which are not
-	 * supported by SWT.
+	 * Launches the given filename or filepath, and returns whether the file was successfully launched. 
+	 * This method first tries to launch the file via the SWT method {@link Program#launch(String)}. 
+	 * If this fails and the application is running on Linux, this method tries to call xdg-open. This
+	 * is what usually happens on KDE-based Linux variants, which are not supported by SWT.
 	 */
 	@SuppressAjWarnings
 	public static boolean launch(@NotNull String filename) {
 		Util.checkNotNull(filename);
 
-		/*
-		 * On KDE with SWT 3.7, calling Program.launch will throw an
-		 * UnsatisfiedLinkError, so don't do that and only try xdg-open.
-		 */
+		/* On KDE with SWT 3.7, calling Program.launch will throw an UnsatisfiedLinkError, so don't do that and only try xdg-open. */
 		if (!IS_LINUX_KDE && Program.launch(filename))
 			return true;
 
@@ -1488,9 +1310,7 @@ public final class Util {
 		}
 	}
 
-	/**
-	 * @see #launch(String)
-	 */
+	/** @see #launch(String) */
 	public static boolean launch(@NotNull File fileOrDir) {
 		Util.checkNotNull(fileOrDir);
 		return launch(getSystemAbsPath(fileOrDir));
@@ -1502,18 +1322,14 @@ public final class Util {
 		File dir = Files.createTempDir();
 
 		/*
-		 * On Windows and Mac OS X, returning a canonical file avoids certain
-		 * symlink-related issues:
+		 * On Windows and Mac OS X, returning a canonical file avoids certain symlink-related issues:
 		 *
-		 * On Windows 7, Files.createTempDir() might return a directory that
-		 * contains 8.3 filenames, for which the absolute and canonical paths
-		 * differ, so that the directory will be incorrectly treated as a
-		 * symlink. On Mac OS X, Files.createTempDir() will return an actual
-		 * symlink.
+		 * On Windows 7, Files.createTempDir() might return a directory that contains 8.3 filenames, 
+		 * for which the absolute and canonical paths differ, so that the directory will be incorrectly 
+		 * treated as a symlink. On Mac OS X, Files.createTempDir() will return an actual symlink.
 		 *
-		 * In both cases, returning a file that is or appears to be a symlink
-		 * will lead to various problems, e.g. Files.deleteRecursively(File)
-		 * failing to delete the temporary directory.
+		 * In both cases, returning a file that is or appears to be a symlink will lead to various problems, 
+		 * e.g. Files.deleteRecursively(File) failing to delete the temporary directory.
 		 */
 		return IS_WINDOWS || IS_MAC_OS_X ? dir.getCanonicalFile() : dir;
 	}
@@ -1522,8 +1338,7 @@ public final class Util {
 	 * Equivalent to {@link #createTempFile(String, String, File)
 	 * createTempFile(String, String, null)}.
 	 */
-	public static File createTempFile(	@NotNull String prefix,
-										@Nullable String suffix)
+	public static File createTempFile(@NotNull String prefix, @Nullable String suffix)
 			throws IOException {
 		return createTempFile(prefix, suffix, null);
 	}
@@ -1534,16 +1349,13 @@ public final class Util {
 	 * <li>The returned file will be deleted automatically after JVM shutdown.
 	 * <li>Unlike {@link File#createTempFile(String, String, File)}, this method
 	 * will not throw an exception if the prefix is shorter than 3 characters.
-	 * Instead, the prefix will be right-padded with underscores to make it 3
-	 * characters long.
+	 * Instead, the prefix will be right-padded with underscores to make it 3 characters long.
 	 * </ul>
 	 *
 	 * @see {@link File#createTempFile(String, String, File)}
 	 */
 	@SuppressAjWarnings
-	public static File createTempFile(	@NotNull String prefix,
-										@Nullable String suffix,
-										@Nullable File directory)
+	public static File createTempFile(@NotNull String prefix,@Nullable String suffix,@Nullable File directory)
 			throws IOException {
 		int prefixLength = prefix.length();
 		if (prefixLength < 3)
@@ -1551,10 +1363,8 @@ public final class Util {
 		File file = File.createTempFile(prefix, suffix, directory);
 
 		/*
-		 * On Mac OS X, File.createTempFile() will give us a symlink to a file,
-		 * which is not what we want, because our file walker will silently
-		 * ignore symlinks. The workaround is to return a canonical file on Mac
-		 * OS X.
+		 * On Mac OS X, File.createTempFile() will give us a symlink to a file, which is not what we want, because our 
+		 * file walker will silently ignore symlinks. The workaround is to return a canonical file on Mac OS X.
 		 */
 		if (Util.IS_MAC_OS_X)
 			file = file.getCanonicalFile();
@@ -1564,8 +1374,7 @@ public final class Util {
 	}
 
 	@NotNull
-	public static File createDerivedTempFile(	@NotNull String filename,
-												@NotNull File tempDir)
+	public static File createDerivedTempFile(@NotNull String filename, @NotNull File tempDir)
 			throws IOException {
 		String[] nameParts = Util.splitFilename(filename);
 		if (! nameParts[1].equals(""))
@@ -1590,19 +1399,13 @@ public final class Util {
 		System.out.println(sb.toString());
 	}
 
-	/**
-	 * Equivalent to <code>System.err.println(String)</code>. This method can be
-	 * called instead to suppress AspectJ warnings.
-	 */
+	/** Equivalent to <code>System.err.println(String)</code>. This method can be called instead to suppress AspectJ warnings. */
 	@SuppressAjWarnings
 	public static void printErr(@NotNull String message) {
 		System.err.println(message);
 	}
 
-	/**
-	 * Equivalent to {@link Throwable#printStackTrace()}. This method can be
-	 * called instead to suppress AspectJ warnings.
-	 */
+	/** Equivalent to {@link Throwable#printStackTrace()}. This method can be called instead to suppress AspectJ warnings. */
 	@SuppressAjWarnings
 	public static void printErr(@NotNull Throwable t) {
 		t.printStackTrace();
@@ -1622,10 +1425,8 @@ public final class Util {
 	}
 
 	/**
-	 * Applying this method to the given widget will cause all the text in it to
-	 * become selected if the user clicks on it after coming back from another
-	 * part of the GUI or another program. The widget must be a Combo or a Text
-	 * widget.
+	 * Applying this method to the given widget will cause all the text in it to become selected if the user clicks on it 
+	 * after coming back from another part of the GUI or another program. The widget must be a Combo or a Text widget.
 	 */
 	public static void selectAllOnFocus(@NotNull final Control text) {
 		Util.checkThat(text instanceof Combo || text instanceof Text || text instanceof StyledText);
@@ -1668,9 +1469,7 @@ public final class Util {
 		st.addKeyListener(selectAllKeyListener);
 	}
 
-	/**
-	 * Selects all the text in the given combo.
-	 */
+	/** Selects all the text in the given combo. */
 	public static void selectAll(@NotNull Combo combo) {
 		int length = combo.getText().length();
 		combo.setSelection(new Point(0, length));
@@ -1688,10 +1487,8 @@ public final class Util {
 	}
 
 	/**
-	 * Returns an array of files from the system clipboard, or null if there are
-	 * no files on the clipboard. This method should not be called from a
-	 * non-GUI thread, and it should not be called before an SWT display has
-	 * been created.
+	 * Returns an array of files from the system clipboard, or null if there are no files on the clipboard. This method 
+	 * should not be called from a non-GUI thread, and it should not be called before an SWT display has been created.
 	 */
 	@Nullable
 	public static List<File> getFilesFromClipboard() {
@@ -1729,9 +1526,8 @@ public final class Util {
 	}
 
 	/**
-	 * Replaces the contents of the given clipboard with the given text and
-	 * returns the clipboard. If the given clipboard is null, it will be
-	 * created. This will only work if an SWT Display has been created.
+	 * Replaces the contents of the given clipboard with the given text and returns the clipboard. If the 
+	 * given clipboard is null, it will be created. This will only work if an SWT Display has been created.
 	 */
 	public static void setClipboard(@NotNull Collection<File> files) {
 		Util.checkNotNull(files);
@@ -1760,10 +1556,7 @@ public final class Util {
 		clipboard.dispose();
 	}
 
-	/**
-	 * Adds a {@link MouseTrackListener} to the given control that highlights
-	 * the background when the mouse hovers over the control.
-	 */
+	/** Adds a {@link MouseTrackListener} to the given control that highlights the background when the mouse hovers over the control. */
 	public static void addMouseHighlighter(@NotNull final Control control) {
 		control.addMouseTrackListener(new MouseTrackAdapter() {
 			public void mouseEnter(MouseEvent e) {
@@ -1775,17 +1568,13 @@ public final class Util {
 		});
 	}
 
-	/**
-	 * Returns whether the given key code represents the Enter key, which can be
-	 * either the 'normal' Enter key or the Enter key on the numpad.
-	 */
+	/** Returns whether the given key code represents the Enter key, which can be either the 'normal' Enter key or the Enter key on the numpad. */
 	public static boolean isEnterKey(int keyCode){
 		return keyCode == SWT.CR || keyCode == SWT.KEYPAD_CR;
 	}
 
 	// Any of the given resources may be null
-	public static void disposeWith(	@NotNull Widget widget,
-									@NotNull final Resource... resources) {
+	public static void disposeWith(	@NotNull Widget widget,	@NotNull final Resource... resources) {
 		Util.checkNotNull(widget, resources);
 		widget.addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
@@ -1797,10 +1586,8 @@ public final class Util {
 	}
 
     /**
-	 * Launches the given filepath and select the file
-	 * explorer.exe /select,F:\docfetcher\DocFetcher\aspectjtools.jar
-	 * returning whether the file was successfully launched
-     * This process is not working properly in Win7 64bit
+	 * Launches the given filepath and select the file explorer.exe /select,F:\docfetcher\DocFetcher\aspectjtools.jar
+	 * returning whether the file was successfully launched This process is not working properly in Win7 64bit
 	 */
 	public static boolean winOpenDir(String fileName) {
         if (IS_WINDOWS) {
