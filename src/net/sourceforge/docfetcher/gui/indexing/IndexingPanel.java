@@ -104,6 +104,7 @@ public class IndexingPanel extends Composite{
 						boolean success = doRun();
 						childDialogOpen = false;
 						
+						// TODO Check if this is needed |||||||||||||||||||||||
 						if (!success && tabFolder.getItemCount() == 0)
 							indexRegistry.getQueue().removeListeners(addedListener, removedListener);
 					}
@@ -201,6 +202,7 @@ public class IndexingPanel extends Composite{
 			}
 		});
 		
+		// TODO - Figure out how to fix the tab closing problem
 		// Handle closing of tabs by the user
 		tabFolder.addCTabFolder2Listener(new CTabFolder2Adapter() {
 			public void close(final CTabFolderEvent event) {
@@ -215,7 +217,8 @@ public class IndexingPanel extends Composite{
 					 * Note that event.doit must be set to false here: When the shell is about to be closed and the confirmation 
 					 * dialog shows up, the user could click on the 'Cancel' button, in which case the tab should remain open.
 					 */
-					event.doit = false;
+					
+					//event.doit = false;
 					return;
 				}
 				Task task = (Task) event.item.getData();

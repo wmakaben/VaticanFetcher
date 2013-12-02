@@ -531,6 +531,7 @@ public class Application {
 			indexRegistry.load(Cancelable.nullCancelable);
 			final IndexingQueue queue = indexRegistry.getQueue();
 			
+			// TODO - evtQueueEmpty
 			queue.evtQueueEmpty.add(new Event.Listener<Void>() {
 				public void update(Void eventData) {
 					indexRegistry.getSearcher().shutdown();
@@ -584,10 +585,11 @@ public class Application {
 			}
 		});
 		
-		/*
+		// TODO - evtQueueEmpty
 		// Event for when the task queue is empty. Shows a message on the status bar that the indexing is complete
 		queue.evtQueueEmpty.add(new Event.Listener<Void>() {
 			public void update(Void eventData) {
+				/*
 				Util.runAsyncExec(statusBar.getIndexLabel(), new Runnable() {
 					public void run() {
 						statusBar.setIndexStatus(true);
@@ -595,9 +597,9 @@ public class Application {
 						statusBar.setIndexLabelText("Done Indexing");
 					}
 				});
+				*/
 			}
 		});
-		*/
 	
 		new Thread(Application.class.getName() + " (load index registry)") {
 			public void run() {

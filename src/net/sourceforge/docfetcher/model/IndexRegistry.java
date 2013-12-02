@@ -67,9 +67,6 @@ import com.google.common.collect.Maps;
 import com.google.common.io.Closeables;
 import com.google.common.primitives.Longs;
 
-/**
- * @author Tran Nam Quang
- */
 @ThreadSafe
 public final class IndexRegistry {
 
@@ -77,10 +74,6 @@ public final class IndexRegistry {
 		public void handleExistingIndexes(@NotNull List<LuceneIndex> indexes);
 	}
 
-	/*
-	 * TODO websearch: code convention: Don't access Version elsewhere, don't instantiate
-	 * Analyzer+ elsewhere, don't call setMaxClauseCount elsewhere.
-	 */
 	@VisibleForPackageGroup
 	public static final Version LUCENE_VERSION = Version.LUCENE_30;
 
@@ -92,10 +85,7 @@ public final class IndexRegistry {
 
 	private static final String SER_FILENAME = "tree-index.ser";
 
-	/*
-	 * This setting prevents errors that would otherwise occur if the user
-	 * enters generic search terms like "*?".
-	 */
+	/* This setting prevents errors that would otherwise occur if the user enters generic search terms like "*?". */
 	static {
 		BooleanQuery.setMaxClauseCount(Integer.MAX_VALUE);
 	}
@@ -106,18 +96,15 @@ public final class IndexRegistry {
 	private final Event<List<LuceneIndex>> evtRemoved = new Event<List<LuceneIndex>>();
 
 	/**
-	 * A map for storing the indexes, along with the last-modified values of the
-	 * indexes' ser files. A last-modified value may be null, which indicates
-	 * that the corresponding index hasn't been saved yet.
+	 * A map for storing the indexes, along with the last-modified values of the indexes' ser files. 
+	 * A last-modified value may be null, which indicates that the corresponding index hasn't been saved yet.
 	 */
 	private final Map<LuceneIndex, Long> indexes = Maps.newTreeMap(IndexComparator.instance); // guarded by read-write lock
 
 	/*
-	 * This read-write lock is used for the index registry, the indexing queue,
-	 * the searcher and the folder watcher. With the exception of the searcher,
-	 * a read-write lock might not be the best choice for these classes in terms
-	 * of efficiency. However, by using the same lock for all classes, we can
-	 * avoid potential lock-ordering deadlocks.
+	 * This read-write lock is used for the index registry, the indexing queue, the searcher and the folder watcher. 
+	 * With the exception of the searcher, a read-write lock might not be the best choice for these classes in terms
+	 * of efficiency. However, by using the same lock for all classes, we can avoid potential lock-ordering deadlocks.
 	 */
 	private final ReadWriteLock lock = new ReentrantReadWriteLock(true);
 	private final Lock readLock = lock.readLock();
@@ -137,70 +124,49 @@ public final class IndexRegistry {
 			return new StandardAnalyzer(LUCENE_VERSION, Collections.EMPTY_SET);
 	}
 
-	public IndexRegistry(	@NotNull File indexParentDir,
-							int cacheSize,
-							int reporterCapacity) {
+	public IndexRegistry(@NotNull File indexParentDir, int cacheSize, int reporterCapacity) {
 		Util.checkNotNull(indexParentDir);
 		this.indexParentDir = indexParentDir;
 		this.unpackCache = new HotColdFileCache(cacheSize);
 		this.fileFactory = new FileFactory(unpackCache);
 		this.outlookMailFactory = new OutlookMailFactory(unpackCache);
 
-		/*
-		 * Giving out a reference to the IndexRegistry before it is fully
-		 * constructed might be a little dangerous :-/
-		 */
+		/* Giving out a reference to the IndexRegistry before it is fully constructed might be a little dangerous :-/ */
 		this.queue = new IndexingQueue(this, reporterCapacity);
 	}
 
 	@NotNull
 	@ThreadSafe
-	public File getIndexParentDir() {
-		return indexParentDir;
-	}
+	public File getIndexParentDir() { return indexParentDir; }
 
 	@NotNull
 	@ThreadSafe
-	public IndexingQueue getQueue() {
-		return queue;
-	}
+	public IndexingQueue getQueue() { return queue; }
 
 	// Will block until the searcher is available (i.e. after load(...) has finished)
 	// do not call this from the GUI thread, otherwise the application might hang
 	// May return null if the calling thread was interrupted
+	/* This method must not be synchronized, otherwise we'll get a deadlock when this method is called while the load method is running. */
 	@Nullable
 	@ThreadSafe
-	public Searcher getSearcher() {
-		/*
-		 * This method must not be synchronized, otherwise we'll get a deadlock
-		 * when this method is called while the load method is running.
-		 */
-		return searcher.get();
-	}
+	public Searcher getSearcher() {	return searcher.get(); }
 
 	// Should not be used by clients
 	@NotNull
 	@ThreadSafe
-	public Lock getReadLock() {
-		return readLock;
-	}
+	public Lock getReadLock() { return readLock; }
 
 	// Should not be used by clients
 	@NotNull
 	@ThreadSafe
-	public Lock getWriteLock() {
-		return writeLock;
-	}
+	public Lock getWriteLock() {return writeLock;}
 
 	@ThreadSafe
 	@VisibleForPackageGroup
-	public void addIndex(@NotNull LuceneIndex index) {
-		addIndex(index, null);
-	}
+	public void addIndex(@NotNull LuceneIndex index) {	addIndex(index, null); }
 
 	@ThreadSafe
-	private void addIndex(	@NotNull LuceneIndex index,
-							@Nullable Long lastModified) {
+	private void addIndex(@NotNull LuceneIndex index, @Nullable Long lastModified) {
 		Util.checkNotNull(index);
 		Util.checkNotNull(index.getIndexDirPath()); // RAM indexes not allowed
 		writeLock.lock();
@@ -216,17 +182,14 @@ public final class IndexRegistry {
 	}
 
 	@ThreadSafe
-	public void removeIndexes(	@NotNull Collection<LuceneIndex> indexesToRemove,
-								boolean deleteFiles) {
+	public void removeIndexes(@NotNull Collection<LuceneIndex> indexesToRemove,	boolean deleteFiles) {
 		Util.checkNotNull(indexesToRemove);
 		if (indexesToRemove.isEmpty())
 			return; // Avoid firing event when given collection is empty
 
 		int size = indexesToRemove.size();
 		List<LuceneIndex> removed = new ArrayList<LuceneIndex>(size);
-		List<PendingDeletion> deletions = deleteFiles
-			? new ArrayList<PendingDeletion>(size)
-			: null;
+		List<PendingDeletion> deletions = deleteFiles ? new ArrayList<PendingDeletion>(size) : null;
 
 		writeLock.lock();
 		try {
@@ -239,10 +202,7 @@ public final class IndexRegistry {
 				removed.add(index);
 			}
 
-			/*
-			 * This is done with the lock held to avoid releasing and
-			 * reacquiring it.
-			 */
+			/* This is done with the lock held to avoid releasing and reacquiring it. */
 			if (deletions != null) {
 				queue.approveDeletions(deletions);
 				searcher.get().approveDeletions(deletions);
@@ -255,17 +215,13 @@ public final class IndexRegistry {
 		evtRemoved.fire(removed);
 	}
 
-	// Allows attaching change listeners and processing the existing indexes in
-	// one atomic operation, i.e. the indexes handler only receives the indexes
-	// that will existed when this method is called.
+	// Allows attaching change listeners and processing the existing indexes in one atomic operation, 
+	// i.e. the indexes handler only receives the indexes that will existed when this method is called.
 	// Indexes handler and listeners are notified *without* holding the lock.
-	// Events may arrive from non-GUI threads; indexes handler runs in the same
-	// thread as the client
+	// Events may arrive from non-GUI threads; indexes handler runs in the same thread as the client
 	// The list of indexes given to the handler is an immutable copy
 	@ThreadSafe
-	public void addListeners(	@NotNull ExistingIndexesHandler handler,
-								@Nullable Event.Listener<LuceneIndex> addedListener,
-								@Nullable Event.Listener<List<LuceneIndex>> removedListener) {
+	public void addListeners(@NotNull ExistingIndexesHandler handler, @Nullable Event.Listener<LuceneIndex> addedListener, @Nullable Event.Listener<List<LuceneIndex>> removedListener) {
 		Util.checkNotNull(handler);
 		List<LuceneIndex> indexesCopy;
 		writeLock.lock();
@@ -283,15 +239,11 @@ public final class IndexRegistry {
 	}
 
 	@ThreadSafe
-	public void removeListeners(@Nullable Event.Listener<LuceneIndex> addedListener,
-								@Nullable Event.Listener<List<LuceneIndex>> removedListener) {
+	public void removeListeners(@Nullable Event.Listener<LuceneIndex> addedListener, @Nullable Event.Listener<List<LuceneIndex>> removedListener) {
 		if (addedListener == null && removedListener == null)
 			return;
 
-		/*
-		 * The event class is thread-safe; the lock is only used to make this an
-		 * atomic operation.
-		 */
+		/* The event class is thread-safe; the lock is only used to make this an atomic operation. */
 		writeLock.lock();
 		try {
 			if (addedListener != null)
@@ -321,11 +273,9 @@ public final class IndexRegistry {
 	@ThreadSafe
 	public IndexLoadingProblems load(@NotNull Cancelable cancelable) throws IOException {
 		/*
-		 * Note: To allow running this method in parallel with other operations,
-		 * it is important not to lock the entire method. Otherwise, if a client
-		 * tries to attach listeners to the registry while this method is
-		 * running, the former would block until the latter has finished,
-		 * resulting in a serialization of both operations.
+		 * Note: To allow running this method in parallel with other operations, it is important not to lock the entire method. 
+		 * Otherwise, if a client tries to attach listeners to the registry while this method is running, the former would 
+		 * block until the latter has finished, resulting in a serialization of both operations.
 		 */
 
 		// Ensure this method can only be called once
@@ -341,19 +291,16 @@ public final class IndexRegistry {
 				File serFile = new File(file, SER_FILENAME);
 				if (serFile.isFile()) {
 					/*
-					 * Try to load the tree-index.ser. If this fails, we're
-					 * probably dealing with a tree-index.ser from DocFetcher
-					 * 1.1 beta 1 through DocFetcher 1.1 beta 6, because the
-					 * serialization version UID was changed after 1.1 beta 6.
+					 * Try to load the tree-index.ser. If this fails, we're probably dealing with a tree-index.ser from DocFetcher
+					 * 1.1 beta 1 through DocFetcher 1.1 beta 6, because the serialization version UID was changed after 1.1 beta 6.
 					 */
 					if (!loadIndex(serFile))
 						loadingProblems.addObsoleteFile(file);
 				}
 				else if (!serFile.exists()) {
 					/*
-					 * If no tree-index.ser exists and the containing folder has
-					 * a name that ends with a timestamp, it's probably an index
-					 * folder from DocFetcher 1.0.3 or earlier.
+					 * If no tree-index.ser exists and the containing folder has a name that ends with a timestamp, 
+					 * it's probably an index folder from DocFetcher 1.0.3 or earlier.
 					 */
 					if (file.getName().matches(".*?_\\d+"))
 						loadingProblems.addObsoleteFile(file);
@@ -361,10 +308,7 @@ public final class IndexRegistry {
 				// Ignore if tree-index.ser is a directory
 			}
 			else if (file.isFile()) {
-				/*
-				 * ScopeRegistry.ser files were used in DocFetcher 1.0.3 and
-				 * earlier.
-				 */
+				/* ScopeRegistry.ser files were used in DocFetcher 1.0.3 and earlier. */
 				if (file.getName().equals("ScopeRegistry.ser"))
 					loadingProblems.addObsoleteFile(file);
 			}
@@ -411,10 +355,7 @@ public final class IndexRegistry {
 		return loadingProblems;
 	}
 
-	/**
-	 * Load the given tree index file. Returns whether the file was successfully
-	 * loaded.
-	 */
+	/** Load the given tree index file. Returns whether the file was successfully loaded. */
 	@ThreadSafe
 	private boolean loadIndex(@NotNull File serFile) {
 		ObjectInputStream in = null;
@@ -448,10 +389,8 @@ public final class IndexRegistry {
 				indexDirMap.put(index.getIndexDirPath().getCanonicalFile(), index);
 
 			/*
-			 * The code below is pretty inefficient if many indexes are added,
-			 * modified and/or removed. However, we can assume that these operations
-			 * are usually performed one index at a time, so the inefficiency
-			 * doesn't really matter.
+			 * The code below is pretty inefficient if many indexes are added, modified and/or removed. However, we can assume 
+			 * that these operations are usually performed one index at a time, so the inefficiency doesn't really matter.
 			 */
 
 			for (File indexDir : Util.listFiles(indexParentDir)) {
@@ -472,11 +411,7 @@ public final class IndexRegistry {
 					Long oldLM = indexes.get(index);
 					long newLM = serFile.lastModified();
 					if (oldLM != null && oldLM.longValue() != newLM) {
-						/*
-						 * Remove the old version of the index and add the new
-						 * version. Let's just hope it isn't in the queue or being
-						 * searched in right now.
-						 */
+						/* Remove the old version of the index and add the new version. Let's just hope it isn't in the queue or being searched in right now. */
 						removeIndexes(Collections.singletonList(index), false);
 						loadIndex(serFile);
 					}
@@ -500,10 +435,7 @@ public final class IndexRegistry {
 			indexDir.mkdirs();
 			File serFile = new File(indexDir, SER_FILENAME);
 
-			/*
-			 * DocFetcher might have been burned onto a CD-ROM; if so, then just
-			 * ignore it.
-			 */
+			/* DocFetcher might have been burned onto a CD-ROM; if so, then just ignore it. */
 			if (serFile.exists() && !serFile.canWrite())
 				return;
 
@@ -556,10 +488,8 @@ public final class IndexRegistry {
 			if (cmp != 0)
 				return cmp;
 			/*
-			 * Bug #3458940: If two LuceneIndex instances have the same name, do
-			 * not return 0. Otherwise it would be impossible to hold two
-			 * LuceneIndex instances with identical name as keys in a TreeMap,
-			 * or as values in a TreeSet.
+			 * Bug #3458940: If two LuceneIndex instances have the same name, do not return 0. Otherwise it would be impossible 
+			 * to hold two LuceneIndex instances with identical name as keys in a TreeMap, or as values in a TreeSet.
 			 */
 			return Longs.compare(o1.getCreated(), o2.getCreated());
 		}

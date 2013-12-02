@@ -24,17 +24,10 @@ import net.sourceforge.docfetcher.util.annotations.ThreadSafe;
 
 import com.google.common.base.Objects;
 
-/**
- * @author Tran Nam Quang
- */
 public final class Task {
 
 	public interface CancelHandler {
-		/**
-		 * Returns the type of cancelation. May be null to indicate that the
-		 * indexing should not be canceled. Warning: This method is called under
-		 * lock.
-		 */
+		/** Returns the type of cancellation. May be null to indicate that the indexing should not be canceled. Warning: This method is called under lock.*/
 		@Nullable
 		public CancelAction cancel();
 	}
@@ -63,9 +56,7 @@ public final class Task {
 	private final DelegatingReporter reporter;
 	@Nullable volatile CancelAction cancelAction;
 
-	Task(	@NotNull IndexingQueue queue,
-			@NotNull LuceneIndex index,
-			@NotNull IndexAction indexAction) {
+	Task(@NotNull IndexingQueue queue, @NotNull LuceneIndex index, @NotNull IndexAction indexAction) {
 		Util.checkNotNull(queue, index, indexAction);
 		this.queue = queue;
 		this.index = index;
@@ -75,23 +66,17 @@ public final class Task {
 	}
 
 	// If the task is not in indexing state, the task is simply removed.
-	// If it is in indexing state, the handler is called for 'Create' and
-	// 'Rebuild' jobs to determine whether to discard or keep the index. In case
-	// of 'Update' tasks, the index is always kept. If in indexing state, only
-	// a cancel flag is set, but the task may be removed later.
+	// If it is in indexing state, the handler is called for 'Create' and 'Rebuild' jobs to determine whether to discard or keep the index. 
+	// In case of 'Update' tasks, the index is always kept. 
+	// If in indexing state, only a cancel flag is set, but the task may be removed later.
 	// See IndexingQueue.removeAll(CancelHandler)
-	// Warning: Cancel handler is called under lock, so caller must take possible
-	// lock-ordering deadlocks into account.
+	// Warning: Cancel handler is called under lock, so caller must take possible lock-ordering deadlocks into account.
 	@ThreadSafe
-	public void remove(@NotNull CancelHandler handler) {
-		queue.remove(this, handler);
-	}
+	public void remove(@NotNull CancelHandler handler) { queue.remove(this, handler); }
 
 	// for index updates, the ready-state is set automatically
 	@ThreadSafe
-	public void setReady() {
-		queue.setReady(this);
-	}
+	public void setReady() { queue.setReady(this); }
 
 	@NotNull
 	IndexingResult update() {
@@ -103,25 +88,18 @@ public final class Task {
 	}
 
 	@NotNull
-	public LuceneIndex getLuceneIndex() {
-		return index;
-	}
+	public LuceneIndex getLuceneIndex() { return index; }
 
 	// delegate and handler are called under lock of DelegatingReporter instance, so beware of lock-ordering deadlocks!
-	public void attachReporter(	@NotNull IndexingReporter delegate,
-								@NotNull ExistingMessagesHandler handler) {
+	public void attachReporter(@NotNull IndexingReporter delegate, @NotNull ExistingMessagesHandler handler) {
 		reporter.attachDelegate(delegate, handler);
 	}
 
-	public void detachReporter(	@NotNull IndexingReporter delegate) {
-		reporter.detachDelegate(delegate);
-	}
-
+	public void detachReporter(	@NotNull IndexingReporter delegate) {reporter.detachDelegate(delegate);}
+	
+	// No lock needed because indexAction is immutable
 	@ThreadSafe
-	public boolean is(@Nullable IndexAction indexAction) {
-		// No lock needed because indexAction is immutable
-		return Objects.equal(this.indexAction, indexAction);
-	}
+	public boolean is(@Nullable IndexAction indexAction) {return Objects.equal(this.indexAction, indexAction);}
 
 	@ThreadSafe
 	boolean is(@Nullable CancelAction cancelAction) {
@@ -180,8 +158,7 @@ public final class Task {
 	}
 	
 	public String toString() {
-		return String.format("Task [%s %s] %s", indexAction.name(), state
-				.name(), index.getCanonicalRootFile().toString());
+		return String.format("Task [%s %s] %s", indexAction.name(), state.name(), index.getCanonicalRootFile().toString());
 	}
 
 }
