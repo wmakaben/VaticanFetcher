@@ -8,6 +8,9 @@
  * Contributors:
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
+/**
+ * @author Tran Nam Quang
+ */
 
 package net.sourceforge.docfetcher.gui.indexing;
 
@@ -36,9 +39,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 
-/**
- * @author Tran Nam Quang
- */
 final class ProgressTable {
 
 	public static void main(String[] args) {
@@ -55,12 +55,12 @@ final class ProgressTable {
 				while (!shell.isDisposed()) {
 					progressTable.append(i + "");
 					i++;
-//					try {
-//						Thread.sleep(2000);
-//					}
-//					catch (InterruptedException e) {
-//						return;
-//					}
+					//try {
+					//	Thread.sleep(2000);
+					//}
+					//catch (InterruptedException e) {
+					//	return;
+					//}
 				}
 			}
 		}.start();
@@ -96,21 +96,15 @@ final class ProgressTable {
 		});
 
 		/*
-		 * The approach taken here is to put the incoming messages in a queue
-		 * for bulk processing in regular intervals, rather than to process each
-		 * incoming message immediately, as it was done in DocFetcher 1.0.3 and
-		 * earlier versions.
+		 * The approach taken here is to put the incoming messages in a queue for bulk processing in regular intervals, 
+		 * rather than to process each incoming message immediately, as it was done in DocFetcher 1.0.3 and earlier versions.
 		 * 
-		 * Tests indicate that the bulk approach leads to a significant
-		 * performance increase when a large number of small files (usually
-		 * plain text files) is processed. In such cases, the queue size can go
-		 * up to 30-70 items before the worker thread takes another round. Thus,
-		 * many unnecessary GUI updates are avoided, which would otherwise have
-		 * slowed down the indexing.
+		 * Tests indicate that the bulk approach leads to a significant performance increase when a large number of small files 
+		 * (usually plain text files) is processed. In such cases, the queue size can go up to 30-70 items before the worker thread 
+		 * takes another round. Thus, many unnecessary GUI updates are avoided, which would otherwise have slowed down the indexing.
 		 * 
-		 * A typical scenario where a large number of small files has to be
-		 * processed is a large codebase consisting of thousands of source code
-		 * files.
+		 * A typical scenario where a large number of small files has to be processed 
+		 * is a large codebase consisting of thousands of source code files.
 		 */
 		
 		final Thread thread = new Thread(ProgressTable.class.getName()) {
@@ -143,9 +137,8 @@ final class ProgressTable {
 					
 					try {
 						/*
-						 * Sleeping for 40 ms gives us a frame rate of 1000/40 =
-						 * 25 fps, which is known to be the minimum frame rate
-						 * to make animations look "smooth".
+						 * Sleeping for 40 ms gives us a frame rate of 1000/40 = 25 fps, 
+						 * which is known to be the minimum frame rate to make animations look "smooth".
 						 */
 						Thread.sleep(40);
 					}
@@ -203,8 +196,7 @@ final class ProgressTable {
 	}
 
 	@NotThreadSafe
-	private void append(@NotNull final List<String> messages,
-						final boolean replaceLastInTable) {
+	private void append(@NotNull final List<String> messages, final boolean replaceLastInTable) {
 		Util.checkThat(!messages.isEmpty());
 		Util.checkThat(messages.size() <= itemLimit);
 		Util.runSyncExec(table, new Runnable() {

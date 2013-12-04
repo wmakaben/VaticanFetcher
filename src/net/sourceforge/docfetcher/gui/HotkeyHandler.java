@@ -34,19 +34,14 @@ import com.melloware.jintellitype.JIntellitype;
  */
 public final class HotkeyHandler {
 	
-	/**
-	 * This event is fired when the hotkey is pressed. Not that the listeners
-	 * will be called from a non-GUI thread.
-	 */
+	/** This event is fired when the hotkey is pressed. Not that the listeners will be called from a non-GUI thread. */
 	public final Event<Void> evtHotkeyPressed = new Event<Void> ();
 	
 	/**
-	 * This event is fired when the HotkeyHandler fails to register a hotkey
-	 * because it is already registered by another program. Currently, this can
-	 * only happen on Linux.
+	 * This event is fired when the HotkeyHandler fails to register a hotkey because it is already 
+	 * registered by another program. Currently, this can only happen on Linux.
 	 * <p>
-	 * The integer array contains the state mask and the key this class tried to
-	 * register.
+	 * The integer array contains the state mask and the key this class tried to register.
 	 */
 	public final Event<int[]> evtHotkeyConflict = new Event<int[]> ();
 
@@ -55,11 +50,9 @@ public final class HotkeyHandler {
 	private final HotkeyListenerImpl implementation;
 
 	/**
-	 * Installs a listener on a global hotkey. The hotkey is registred in
-	 * <tt>SettingsConf.IntArray.HotKeyToFront</tt>.
+	 * Installs a listener on a global hotkey. The hotkey is registred in <tt>SettingsConf.IntArray.HotKeyToFront</tt>.
 	 * <p>
-	 * This constructor will throw an <tt>UnsupportedOperationException</tt> if
-	 * called on an unsupported platform, e.g. Mac OS X.
+	 * This constructor will throw an <tt>UnsupportedOperationException</tt> if called on an unsupported platform, e.g. Mac OS X.
 	 */
 	public HotkeyHandler() {
 		if (Util.IS_WINDOWS)
@@ -84,14 +77,11 @@ public final class HotkeyHandler {
 			public void update(Boolean eventData) {
 				if (eventData) {
 					/*
-					 * The hotkey conflict event is temporarily disabled here
-					 * because we don't want to display an error message when an
-					 * invalid hotkey is re-registered.
+					 * The hotkey conflict event is temporarily disabled here because we don't 
+					 * want to display an error message when an invalid hotkey is re-registered.
 					 */
 					evtHotkeyConflict.setEnabled(false);
-					implementation.registerHotkey(HOTKEY_ID,
-						SettingsConf.IntArray.HotkeyToFront.get()[0],
-						SettingsConf.IntArray.HotkeyToFront.get()[1]);
+					implementation.registerHotkey(HOTKEY_ID, SettingsConf.IntArray.HotkeyToFront.get()[0], SettingsConf.IntArray.HotkeyToFront.get()[1]);
 					evtHotkeyConflict.setEnabled(true);
 				}
 				else
@@ -100,19 +90,13 @@ public final class HotkeyHandler {
 		});
 	}
 	
-	/**
-	 * Registers the hotkey.
-	 */
+	/** Registers the hotkey. */
 	public void registerHotkey() {
 		if (SettingsConf.Bool.HotkeyEnabled.get())
-			implementation.registerHotkey(HOTKEY_ID,
-				SettingsConf.IntArray.HotkeyToFront.get()[0],
-				SettingsConf.IntArray.HotkeyToFront.get()[1]);
+			implementation.registerHotkey(HOTKEY_ID, SettingsConf.IntArray.HotkeyToFront.get()[0], SettingsConf.IntArray.HotkeyToFront.get()[1]);
 	}
 	
-	/**
-	 * Unregisters the hotkey.
-	 */
+	/** Unregisters the hotkey. */
 	public void shutdown() {
 		implementation.unregisterHotkey(HOTKEY_ID);
 		implementation.shutdown();
@@ -131,9 +115,7 @@ public final class HotkeyHandler {
 		public void shutdown();
 	}
 
-	/**
-	 * Windows implementation using JIntellitype.
-	 */
+	/** Windows implementation using JIntellitype. */
 	private final class HotkeyListenerWindowsImpl implements HotkeyListenerImpl {
 		public void initialize(final HotkeyHandler listener) {
 			boolean isDev = SystemConf.Bool.IsDevelopmentVersion.get();
@@ -143,24 +125,19 @@ public final class HotkeyHandler {
 			libPath = String.format("%s/JIntellitype%d.dll", libPath, arch);
 			JIntellitype.setLibraryLocation(libPath);
 			
-			JIntellitype.getInstance().addHotKeyListener(
-				new com.melloware.jintellitype.HotkeyListener() {
-					public void onHotKey(int hotkey_id) {
-						listener.onHotKey(hotkey_id);
-					}
-				});
+			JIntellitype.getInstance().addHotKeyListener(new com.melloware.jintellitype.HotkeyListener() {
+				public void onHotKey(int hotkey_id) {
+					listener.onHotKey(hotkey_id);
+				}
+			});
 		}
 
 		public void registerHotkey(int id, int mask, int key) {
 			/*
-			 * Bug in JIntellitype 1.3.7: The method
-			 * JIntellitype.registerSwingHotKey incorrectly translates AWT
-			 * modifiers to JIntellitype modifiers. The fix is to translate
-			 * directly from SWT modifiers to JIntellitype modifiers.
+			 * Bug in JIntellitype 1.3.7: The method JIntellitype.registerSwingHotKey incorrectly translates AWT modifiers to 
+			 * JIntellitype modifiers. The fix is to translate directly from SWT modifiers to JIntellitype modifiers.
 			 */
-			JIntellitype.getInstance().registerHotKey(id,
-					toIntellitypeModifier(mask),
-					KeyCodeTranslator.translateSWTKey(key));
+			JIntellitype.getInstance().registerHotKey(id, toIntellitypeModifier(mask), KeyCodeTranslator.translateSWTKey(key));
 		}
 
 		public void unregisterHotkey(int id) {
@@ -183,9 +160,7 @@ public final class HotkeyHandler {
 		}
 	}
 
-	/**
-	 * Linux implementation using JXGrabKey.
-	 */
+	/** Linux implementation using JXGrabKey. */
 	private final class HotkeyListenerLinuxImpl implements HotkeyListenerImpl {
 		public void initialize(final HotkeyHandler listener) {
 			boolean isDev = SystemConf.Bool.IsDevelopmentVersion.get();
@@ -204,9 +179,7 @@ public final class HotkeyHandler {
 
 		public void registerHotkey(int id, int mask, int key) {
 			try {
-				JXGrabKey.getInstance().registerAwtHotkey(id,
-						KeyCodeTranslator.translateSWTModifiers(mask),
-						KeyCodeTranslator.translateSWTKey(key));
+				JXGrabKey.getInstance().registerAwtHotkey(id, KeyCodeTranslator.translateSWTModifiers(mask), KeyCodeTranslator.translateSWTKey(key));
 			}
 			catch (HotkeyConflictException e) {
 				evtHotkeyConflict.fire(new int[] {mask, key});

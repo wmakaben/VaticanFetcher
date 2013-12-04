@@ -9,6 +9,10 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
+/**
+ * @author Tran Nam Quang
+ */
+
 package net.sourceforge.docfetcher.gui;
 
 import java.io.File;
@@ -21,9 +25,6 @@ import net.sourceforge.docfetcher.util.Util;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 import net.sourceforge.docfetcher.util.annotations.Nullable;
 
-/**
- * @author Tran Nam Quang
- */
 public final class ManualLocator {
 	
 	public static final String manualFilename = "DocFetcher_Manual.html";
@@ -73,16 +74,12 @@ public final class ManualLocator {
 	}
 	
 	/**
-	 * This method takes the path to the parent of the help folder as input and
-	 * returns a file representing the parent folder of the manual. The method
-	 * tries to return the most specific manual possible and falls back
-	 * gradually.
+	 * This method takes the path to the parent of the help folder as input and returns a file representing the parent 
+	 * folder of the manual. The method tries to return the most specific manual possible and falls back gradually.
 	 * <p>
-	 * For example, if the user runs in the locale "de_DE", this method tries to
-	 * find the manual in a folder "Germany (Germany)". If there is none, it
-	 * looks for a folder with the name "Germany". If that isn't found either,
-	 * it will try to return the English version. If not even the latter exists,
-	 * null is returned.
+	 * For example, if the user runs in the locale "de_DE", this method tries to find the manual in a folder "Germany (Germany)". 
+	 * If there is none, it looks for a folder with the name "Germany". If that isn't found either, it will try to 
+	 * return the English version. If not even the latter exists, null is returned.
 	 */
 	@Nullable
 	private static File getManualParentDir(@NotNull String helpDirParent) {

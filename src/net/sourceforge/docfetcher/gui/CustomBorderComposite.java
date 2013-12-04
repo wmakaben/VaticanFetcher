@@ -19,8 +19,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
 /**
- * A composite that paints a custom border on Windows and has a FormLayout with
- * adjusted margins set on itself.
+ * A composite that paints a custom border on Windows and has a FormLayout with adjusted margins set on itself.
  * 
  * @author Tran Nam Quang
  */

@@ -8,6 +8,9 @@
  * Contributors:
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
+/**
+ * @author Tran Nam Quang
+ */
 
 package net.sourceforge.docfetcher.gui;
 
@@ -22,9 +25,7 @@ import net.sourceforge.docfetcher.util.annotations.NotNull;
 import net.sourceforge.docfetcher.util.annotations.VisibleForPackageGroup;
 import net.sourceforge.docfetcher.util.collect.BoundedList;
 
-/**
- * @author Tran Nam Quang
- */
+
 @VisibleForPackageGroup
 public final class MultiFileLauncher {
 	

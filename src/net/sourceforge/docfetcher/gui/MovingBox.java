@@ -8,6 +8,9 @@
  * Contributors:
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
+/**
+ * @author Tran Nam Quang
+ */
 
 package net.sourceforge.docfetcher.gui;
 
@@ -22,9 +25,6 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.graphics.Region;
 import org.eclipse.swt.widgets.Shell;
 
-/**
- * @author Tran Nam Quang
- */
 public final class MovingBox {
 	
 	private static final int bw = 2; // border width
@@ -35,11 +35,7 @@ public final class MovingBox {
 	private volatile double progress = 0;
 	private Region region;
 	
-	public MovingBox(	@NotNull final Shell shell,
-						@NotNull final Rectangle source,
-						@NotNull final Rectangle destination,
-						final double speed,
-						final long sleepTime) {
+	public MovingBox(@NotNull final Shell shell, @NotNull final Rectangle source, @NotNull final Rectangle destination, final double speed, final long sleepTime) {
 		movingBox = new Shell(shell, SWT.NO_TRIM | SWT.APPLICATION_MODAL);
 		movingBox.setBackground(Col.DARK_GRAY.get());
 		updateRegion(source);
@@ -75,10 +71,7 @@ public final class MovingBox {
 					Vector Am = m(A1, A2);
 					Vector Bm = m(B1, B2);
 					
-					final Rectangle bounds = new Rectangle(
-						Am.x, Am.y,
-						Bm.x - Am.x, Bm.y - Am.y
-					);
+					final Rectangle bounds = new Rectangle(Am.x, Am.y, Bm.x - Am.x, Bm.y - Am.y);
 					
 					Util.runSyncExec(shell, new Runnable() {
 						public void run() {

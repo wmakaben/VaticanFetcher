@@ -8,6 +8,9 @@
  * Contributors:
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
+/**
+ * @author Tran Nam Quang
+ */
 
 package net.sourceforge.docfetcher.gui.indexing;
 
@@ -48,9 +51,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 
-/**
- * @author Tran Nam Quang
- */
 final class FileExtensionChooser {
 	
 	public static final class Factory {
@@ -229,9 +229,8 @@ final class FileExtensionChooser {
 	}
 	
 	/**
-	 * Recursively collects all file extensions under the given directory and
-	 * then sorts and returns them. Files with an extension, but no basename
-	 * (e.g. ".classpath") are omitted.
+	 * Recursively collects all file extensions under the given directory and then sorts and returns them. 
+	 * Files with an extension, but no basename (e.g. ".classpath") are omitted.
 	 */
 	@NotNull
 	private static Set<String> listExtensions(@NotNull File rootDir) {
@@ -241,15 +240,13 @@ final class FileExtensionChooser {
 	}
 	
 	/**
-	 * Recursively collects all file extensions under the given directory and
-	 * puts them into the given Set. Files with an extension, but no basename
-	 * (e.g. ".classpath") are omitted.
+	 * Recursively collects all file extensions under the given directory and puts them into the given Set. 
+	 * Files with an extension, but no basename (e.g. ".classpath") are omitted.
 	 * <p>
 	 * Does nothing if the given directory cannot be accessed.
 	 */
 	@RecursiveMethod
-	private static void listExtensions(	@NotNull Set<String> exts,
-										@NotNull File rootDir) {
+	private static void listExtensions(@NotNull Set<String> exts, @NotNull File rootDir) {
 		for (File file : Util.listFiles(rootDir)) {
 			if (Util.isInterrupted())
 				return;

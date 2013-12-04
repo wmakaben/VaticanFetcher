@@ -8,6 +8,9 @@
  * Contributors:
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
+/**
+ * @author Tran Nam Quang
+ */
 
 package net.sourceforge.docfetcher.gui;
 
@@ -33,9 +36,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tray;
 import org.eclipse.swt.widgets.TrayItem;
 
-/**
- * @author Tran Nam Quang
- */
 public final class SystemTrayHider {
 	
 	public final Event<Void> evtHiding = new Event<Void>();
@@ -51,9 +51,7 @@ public final class SystemTrayHider {
 		this.shell = shell;
 	}
 	
-	/**
-	 * Hides the shell in the system tray.
-	 */
+	/** Hides the shell in the system tray. */
 	public void hide() {
 		if (!shell.isVisible())
 			return;
@@ -82,9 +80,7 @@ public final class SystemTrayHider {
 		closeItem.setText(Msg.exit.get());
 		trayMenu.setDefaultItem(restoreItem);
 		
-		/*
-		 * Event handling
-		 */
+		/* Event handling */
 		// Open system tray menu when the user clicks on it
 		trayItem.addMenuDetectListener(new MenuDetectListener() {
 			public void menuDetected(MenuDetectEvent e) {
@@ -118,16 +114,12 @@ public final class SystemTrayHider {
 		shell.setVisible(false);
 	}
 	
-	/**
-	 * Returns whether the shell is hidden in the system tray.
-	 */
+	/** Returns whether the shell is hidden in the system tray. */
 	public boolean isHidden() {
 		return trayItem != null;
 	}
 	
-	/**
-	 * Restores the shell from the system tray.
-	 */
+	/** Restores the shell from the system tray. */
 	public void restore() {
 		if (trayItem == null)
 			return;

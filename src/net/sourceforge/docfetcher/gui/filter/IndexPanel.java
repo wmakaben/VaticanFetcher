@@ -655,7 +655,5 @@ public final class IndexPanel {
 		return null;
 	}
 
-	private static void switchToIndexing(){
-		evtSwitchToIndexingPanel.fire(null);
-	}
+	private static void switchToIndexing(){ evtSwitchToIndexingPanel.fire(null); }
 }

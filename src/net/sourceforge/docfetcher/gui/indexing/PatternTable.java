@@ -8,6 +8,9 @@
  * Contributors:
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
+/**
+ * @author Tran Nam Quang
+ */
 
 package net.sourceforge.docfetcher.gui.indexing;
 
@@ -55,9 +58,6 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 
-/**
- * @author Tran Nam Quang
- */
 final class PatternTable extends Composite {
 	
 	public static void main(String[] args) {
@@ -87,8 +87,7 @@ final class PatternTable extends Composite {
 	private final RegexTestPanel regexTestPanel;
 	private boolean storeRelativePaths;
 	
-	public PatternTable(@NotNull Composite parent,
-						@NotNull LuceneIndex index) {
+	public PatternTable(@NotNull Composite parent, @NotNull LuceneIndex index) {
 		super(parent, SWT.NONE);
 		this.index = index;
 		setLayout(Util.createGridLayout(2, false, 0, 5));
@@ -112,10 +111,7 @@ final class PatternTable extends Composite {
 	
 	@NotNull
 	private Table createTable() {
-		/*
-		 * Note: The table has SWT.SINGLE style because moving more than one
-		 * element up or down at once is currently not supported.
-		 */
+		/* Note: The table has SWT.SINGLE style because moving more than one element up or down at once is currently not supported.	 */
 		int style = SWT.BORDER | SWT.SINGLE | SWT.FULL_SELECTION;
 		tableViewer = new SimpleTableViewer<PatternAction>(this, style);
 		tableViewer.enableEditSupport();
@@ -140,8 +136,7 @@ final class PatternTable extends Composite {
 			}
 			protected ColumnEditSupport<PatternAction> getEditSupport() {
 				return new ComboEditSupport<PatternAction, MatchTarget>(MatchTarget.class) {
-					protected void setChoice(	PatternAction element,
-												MatchTarget target) {
+					protected void setChoice(PatternAction element,	MatchTarget target) {
 						element.setTarget(target);
 						updateRegexTestPanel();
 					}
@@ -154,9 +149,7 @@ final class PatternTable extends Composite {
 				switch (target) {
 				case FILENAME: return Msg.filename.get();
 				case PATH:
-					return storeRelativePaths
-						? Msg.relative_path.get()
-						: Msg.absolute_path.get();
+					return storeRelativePaths ? Msg.relative_path.get()	: Msg.absolute_path.get();
 				}
 				throw new IllegalStateException();
 			}
@@ -172,8 +165,7 @@ final class PatternTable extends Composite {
 			}
 			protected ColumnEditSupport<PatternAction> getEditSupport() {
 				return new ComboEditSupport<PatternAction, MatchAction>(MatchAction.class) {
-					protected void setChoice(	PatternAction element,
-												MatchAction action) {
+					protected void setChoice(PatternAction element, MatchAction action) {
 						element.setAction(action);
 						updateRegexTestPanel();
 					}
@@ -227,8 +219,7 @@ final class PatternTable extends Composite {
 			}
 		});
 		
-		Util.createPushButton(
-			comp, Img.ARROW_UP.get(), Msg.increase_pattern_priority.get(), new SelectionAdapter() {
+		Util.createPushButton(comp, Img.ARROW_UP.get(), Msg.increase_pattern_priority.get(), new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				List<PatternAction> sel = tableViewer.getSelection();
 				if (sel.size() == 1)

@@ -3,8 +3,7 @@ package net.sourceforge.docfetcher.gui;
 import org.eclipse.swt.SWT;
 
 /**
- * Code copied from class swingwt\awt\event\KeyEvent.java
- * in project swingwt http://swingwt.sourceforge.net
+ * Code copied from class swingwt\awt\event\KeyEvent.java in project swingwt http://swingwt.sourceforge.net
  *
  * Usage:
  *     JXGrabKey.getInstance().registerAWTHotkey(1,
