@@ -8,6 +8,9 @@
  * Contributors:
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
+/**
+ * @author Tran Nam Quang
+ */
 
 package net.sourceforge.docfetcher;
 
@@ -15,9 +18,6 @@ import java.lang.reflect.Method;
 
 import net.sourceforge.docfetcher.util.SwtJarLoader;
 
-/**
- * @author Tran Nam Quang
- */
 public final class Main {
 	
 	private Main() {

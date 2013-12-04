@@ -8,6 +8,9 @@
  * Contributors:
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
+/**
+ * @author Tran Nam Quang
+ */
 
 package net.sourceforge.docfetcher.util;
 
@@ -37,9 +40,6 @@ import net.sourceforge.docfetcher.util.annotations.NotNull;
 import com.google.common.collect.Lists;
 import com.google.common.io.Closeables;
 
-/**
- * @author Tran Nam Quang
- */
 public final class ConfLoader {
 
 	public interface Loadable {
@@ -57,20 +57,15 @@ public final class ConfLoader {
 	}
 	
 	/**
-	 * Loads the preferences from the given file, with <tt>containerClass</tt>
-	 * as the class containing the preferences enum classes, and returns a list
-	 * of entries where the value is missing or does not have the proper
-	 * structure.
+	 * Loads the preferences from the given file, with <tt>containerClass</tt> as the class containing the preferences 
+	 * enum classes, and returns a list of entries where the value is missing or does not have the proper structure.
 	 * <p>
-	 * If <tt>createIfMissing</tt> is true, the given file is created if it
-	 * doesn't exist. Otherwise a {@link FileNotFoundException} is thrown.
+	 * If <tt>createIfMissing</tt> is true, the given file is created if it doesn't exist. 
+	 * Otherwise a {@link FileNotFoundException} is thrown.
 	 */
 	// TODO doc: containerClass must contain nested enums that implement Loadable or Storable
 	@MutableCopy
-	public static List<Loadable> load(	File propFile,
-										Class<?> containerClass,
-										boolean createIfMissing)
-			throws IOException, FileNotFoundException {
+	public static List<Loadable> load(File propFile, Class<?> containerClass, boolean createIfMissing) throws IOException, FileNotFoundException {
 		if (! propFile.exists()) {
 			if (createIfMissing)
 				propFile.createNewFile();
@@ -94,18 +89,15 @@ public final class ConfLoader {
 	}
 	
 	/**
-	 * Loads the preferences from the given input stream, with
-	 * <tt>containerClass</tt> as the class containing the preferences enum
-	 * classes, and returns a list of entries where the value is missing or does
-	 * not have the proper structure.
+	 * Loads the preferences from the given input stream, with <tt>containerClass</tt> as the class containing the preferences 
+	 * enum classes, and returns a list of entries where the value is missing or does not have the proper structure.
 	 * <p>
 	 * The caller is responsible for closing the given input stream.
 	 */
 	// TODO doc: containerClass must contain nested enums that implement Loadable or Storable
 	@MutableCopy
 	@NotNull
-	public static List<Loadable> load(InputStream in, Class<?> containerClass)
-			throws IOException {
+	public static List<Loadable> load(InputStream in, Class<?> containerClass) throws IOException {
 		InputStreamReader inReader = new InputStreamReader(in, "utf-8");
 		Properties props = new Properties();
 		props.load(inReader);
@@ -115,10 +107,7 @@ public final class ConfLoader {
 			for (Loadable entry : clazz.getEnumConstants()) {
 				String name = entry.name();
 				if (seenEntries.contains(name)) {
-					String msg = String.format(
-							"Class %s contains duplicate enum entry '%s.%s'.",
-							containerClass.getName(), clazz.getSimpleName(), name
-					);
+					String msg = String.format("Class %s contains duplicate enum entry '%s.%s'.", containerClass.getName(), clazz.getSimpleName(), name);
 					throw new IllegalStateException(msg);
 				}
 				seenEntries.add(name);
@@ -137,9 +126,7 @@ public final class ConfLoader {
 		return notLoaded;
 	}
 	
-	/**
-	 * Returns a list of all enums classes in the given class using reflection.
-	 */
+	/** Returns a list of all enums classes in the given class using reflection. */
 	@MutableCopy
 	@SuppressWarnings("unchecked")
 	private static <T> List<Class<? extends T>> getEnums(Class<?> enclosingClass) {
@@ -154,14 +141,10 @@ public final class ConfLoader {
 		return enums;
 	}
 
-	/**
-	 * Saves the preferences to the given file.
-	 */
+	/** Saves the preferences to the given file. */
 	// TODO doc: containerClass must contain nested enums that implement Loadable or Storable
 	// Description annotation must be present
-	public static void save(File confFile,
-							Class<?> containerClass,
-							String comment) throws IOException {
+	public static void save(File confFile, Class<?> containerClass,	String comment) throws IOException {
 		boolean useWinSep = Util.IS_WINDOWS || AppUtil.isPortable();
 		String lineSep = useWinSep ? "\r\n" : "\n";
 		
@@ -221,9 +204,7 @@ public final class ConfLoader {
 		}
 	}
 
-	/**
-	 * @see Properties#store(java.io.Writer, String)
-	 */
+	/** @see Properties#store(java.io.Writer, String) */
 	public static String convert(String input, boolean escapeSpace) {
 		StringBuilder out = new StringBuilder(input.length() * 2);
 		for (int i = 0; i < input.length(); i++) {
@@ -251,10 +232,7 @@ public final class ConfLoader {
 	
 	// returns success
 	// TODO doc: containerClass must contain nested enums that implement Loadable or Storable
-	public static boolean loadFromStreamOrFile(	@NotNull Class<?> resourceClass,
-	                                           	@NotNull Class<?> classToLoad,
-	                                           	@NotNull String confName,
-	                                           	@NotNull String confPath) {
+	public static boolean loadFromStreamOrFile(@NotNull Class<?> resourceClass, @NotNull Class<?> classToLoad, @NotNull String confName, @NotNull String confPath) {
 		InputStream in = resourceClass.getResourceAsStream(confName);
 		try {
 			load(in, classToLoad);

@@ -28,7 +28,6 @@ import com.google.common.io.Files;
 
 /**
  * Collection of build-related utility methods.
- * 
  * @author Tran Nam Quang
  */
 final class U {
@@ -70,35 +69,19 @@ final class U {
 		new Copies().addDir(srcPath).setTodir(dstPath).execute();
 	}
 
-	static void copyDir(String srcPath,
-								String dstPath,
-								@Nullable String include,
-								@Nullable String exclude) {
-		new Copies().addDir(srcPath, include, exclude)
-				.setTodir(dstPath)
-				.execute();
+	static void copyDir(String srcPath,	String dstPath,	@Nullable String include, @Nullable String exclude) {
+		new Copies().addDir(srcPath, include, exclude).setTodir(dstPath).execute();
 	}
 
-	static void copyFlatten(String srcPath,
-							String dstPath,
-							@Nullable String include,
-							@Nullable String exclude) {
-		new Copies().addDir(srcPath, include, exclude)
-				.setTodir(dstPath)
-				.flatten()
-				.execute();
+	static void copyFlatten(String srcPath,	String dstPath,	@Nullable String include, @Nullable String exclude) {
+		new Copies().addDir(srcPath, include, exclude).setTodir(dstPath).flatten().execute();
 	}
 
-	static void copyBinaryFile(String srcPath, String dstPath)
-			throws Exception {
+	static void copyBinaryFile(String srcPath, String dstPath) throws Exception {
 		new Copies().addFile(srcPath).setTofile(dstPath).execute();
 	}
 
-	static void copyTextFile(	String srcPath,
-								String dstPath,
-								LineSep lineSep,
-								String... replacements)
-			throws Exception {
+	static void copyTextFile(String srcPath, String dstPath, LineSep lineSep, String... replacements)throws Exception {
 		String contents = U.read(srcPath);
 		switch (lineSep) {
 		case UNIX:
@@ -111,8 +94,7 @@ final class U {
 		if (replacements.length > 0) {
 			contents = UtilGlobal.replace(srcPath, contents, replacements);
 			if (!dstPath.endsWith(".sh") && !contents.startsWith("#!") && contents.contains("${"))
-				Util.printErr(format("Warning: File '%s' contains "
-					+ "suspicious substitution pattern: ${", srcPath));
+				Util.printErr(format("Warning: File '%s' contains "	+ "suspicious substitution pattern: ${", srcPath));
 		}
 		U.write(contents, dstPath);
 	}

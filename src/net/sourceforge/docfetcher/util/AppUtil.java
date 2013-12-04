@@ -40,12 +40,9 @@ import com.google.common.io.Files;
 import com.sun.jna.platform.win32.Shell32Util;
 
 /**
- * A container for various utility methods. These aren't members of the
- * {@link Util} package because they depend on some enum constants defined in
- * {@link Const} and {@link Messages}. The <code>Const</code> constants must have
- * been set before any method of this class can be called, otherwise an
- * <code>Exception</code> will be thrown. Setting the <code>Msg</code>
- * constants, on the other hand, is optional.
+ * A container for various utility methods. These aren't members of the {@link Util} package because they depend on some enum constants 
+ * defined in {@link Const} and {@link Messages}. The <code>Const</code> constants must have been set before any method of this class can 
+ * be called, otherwise an <code>Exception</code> will be thrown. Setting the <code>Msg</code> constants, on the other hand, is optional.
  * 
  * @author Tran Nam Quang
  */
@@ -86,9 +83,8 @@ public final class AppUtil {
 		}
 		
 		/**
-		 * Automatically initializes all constants. Should only be used for
-		 * debugging. Calling this method repeatedly or after the constants have
-		 * already been set manually will have no effect.
+		 * Automatically initializes all constants. Should only be used for debugging. Calling this method 
+		 * repeatedly or after the constants have already been set manually will have no effect.
 		 */
 		public static void autoInit() {
 			if (initialized)
@@ -119,12 +115,8 @@ public final class AppUtil {
 		system_error ("System Error"),
 		confirm_operation ("Confirm Operation"),
 		invalid_operation ("Invalid Operation"),
-		program_died_stacktrace_written (
-				"This program just died! " +
-				"The stacktrace below has been written to {0}."),
-		program_running_launch_another (
-				"It seems {0} is already running. " +
-				"Do you want to launch another instance?"),
+		program_died_stacktrace_written ("This program just died! " + "The stacktrace below has been written to {0}."),
+		program_running_launch_another ("It seems {0} is already running. " + "Do you want to launch another instance?"),
 		ok ("&OK"),
 		cancel ("&Cancel"),
 		;
@@ -145,10 +137,7 @@ public final class AppUtil {
 			setCount++;
 		}
 		
-		/**
-		 * Returns a string created from a <tt>java.text.MessageFormat</tt>
-		 * with the given argument(s).
-		 */
+		/** Returns a string created from a <tt>java.text.MessageFormat</tt> with the given argument(s). */
 		private String format(Object... args) {
 			return MessageFormat.format(value, args);
 		}
@@ -197,28 +186,23 @@ public final class AppUtil {
 	}
 	
 	/**
-	 * Checks whether an instance of this program is already running. The check
-	 * relies on a lockfile created in the temporary directory. The argument is
-	 * the program name to be displayed in the confirmation dialog (see below).
+	 * Checks whether an instance of this program is already running. The check relies on a lockfile created in the 
+	 * temporary directory. The argument is the program name to be displayed in the confirmation dialog (see below).
 	 * <p>
-	 * The boolean return value should be interpreted as
-	 * "proceed with running this instance?". More specifically:
+	 * The boolean return value should be interpreted as "proceed with running this instance?". More specifically:
 	 * <ul>
 	 * <li>If there is no other instance, true is returned.
-	 * <li>If there is another instance, a confirmation dialog is shown, which
-	 * asks the user whether this instance should be launched. If the user
-	 * confirms, true is returned, otherwise false.
+	 * <li>If there is another instance, a confirmation dialog is shown, which asks the user whether 
+	 * this instance should be launched. If the user confirms, true is returned, otherwise false.
 	 * </ul>
-	 * The filename of the lockfile includes the username and the working
-	 * directory, which means:
+	 * The filename of the lockfile includes the username and the working directory, which means:
 	 * <ul>
 	 * <li>The same instance may be launched multiple times by different users.
-	 * <li>Multiple instances from different locations can be run simultaneously
-	 * by the same user.
+	 * <li>Multiple instances from different locations can be run simultaneously by the same user.
 	 * </ul>
 	 * <p>
-	 * <b>Note</b>: The message container must be loaded before calling this
-	 * method, otherwise the confirmation dialog will show untranslated strings.
+	 * <b>Note</b>: The message container must be loaded before calling this method, 
+	 * otherwise the confirmation dialog will show untranslated strings.
 	 */
 	// TODO doc: before calling this method, set USER_DIR_PATH, PROGRAM_NAME and all Msg enums
 	public static boolean checkSingleInstance() {
@@ -226,20 +210,16 @@ public final class AppUtil {
 		ensureNoDisplay();
 
 		/*
-		 * The lockfile is created in the system's temporary directory to make
-		 * sure it gets deleted after OS shutdown - neither File.deleteOnExit()
-		 * nor a JVM shutdown hook can guarantee this.
+		 * The lockfile is created in the system's temporary directory to make sure it gets deleted after 
+		 * OS shutdown - neither File.deleteOnExit() nor a JVM shutdown hook can guarantee this.
 		 * 
-		 * The name of the lockfile includes the base64-encoded working
-		 * directory, thus avoiding filename collisions if the same user runs
-		 * multiple program instances from different locations. We'll also put
-		 * in a SHA-1 digest of the working directory, just in case the
-		 * base64-encoded working directory exceeds the system's allowed
-		 * filename length limit, which we'll assume to be 255 characters.
+		 * The name of the lockfile includes the base64-encoded working directory, thus avoiding filename 
+		 * collisions if the same user runs multiple program instances from different locations. We'll also put
+		 * in a SHA-1 digest of the working directory, just in case the base64-encoded working directory 
+		 * exceeds the system's allowed filename length limit, which we'll assume to be 255 characters.
 		 * 
-		 * Note that the included program name is also encoded as base64 since a
-		 * developer might have (accidentally?) set a program name that contains
-		 * special characters such as '/'.
+		 * Note that the included program name is also encoded as base64 since a developer might have 
+		 * (accidentally?) set a program name that contains special characters such as '/'.
 		 */
 		
 		String dirPath = Const.USER_DIR_PATH.value;
@@ -274,13 +254,10 @@ public final class AppUtil {
 					return false;
 				}
 				/*
-				 * If the user clicks OK, we'll take over the lockfile we found and
-				 * delete it on exit. That means: (1) If there's another instance
-				 * running, we'll wrongfully "steal" the lockfile from it. (2) If
-				 * there's no other instance running (probably because it crashed or
-				 * was killed by the user), we'll rightfully take over an orphaned
-				 * lockfile. This behavior is okay, assuming the second case is more
-				 * likely.
+				 * If the user clicks OK, we'll take over the lockfile we found and delete it on exit. That means: 
+				 * (1) If there's another instance running, we'll wrongfully "steal" the lockfile from it. 
+				 * (2) If there's no other instance running (probably because it crashed or was killed by the user), we'll 
+				 * rightfully take over an orphaned lockfile. This behavior is okay, assuming the second case is more likely.
 				 */
 			 }
 		} else {
@@ -316,13 +293,10 @@ public final class AppUtil {
 	}
 	
 	/**
-	 * Returns a shell associated with this program. This method will first try
-	 * to return the currently active shell. If no shell is active, it will try
-	 * to return the first inactive shell. If there are no shells at all, null
-	 * is returned.
+	 * Returns a shell associated with this program. This method will first try to return the currently active shell. 
+	 * If no shell is active, it will try to return the first inactive shell. If there are no shells at all, null is returned.
 	 * <p>
-	 * This method should not be called from a non-GUI thread, and it should not
-	 * be called before the first display is created.
+	 * This method should not be called from a non-GUI thread, and it should not be called before the first display is created.
 	 */
 	private static Shell getActiveShell() {
 		ensureDisplay();
@@ -334,13 +308,11 @@ public final class AppUtil {
 	}
 	
 	/**
-	 * Shows the given message in an error message box, with "System Error" as
-	 * the shell title. If <tt>isSevere</tt> is true, an error icon is shown,
-	 * otherwise a warning icon.
+	 * Shows the given message in an error message box, with "System Error" as the shell title. 
+	 * If <tt>isSevere</tt> is true, an error icon is shown, otherwise a warning icon.
 	 * <p>
-	 * This method can be used before any GUI components are created, because it
-	 * creates its own display and shell. If there is already a GUI,
-	 * {@link #showErrorMsg} should be used instead.
+	 * This method can be used before any GUI components are created, because it creates its own display and shell. 
+	 * If there is already a GUI, {@link #showErrorMsg} should be used instead.
 	 */
 	public static void showErrorOnStart(String message, boolean isSevere) {
 		int style = SWT.OK | (isSevere ? SWT.ICON_ERROR : SWT.ICON_WARNING);
@@ -363,13 +335,10 @@ public final class AppUtil {
 	}
 
 	/**
-	 * Shows the given message in a confirmation message box and returns the
-	 * user's answer, either <tt>SWT.OK</tt> or <tt>SWT.CANCEL</tt>. If
-	 * <tt>isSevere</tt> is true, a warning icon is shown, otherwise a question
-	 * icon.
+	 * Shows the given message in a confirmation message box and returns the user's answer, either <tt>SWT.OK</tt> 
+	 * or  <tt>SWT.CANCEL</tt>. If <tt>isSevere</tt> is true, a warning icon is shown, otherwise a question icon.
 	 * <p>
-	 * This method may be called from a non-GUI thread. It should not be called
-	 * before the first shell is created.
+	 * This method may be called from a non-GUI thread. It should not be called before the first shell is created.
 	 */
 	public static boolean showConfirmation(final String message, final boolean warningNotQuestion) {
 		checkConstInitialized();
@@ -391,9 +360,8 @@ public final class AppUtil {
 	}
 
 	/**
-	 * Shows the given message in a message box with an information icon. This
-	 * method may be called from a non-GUI thread. It should not be called
-	 * before the first shell is created.
+	 * Shows the given message in a message box with an information icon. This method may be called 
+	 * from a non-GUI thread. It should not be called before the first shell is created.
 	 */
 	public static void showInfo(final String message) {
 		checkConstInitialized();
@@ -410,17 +378,12 @@ public final class AppUtil {
 	}
 
 	/**
-	 * Shows the given message in an error message box. If
-	 * <tt>errorNotWarning</tt> is true, an error icon is shown, otherwise a
-	 * warning icon. If <tt>isUserError</tt> is true, the shell title is set to
-	 * "Invalid Operation", otherwise "System Error".
+	 * Shows the given message in an error message box. If <tt>errorNotWarning</tt> is true, an error icon is shown, otherwise a
+	 * warning icon. If <tt>isUserError</tt> is true, the shell title is set to "Invalid Operation", otherwise "System Error".
 	 * <p>
-	 * This method may be called from a non-GUI thread. It should not be called
-	 * before the first shell is created.
+	 * This method may be called from a non-GUI thread. It should not be called before the first shell is created.
 	 */
-	public static void showError(	@NotNull final String message,
-									final boolean errorNotWarning,
-									final boolean isUserError) {
+	public static void showError(@NotNull final String message,	final boolean errorNotWarning, final boolean isUserError) {
 		checkConstInitialized();
 		ensureDisplay();
 		
@@ -429,8 +392,7 @@ public final class AppUtil {
 				int style = SWT.OK;
 				style |= errorNotWarning ? SWT.ICON_ERROR : SWT.ICON_WARNING;
 				MessageBox msgBox = new MessageBox(getActiveShell(), style);
-				msgBox.setText(isUserError ? Messages.invalid_operation.value
-						: Messages.system_error.value);
+				msgBox.setText(isUserError ? Messages.invalid_operation.value : Messages.system_error.value);
 				msgBox.setMessage(message);
 				msgBox.open();
 			}
@@ -438,15 +400,11 @@ public final class AppUtil {
 	}
 
 	/**
-	 * Prints the stacktrace to {@link System.err} and to a stacktrace file. In
-	 * addition to that, the stacktrace is displayed in an error window. The
-	 * printouts for the file and the error window are prepended with some
-	 * useful debug information about the program.
+	 * Prints the stacktrace to {@link System.err} and to a stacktrace file. In addition to that, the stacktrace is displayed in an error 
+	 * window. The printouts for the file and the error window are prepended with some useful debug information about the program.
 	 * <p>
-	 * This method creates its own display, and should therefore be called
-	 * either before the application's display has been created, or after the
-	 * application's display has been disposed. In between,
-	 * {@link #showStackTrace} should be used instead.
+	 * This method creates its own display, and should therefore be called either before the application's display has been created, 
+	 * or after the application's display has been disposed. In between, {@link #showStackTrace} should be used instead.
 	 */
 	public static void showStackTraceInOwnDisplay(Throwable throwable) {
 		checkConstInitialized();
@@ -458,14 +416,11 @@ public final class AppUtil {
 	}
 
 	/**
-	 * Prints the stacktrace to {@link System.err} and to a stacktrace file. In
-	 * addition to that, the stacktrace is displayed in an error window. The
-	 * printouts for the file and the error window are prepended with some
-	 * useful debug information about the program.
+	 * Prints the stacktrace to {@link System.err} and to a stacktrace file. In addition to that, the stacktrace is displayed in an error window. 
+	 * The printouts for the file and the error window are prepended with some useful debug information about the program.
 	 * <p>
-	 * It is safe to call this method from a non-GUI thread. The method should
-	 * not be called before the first display has been created. In the latter case
-	 * {@link #showStackTraceOnStart} should be used instead.
+	 * It is safe to call this method from a non-GUI thread. The method should not be called before the first display has been created. 
+	 * In the latter case {@link #showStackTraceOnStart} should be used instead.
 	 */
 	public static void showStackTrace(Throwable throwable) {
 		checkConstInitialized();
@@ -485,16 +440,7 @@ public final class AppUtil {
 		sb.append("program.version=" + Const.PROGRAM_VERSION.value + Util.LS);
 		sb.append("program.build=" + Const.PROGRAM_BUILD_DATE.value + Util.LS);
 		sb.append("program.portable=" + Const.IS_PORTABLE.asBoolean() + Util.LS);
-		String[] keys = {
-				"java.runtime.name",
-				"java.runtime.version",
-				"java.version",
-				"sun.arch.data.model",
-				"os.arch",
-				"os.name",
-				"os.version",
-				"user.language"
-		};
+		String[] keys = {"java.runtime.name","java.runtime.version","java.version","sun.arch.data.model","os.arch","os.name","os.version","user.language"};
 		for (String key : keys)
 			sb.append(key + "=" + System.getProperty(key) + Util.LS);
 
@@ -528,10 +474,8 @@ public final class AppUtil {
 				window.setTitleImage(icon);
 				
 				/*
-				 * It appears that when you paste a stracktrace with Windows
-				 * newlines into the text field of a SourceForge.net bug report,
-				 * the newlines will end up being duplicated. The workaround is
-				 * to use Linux newlines in the stacktrace window.
+				 * It appears that when you paste a stracktrace with Windows newlines into the text field of a SourceForge.net bug report,
+				 * the newlines will end up being duplicated. The workaround is to use Linux newlines in the stacktrace window.
 				 */
 				window.setStackTrace(Util.ensureLinuxLineSep(trace));
 				
@@ -541,18 +485,14 @@ public final class AppUtil {
 	}
 
 	/**
-	 * Returns a directory where the program may store data. The directory is
-	 * created if necessary. The rules for choosing the directory are as
-	 * follows:
+	 * Returns a directory where the program may store data. The directory is created if necessary. 
+	 * The rules for choosing the directory are as follows:
 	 * <p>
 	 * <ul>
-	 * <li>If the {@code portable} flag was set, the current working directory
-	 * is returned.
-	 * <li>If the {@code is development version} flag was set, the "bin"
-	 * directory under the current working directory is returned.
-	 * <li>Otherwise, the returned directory is platform-dependent: On Windows,
-	 * the application data folder + program name is returned, on Linux the home
-	 * folder + dot + lowercase program name.
+	 * <li>If the {@code portable} flag was set, the current working directory is returned.
+	 * <li>If the {@code is development version} flag was set, the "bin" directory under the current working directory is returned.
+	 * <li>Otherwise, the returned directory is platform-dependent: On Windows, the application data folder + program 
+	 * name is returned, on Linux the home folder + dot + lowercase program name.
 	 * </ul>
 	 */
 	public static File getAppDataDir() {
@@ -588,11 +528,8 @@ public final class AppUtil {
 			String winAppData = System.getenv("APPDATA");
 			if (winAppData == null)
 				/*
-				 * Bug #2812637: The previous System.getenv("APPDATA") call
-				 * returns null if DocFetcher is started as an alternative user
-				 * via the executable's "Run as..." context menu entry. If this
-				 * happens, we'll have to fall back to this JNA-based
-				 * workaround.
+				 * Bug #2812637: The previous System.getenv("APPDATA") call returns null if DocFetcher is started as an alternative user
+				 * via the executable's "Run as..." context menu entry. If this happens, we'll have to fall back to this JNA-based workaround.
 				 */
 				winAppData = Shell32Util.getFolderPath(0x001a); // CSIDL_APPDATA = 0x001a
 			if (winAppData == null)

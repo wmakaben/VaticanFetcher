@@ -8,6 +8,9 @@
  * Contributors:
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
+/**
+ * @author Tran Nam Quang
+ */
 
 package net.sourceforge.docfetcher.gui.indexing;
 
@@ -37,9 +40,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 
-/**
- * @author Tran Nam Quang
- */
 final class FileConfigPanel extends ConfigPanel {
 	
 	@NotNull private FileExtensionGroupWrapper extGroupWrapper;
@@ -50,8 +50,7 @@ final class FileConfigPanel extends ConfigPanel {
 	@NotNull private Button storeRelativePathsBt;
 	@NotNull private Button watchFolderBt;
 	
-	public FileConfigPanel(	@NotNull Composite parent,
-	                       	@NotNull LuceneIndex index) {
+	public FileConfigPanel(	@NotNull Composite parent, @NotNull LuceneIndex index) {
 		super(parent, index, true);
 	}
 	
@@ -172,9 +171,7 @@ final class FileConfigPanel extends ConfigPanel {
 	}
 	
 	// given message must have one %s placeholder for inserting the overriding file extensions
-	private boolean confirmExtensionOverride(	@NotNull Collection<String> extensions,
-												@NotNull Msg msg,
-												@NotNull String... extraBuiltInExts) {
+	private boolean confirmExtensionOverride(@NotNull Collection<String> extensions, @NotNull Msg msg, @NotNull String... extraBuiltInExts) {
 		LazyList<String> overridingExtensions = new LazyList<String>();
 		for (String extension : extensions) {
 			if (ParseService.isBuiltInExtension(index.getConfig(), extension))

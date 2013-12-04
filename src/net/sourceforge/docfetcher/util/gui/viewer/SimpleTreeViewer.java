@@ -40,7 +40,6 @@ import com.google.common.collect.Maps;
 
 /**
  * A simplified, type-safe version of JFace's TreeViewer.
- * 
  * @author Tran Nam Quang
  */
 public abstract class SimpleTreeViewer<E> {
@@ -66,10 +65,7 @@ public abstract class SimpleTreeViewer<E> {
 			}
 		});
 		
-		/*
-		 * Expand or collapse node on double-click or after the spacebar has
-		 * been pressed.
-		 */
+		/* Expand or collapse node on double-click or after the spacebar has been pressed. */
 		tree.addSelectionListener(new SelectionAdapter() {
 			public void widgetDefaultSelected(SelectionEvent e) {
 				TreeItem item = (TreeItem) e.item;
@@ -84,10 +80,7 @@ public abstract class SimpleTreeViewer<E> {
 			}
 		});
 		
-		/*
-		 * For tree viewers with checkboxes, propagate check state changes from
-		 * widgets to model elements.
-		 */
+		/* For tree viewers with checkboxes, propagate check state changes from widgets to model elements. */
 		if (Util.contains(tree.getStyle(), SWT.CHECK)) {
 			tree.addSelectionListener(new SelectionAdapter() {
 				@SuppressWarnings("unchecked")
@@ -106,10 +99,8 @@ public abstract class SimpleTreeViewer<E> {
 		E element = getElement(item);
 		for (E child : getFilteredChildren(element)) {
 			/*
-			 * Workaround for bug #422 and others: Due to an unknown bug
-			 * (probably involving concurrency), one of the parents can be null.
-			 * For now, just ignore it. Workaround with asyncExec didn't work,
-			 * as was shown in bug #491.
+			 * Workaround for bug #422 and others: Due to an unknown bug (probably involving concurrency), one of the parents 
+			 * can be null. For now, just ignore it. Workaround with asyncExec didn't work, as was shown in bug #491.
 			 */
 			TreeItem childItem = elementToItemMap.get(child);
 			if (childItem != null)
@@ -158,30 +149,21 @@ public abstract class SimpleTreeViewer<E> {
 			if (item.getParentItem() == null)
 				rootElements.remove(element);
 			
-			/*
-			 * This is not necessary because when an item is disposed, it will
-			 * detach all of its listeners.
-			 */
-//			item.removeDisposeListener(this);
+			/* This is not necessary because when an item is disposed, it will detach all of its listeners. */
+			// item.removeDisposeListener(this);
 		}
 	};
 	
 	private void createRootItemWithChildren(E element, int insertionIndex) {
-		TreeItem item = insertionIndex < 0
-			? new TreeItem(tree, SWT.NONE)
-			: new TreeItem(tree, SWT.NONE, insertionIndex);
+		TreeItem item = insertionIndex < 0 ? new TreeItem(tree, SWT.NONE) : new TreeItem(tree, SWT.NONE, insertionIndex);
 		update(element, item);
 		item.addDisposeListener(itemDisposeListener);
 		elementToItemMap.put(element, item);
 		createChildItems(item, element);
 	}
 	
-	private TreeItem createItem(TreeItem parentItem,
-								E element,
-								int insertionIndex) {
-		TreeItem item = insertionIndex < 0
-			? new TreeItem(parentItem, SWT.NONE)
-			: new TreeItem(parentItem, SWT.NONE, insertionIndex);
+	private TreeItem createItem(TreeItem parentItem, E element,	int insertionIndex) {
+		TreeItem item = insertionIndex < 0 ? new TreeItem(parentItem, SWT.NONE)	: new TreeItem(parentItem, SWT.NONE, insertionIndex);
 		update(element, item);
 		item.addDisposeListener(itemDisposeListener);
 		elementToItemMap.put(element, item);
@@ -234,23 +216,16 @@ public abstract class SimpleTreeViewer<E> {
 		return filterAndSort(getChildren(parentElement));
 	}
 	
-	/**
-	 * Returns the children of the given element or null if there are no
-	 * children.
-	 */
+	/** Returns the children of the given element or null if there are no children. */
 	@Nullable
 	protected abstract Iterable<E> getChildren(@NotNull E element);
 	
 	@NotNull
 	protected abstract String getLabel(@NotNull E element);
 	
-	protected boolean isChecked(@NotNull E element) {
-		throw new UnsupportedOperationException();
-	}
+	protected boolean isChecked(@NotNull E element) { throw new UnsupportedOperationException(); }
 	
-	protected void setChecked(@NotNull E element, boolean checked) {
-		throw new UnsupportedOperationException();
-	}
+	protected void setChecked(@NotNull E element, boolean checked) { throw new UnsupportedOperationException();	}
 	
 	@Nullable
 	protected Image getImage(@NotNull E element) { return null; }
@@ -311,9 +286,7 @@ public abstract class SimpleTreeViewer<E> {
 		setExpandedStates(element, expandedStates);
 	}
 	
-	public final void refresh() {
-		setRoots(rootElements);
-	}
+	public final void refresh() { setRoots(rootElements); }
 	
 	public final void addRoot(@NotNull E element) {
 		Util.checkNotNull(element);
@@ -356,10 +329,7 @@ public abstract class SimpleTreeViewer<E> {
 			return;
 		}
 		
-		/*
-		 * If the parent element has children, then check if the given element
-		 * is one of these children.
-		 */
+		/* If the parent element has children, then check if the given element is one of these children. */
 		
 		List<E> newChildren;
 		if (children instanceof Collection) {
@@ -411,9 +381,8 @@ public abstract class SimpleTreeViewer<E> {
 				continue;
 			
 			/*
-			 * No need to remove the element from the map, this will be done by
-			 * the dispose listener that will be notified when the following
-			 * methods are called.
+			 * No need to remove the element from the map, this will be done by the dispose 
+			 * listener that will be notified when the following methods are called.
 			 */
 			item.removeAll();
 			item.dispose(); // will remove element from map
@@ -471,10 +440,7 @@ public abstract class SimpleTreeViewer<E> {
 		item.setExpanded(false);
 	}
 	
-	/**
-	 * Returns the element at the given point in the receiver or null if no such
-	 * element exists. The point is in the coordinate system of the receiver.
-	 */
+	/** Returns the element at the given point in the receiver or null if no such element exists. The point is in the coordinate system of the receiver. */
 	@Nullable
 	public final E getElement(@NotNull Point point) {
 		Util.checkNotNull(point);

@@ -1078,10 +1078,7 @@ public final class Util {
 		return newTimeStamp;
 	}
 
-	/**
-	 * Returns true if the directory given by <tt>dir</tt> is a direct or indirect parent 
-	 * directory of the file or directory given by <tt>fileOrDir</tt>.
-	 */
+	/** Returns true if the directory given by <tt>dir</tt> is a direct or indirect parent directory of the file or directory given by <tt>fileOrDir</tt>. */
 	public static boolean contains(	@NotNull File dir, @NotNull File fileOrDir) {
 		return contains(getAbsPath(dir), getAbsPath(fileOrDir));
 	}

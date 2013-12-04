@@ -8,6 +8,9 @@
  * Contributors:
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
+/**
+ * @author Tran Nam Quang
+ */
 
 package net.sourceforge.docfetcher.model;
 
@@ -48,25 +51,17 @@ import com.google.common.io.Closeables;
 import de.schlichtherle.truezip.file.TArchiveDetector;
 import de.schlichtherle.truezip.file.TFile;
 
-/**
- * @author Tran Nam Quang
- */
 @VisibleForPackageGroup
 public final class UtilModel {
 
 	private UtilModel() {
 	}
 
-	// TODO pre-release: Can any of these methods be replaced by more efficient
-	// Guava or Commons Lang 3 functionality?
+	// TODO pre-release: Can any of these methods be replaced by more efficient Guava or Commons Lang 3 functionality?
 
-	// TODO pre-release: Are any of these methods only used locally? If so,
-	// move them to the call site.
+	// TODO pre-release: Are any of these methods only used locally? If so, move them to the call site.
 
-	/**
-	 * Returns an immutable list containing the values of the given map, or an
-	 * immutable empty list if null was given.
-	 */
+	/** Returns an immutable list containing the values of the given map, or an immutable empty list if null was given. */
 	@ImmutableCopy
 	@NotNull
 	static <K, V> List<V> nullSafeImmutableList(@Nullable Map<K, V> map) {
@@ -75,10 +70,7 @@ public final class UtilModel {
 		return ImmutableList.copyOf(map.values());
 	}
 
-	/**
-	 * Returns an immutable copy of the given map, or an immutable empty map if
-	 * null was given.
-	 */
+	/** Returns an immutable copy of the given map, or an immutable empty map if null was given. */
 	@ImmutableCopy
 	@NotNull
 	static <K, V> Map<K, V> nullSafeImmutableMap(@Nullable Map<K, V> map) {
@@ -105,9 +97,8 @@ public final class UtilModel {
 	}
 	
 	/**
-	 * Returns a relative path that allows navigation from the absolute source
-	 * path {@code srcPath} to the absolute destination path {@code dstPath}.
-	 * Example outputs:
+	 * Returns a relative path that allows navigation from the absolute source path 
+	 * {@code srcPath} to the absolute destination path {@code dstPath}. Example outputs:
 	 * 
 	 * <pre>
 	 * ../..
@@ -115,13 +106,11 @@ public final class UtilModel {
 	 * path/to/subfolder
 	 * </pre>
 	 * 
-	 * The returned paths always use "/" as path separator, and there are no
-	 * leading or trailing path separators.
+	 * The returned paths always use "/" as path separator, and there are no leading or trailing path separators.
 	 */
 	@NotNull
 	@VisibleForPackageGroup
-	public static String getRelativePath(	@NotNull String srcPath,
-											@NotNull String dstPath) {
+	public static String getRelativePath(@NotNull String srcPath, @NotNull String dstPath) {
 		Iterator<String> srcIt = Util.splitPath(srcPath).iterator();
 		Iterator<String> dstIt = Util.splitPath(dstPath).iterator();
 		List<String> srcOverhang = new ArrayList<String>();
@@ -163,9 +152,8 @@ public final class UtilModel {
 	}
 
 	/**
-	 * Returns a relative path that allows navigation from the absolute path of
-	 * the source file {@code srcFile} to the absolute path of the destination
-	 * file {@code dstFile}. Example outputs:
+	 * Returns a relative path that allows navigation from the absolute path of the source file 
+	 * {@code srcFile} to the absolute path of the destination file {@code dstFile}. Example outputs:
 	 * 
 	 * <pre>
 	 * ../..
@@ -178,26 +166,19 @@ public final class UtilModel {
 	 */
 	@NotNull
 	@VisibleForPackageGroup
-	public static String getRelativePath(	@NotNull File srcFile,
-											@NotNull File dstFile) {
-		return getRelativePath(
-				Util.getSystemAbsPath(srcFile),
-				Util.getSystemAbsPath(dstFile)
-		);
+	public static String getRelativePath(@NotNull File srcFile,	@NotNull File dstFile) {
+		return getRelativePath(Util.getSystemAbsPath(srcFile), Util.getSystemAbsPath(dstFile));
 	}
 	
 	@VisibleForPackageGroup
-	public static void assertDocCount(	Directory luceneDir,
-										int expectedCount) throws Exception {
+	public static void assertDocCount(Directory luceneDir, int expectedCount) throws Exception {
 		IndexReader reader = IndexReader.open(luceneDir);
 		assertEquals(expectedCount, reader.numDocs());
 		Closeables.closeQuietly(reader);
 	}
 
 	@VisibleForPackageGroup
-	public static void assertResultCount(	Directory luceneDir,
-											String query,
-											int expectedCount) throws Exception {
+	public static void assertResultCount(Directory luceneDir, String query,	int expectedCount) throws Exception {
 		IndexSearcher searcher = new IndexSearcher(luceneDir, true);
 		QueryParser parser = new QueryParser(
 				IndexRegistry.LUCENE_VERSION,
@@ -217,10 +198,7 @@ public final class UtilModel {
 	 */
 	@VisibleForPackageGroup
 	public static boolean isZipArchive(@NotNull TFile file) {
-		/*
-		 * TODO post-release-1.1: Replace this hack if a future TrueZIP version ever
-		 * provides a way to distinguish between directories and zip archives.
-		 */
+		/* TODO post-release-1.1: Replace this hack if a future TrueZIP version ever provides a way to distinguish between directories and zip archives. */
 		if (file.isFile())
 			return false;
 		if (! file.isEntry())
@@ -232,14 +210,10 @@ public final class UtilModel {
 		).isFile();
 	}
 
-	/**
-	 * Tries to unpack the given zip archive entry. Returns null if the given
-	 * file is not a zip archive entry.
-	 */
+	/** Tries to unpack the given zip archive entry. Returns null if the given file is not a zip archive entry. */
 	@Nullable
 	@VisibleForPackageGroup
-	public static File maybeUnpackZipEntry(	@NotNull IndexingConfig config,
-											@NotNull File file)
+	public static File maybeUnpackZipEntry(@NotNull IndexingConfig config, @NotNull File file)
 			throws DiskSpaceException, IndexingException {
 		if (! (file instanceof TFile))
 			return null;
@@ -257,8 +231,7 @@ public final class UtilModel {
 		}
 	}
 	
-	public static boolean isUnmodifiedArchive(	@NotNull Folder<?, ?> folder,
-												@Nullable Long newLastModified) {
+	public static boolean isUnmodifiedArchive(@NotNull Folder<?, ?> folder,	@Nullable Long newLastModified) {
 		Long oldLastModified = folder.getLastModified();
 		if (oldLastModified != null && newLastModified != null
 				&& oldLastModified.equals(newLastModified))
@@ -267,10 +240,7 @@ public final class UtilModel {
 	}
 	
 	// Reports the given error and saves it in the given tree node
-	public static final void fail(	@NotNull IndexingReporter reporter,
-									@NotNull ErrorType type,
-									@NotNull TreeNode treeNode,
-									@Nullable Throwable cause) {
+	public static final void fail(@NotNull IndexingReporter reporter, @NotNull ErrorType type, @NotNull TreeNode treeNode, @Nullable Throwable cause) {
 		IndexingError error = new IndexingError(type, treeNode, cause);
 		treeNode.setError(error);
 		reporter.fail(error);

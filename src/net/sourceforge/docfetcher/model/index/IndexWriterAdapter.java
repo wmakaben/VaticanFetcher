@@ -30,7 +30,6 @@ import com.google.common.io.Closeables;
 
 /**
  * Wrapper for Lucene's IndexWriter that adds some functionality.
- * 
  * @author Tran Nam Quang
  */
 @VisibleForPackageGroup
@@ -69,9 +68,8 @@ public final class IndexWriterAdapter implements Closeable {
 	private void reopenWriterAndThrow(@NotNull OutOfMemoryError e)
 			throws IOException, CheckedOutOfMemoryError {
 		/*
-		 * According to the IndexWriter javadoc, we're supposed to immediately
-		 * close the IndexWriter if IndexWriter.addDocument(...) or
-		 * IndexWriter.updateDocument(...) hit OutOfMemoryErrors.
+		 * According to the IndexWriter javadoc, we're supposed to immediately close the IndexWriter if 
+		 * IndexWriter.addDocument(...) or IndexWriter.updateDocument(...) hit OutOfMemoryErrors.
 		 */
 		Directory indexDir = writer.getDirectory();
 		Closeables.closeQuietly(writer);

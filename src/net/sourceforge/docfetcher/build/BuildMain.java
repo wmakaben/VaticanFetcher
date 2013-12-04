@@ -8,6 +8,9 @@
  * Contributors:
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
+/**
+ * @author Tran Nam Quang
+ */
 
 package net.sourceforge.docfetcher.build;
 
@@ -39,12 +42,9 @@ import org.junit.runner.notification.RunListener;
 
 import com.google.common.base.Strings;
 
-/**
- * @author Tran Nam Quang
- */
 public final class BuildMain {
 
-	public static final String appName = "DocFetcher";
+	public static final String appName = "Radio Vaticana DocFetcher";
 	private static final String version = readVersionNumber();
 
 	private static final String packageId = Main.class.getPackage().getName();
@@ -76,11 +76,8 @@ public final class BuildMain {
 		// Licenses
 		String licensePatterns = U.readPatterns("lib/license_patterns.txt");
 		String eplFilename = "epl-v10.html";
-		U.copyDir(
-			"lib", "build/tmp/licenses", licensePatterns,
-			"**/license_patterns.txt");
-		U.copyBinaryFile("dist/" + eplFilename, "build/tmp/licenses/docfetcher/"
-				+ eplFilename);
+		U.copyDir("lib", "build/tmp/licenses", licensePatterns, "**/license_patterns.txt");
+		U.copyBinaryFile("dist/" + eplFilename, "build/tmp/licenses/docfetcher/" + eplFilename);
 		U.zipDirContents("build/tmp/licenses", "build/tmp/licenses.zip");
 
 		Util.println("Compiling sources...");
@@ -105,8 +102,7 @@ public final class BuildMain {
 		runTests();
 	}
 
-	private static File recreateJarFile(String jarPrefix, boolean isPortable,
-			LineSep lineSep) throws Exception {
+	private static File recreateJarFile(String jarPrefix, boolean isPortable, LineSep lineSep) throws Exception {
 		String msgPrefix = isPortable ? "" : "non-";
 		Util.println(U.format("Creating %sportable jar file...", msgPrefix));
 
@@ -116,23 +112,13 @@ public final class BuildMain {
 		File programConfDest = new File(mainPath + "/program-conf.txt");
 		programConfDest.delete();
 
-		File mainJarFile = new File(String.format(
-			"build/tmp/%s%s_%s_%s.jar", jarPrefix, packageId, version, buildDate));
+		File mainJarFile = new File(String.format("build/tmp/%s%s_%s_%s.jar", jarPrefix, packageId, version, buildDate));
 		mainJarFile.delete();
 
-		U.copyTextFile(
-			"dist/system-template-conf.txt",
-			systemConfDest.getPath(),
-			lineSep,
-			"${app_name}", appName,
-			"${app_version}", version,
-			"${build_date}", buildDate,
-			"${is_portable}", String.valueOf(isPortable));
+		U.copyTextFile("dist/system-template-conf.txt",	systemConfDest.getPath(), lineSep, "${app_name}", appName,
+			"${app_version}", version, "${build_date}", buildDate, "${is_portable}", String.valueOf(isPortable));
 
-		U.copyTextFile(
-			"dist/program-conf.txt",
-			programConfDest.getPath(),
-			lineSep);
+		U.copyTextFile("dist/program-conf.txt", programConfDest.getPath(), lineSep);
 
 		Jar jar = new Jar();
 		jar.setProject(new Project());
@@ -164,7 +150,7 @@ public final class BuildMain {
 		String releaseDir = U.format("build/%s-%s", appName, version);
 		U.copyDir("dist/img", releaseDir + "/img");
 		U.copyDir("dist/help", releaseDir + "/help");
-//		U.copyDir("dist/templates", releaseDir + "/templates");
+		// U.copyDir("dist/templates", releaseDir + "/templates");
 		U.copyDir("dist/lang", releaseDir + "/lang");
 		updateManualVersionNumber(new File(releaseDir, "help"));
 
@@ -178,28 +164,15 @@ public final class BuildMain {
 		U.copyBinaryFile(tmpMainJar.getPath(), dstMainJar);
 
 		String linuxLauncher = U.format("%s/%s.sh", releaseDir, appName);
-		U.copyTextFile(
-			"dist/launchers/launcher-linux.sh", linuxLauncher, LineSep.UNIX,
-			"${main_class}", Main.class.getName()
-		);
+		U.copyTextFile("dist/launchers/launcher-linux.sh", linuxLauncher, LineSep.UNIX,	"${main_class}", Main.class.getName());
 
 		// Create DocFetcher.app launcher for Mac OS X
 		String macOsXLauncher = U.format("%s/%s.app/Contents/MacOS/%s", releaseDir, appName, appName);
-		U.copyTextFile(
-			"dist/launchers/launcher-macosx-portable.sh",
-			macOsXLauncher,
-			LineSep.UNIX,
-			"${app_name}", appName,
-			"${main_class}", Main.class.getName()
-		);
-		U.copyBinaryFile(
-			"dist/DocFetcher.icns",
-			U.format("%s/%s.app/Contents/Resources/%s.icns", releaseDir, appName, appName));
+		U.copyTextFile("dist/launchers/launcher-macosx-portable.sh", macOsXLauncher, LineSep.UNIX, "${app_name}", appName,"${main_class}", Main.class.getName());
+		U.copyBinaryFile("dist/DocFetcher.icns", U.format("%s/%s.app/Contents/Resources/%s.icns", releaseDir, appName, appName));
 		deployInfoPlist(new File(U.format("%s/%s.app/Contents", releaseDir, appName)));
 
-		makeExecutable(
-			"Cannot make the portable launcher shell scripts executable.",
-			linuxLauncher, macOsXLauncher);
+		makeExecutable("Cannot make the portable launcher shell scripts executable.", linuxLauncher, macOsXLauncher);
 
 		String exeLauncher = U.format("%s/%s.exe", releaseDir, appName);
 		U.copyBinaryFile("dist/launchers/DocFetcher-512.exe", exeLauncher);
@@ -211,35 +184,25 @@ public final class BuildMain {
 		}
 
 		String batLauncher = U.format("%s/misc/%s.bat", releaseDir, appName);
-		U.copyTextFile(
-			"dist/launchers/launcher.bat", batLauncher, LineSep.WINDOWS,
-			"${main_class}", Main.class.getName());
+		U.copyTextFile("dist/launchers/launcher.bat", batLauncher, LineSep.WINDOWS,	"${main_class}", Main.class.getName());
 
-		String[] daemonNames = new String[] {
-			"docfetcher-daemon-windows.exe", "docfetcher-daemon-linux" };
+		String[] daemonNames = new String[] { "docfetcher-daemon-windows.exe", "docfetcher-daemon-linux" };
 		for (String daemonName : daemonNames) {
 			String dstPath = releaseDir + "/" + daemonName;
 			U.copyBinaryFile("dist/daemon/" + daemonName, dstPath);
 		}
-		makeExecutable("Cannot make the Linux daemon executable.", releaseDir
-				+ "/" + daemonNames[1]);
+		makeExecutable("Cannot make the Linux daemon executable.", releaseDir + "/" + daemonNames[1]);
 
-		U.copyTextFile(
-			"dist/program-conf.txt", releaseDir + "/conf/program-conf.txt", LineSep.WINDOWS);
+		U.copyTextFile("dist/program-conf.txt", releaseDir + "/conf/program-conf.txt", LineSep.WINDOWS);
 
 		U.copyTextFile("dist/paths.txt", releaseDir + "/misc/paths.txt", LineSep.WINDOWS);
 		
-		U.copyBinaryFile("build/tmp/licenses.zip", releaseDir
-				+ "/misc/licenses.zip");
+		U.copyBinaryFile("build/tmp/licenses.zip", releaseDir + "/misc/licenses.zip");
 
-		/*
-		 * Create an empty file 'indexes/.indexes.txt' to let the daemons know
-		 * we're the portable version.
-		 */
+		/* Create an empty file 'indexes/.indexes.txt' to let the daemons know we're the portable version. */
 		U.write("", releaseDir + "/indexes/.indexes.txt");
 
-		U.copyTextFile(
-			"dist/Readme.txt", releaseDir + "/Readme.txt", LineSep.WINDOWS);
+		U.copyTextFile("dist/Readme.txt", releaseDir + "/Readme.txt", LineSep.WINDOWS);
 
 		// Wrap the portable build in a zip archive for deployment
 		if (Util.IS_LINUX || Util.IS_MAC_OS_X) {
@@ -254,18 +217,11 @@ public final class BuildMain {
 	}
 
 	private static void deployInfoPlist(File dstDir) throws Exception {
-		U.copyTextFile(
-			"dist/Info.plist",
-			new File(dstDir, "Info.plist").getPath(),
-			LineSep.UNIX,
-			"${app_name}", appName,
-			"${app_version}", version,
-			"${build_date}", buildDate,
-			"${package_id}", packageId);
+		U.copyTextFile("dist/Info.plist", new File(dstDir, "Info.plist").getPath(),	LineSep.UNIX, "${app_name}", appName,
+			"${app_version}", version, "${build_date}", buildDate, "${package_id}", packageId);
 	}
 
-	private static void makeExecutable(String errorMessage, String... paths)
-			throws Exception {
+	private static void makeExecutable(String errorMessage, String... paths) throws Exception {
 		if (Util.IS_LINUX || Util.IS_MAC_OS_X) {
 			for (String path : paths)
 				U.exec("chmod +x %s", Util.getAbsPath(path));
@@ -287,9 +243,7 @@ public final class BuildMain {
 		U.copyDir("dist/help", resourcesDir + "/help");
 		U.copyDir("dist/lang", resourcesDir + "/lang");
 		updateManualVersionNumber(new File(resourcesDir, "help"));
-		U.copyBinaryFile(
-			"dist/DocFetcher.icns",
-			U.format("%s/%s.icns", resourcesDir, appName));
+		U.copyBinaryFile("dist/DocFetcher.icns", U.format("%s/%s.icns", resourcesDir, appName));
 		deployInfoPlist(new File(contentsDir));
 
 		String excludedLibs = U.readPatterns("lib/excluded_jar_patterns.txt");
@@ -302,19 +256,12 @@ public final class BuildMain {
 		U.copyBinaryFile(tmpMainJar.getPath(), dstMainJar);
 
 		String launcher = U.format("%s/MacOS/%s", contentsDir, appName);
-		U.copyTextFile(
-			"dist/launchers/launcher-macosx-app.sh", launcher, LineSep.UNIX,
-			"${app_name}", appName,
-			"${main_class}", Main.class.getName()
-		);
-		makeExecutable(
-			"Cannot make the Mac OS X launcher shell script executable.",
-			launcher);
+		U.copyTextFile("dist/launchers/launcher-macosx-app.sh", launcher, LineSep.UNIX, "${app_name}", appName,	"${main_class}", Main.class.getName());
+		makeExecutable("Cannot make the Mac OS X launcher shell script executable.", launcher);
 
 		U.copyTextFile("dist/paths.txt", resourcesDir + "/misc/paths.txt", LineSep.WINDOWS);
 		
-		U.copyBinaryFile("build/tmp/licenses.zip", resourcesDir
-				+ "/misc/licenses.zip");
+		U.copyBinaryFile("build/tmp/licenses.zip", resourcesDir + "/misc/licenses.zip");
 
 		if (Util.IS_MAC_OS_X) {
 			String dmgPath = U.format("build/%s-%s.dmg", appName, version);
@@ -365,9 +312,8 @@ public final class BuildMain {
 
 		for (String className : classNames) {
 			/*
-			 * AppUtil.Const must be cleared before each test, otherwise one
-			 * test class could load AppUtil.Const and thereby hide
-			 * AppUtil.Const loading failures in subsequent tests.
+			 * AppUtil.Const must be cleared before each test, otherwise one test class could load 
+			 * AppUtil.Const and thereby hide AppUtil.Const loading failures in subsequent tests.
 			 */
 			AppUtil.Const.clear();
 			try {

@@ -8,6 +8,9 @@
  * Contributors:
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
+/**
+ * @author Tran Nam Quang
+ */
 
 package net.sourceforge.docfetcher.model.search;
 
@@ -29,55 +32,29 @@ import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.TopFieldDocs;
 import org.apache.lucene.search.Weight;
 
-/**
- * @author Tran Nam Quang
- */
+
 final class DummySearchable implements Searchable {
 
-	public void search(Weight weight, Filter filter, Collector collector)
-			throws IOException {
-	}
+	public void search(Weight weight, Filter filter, Collector collector) throws IOException {	}
 
-	public void close() throws IOException {
-	}
+	public void close() throws IOException {	}
 
-	public int docFreq(Term term) throws IOException {
-		return 0;
-	}
+	public int docFreq(Term term) throws IOException { return 0; }
 
-	public int[] docFreqs(Term[] terms) throws IOException {
-		return new int[terms.length];
-	}
+	public int[] docFreqs(Term[] terms) throws IOException { return new int[terms.length]; }
 
-	public int maxDoc() throws IOException {
-		return 0;
-	}
+	public int maxDoc() throws IOException { return 0; }
 
-	public TopDocs search(Weight weight, Filter filter, int n)
-			throws IOException {
-		return new TopDocs(0, new ScoreDoc[0], Float.NaN);
-	}
+	public TopDocs search(Weight weight, Filter filter, int n) throws IOException { return new TopDocs(0, new ScoreDoc[0], Float.NaN); }
 
-	public Document doc(int i) throws CorruptIndexException, IOException {
-		throw new UnsupportedOperationException();
-	}
+	public Document doc(int i) throws CorruptIndexException, IOException { throw new UnsupportedOperationException(); }
 
-	public Document doc(int n, FieldSelector fieldSelector)
-			throws CorruptIndexException, IOException {
-		throw new UnsupportedOperationException();
-	}
+	public Document doc(int n, FieldSelector fieldSelector)	throws CorruptIndexException, IOException {	throw new UnsupportedOperationException(); }
 
-	public Query rewrite(Query query) throws IOException {
-		return query;
-	}
+	public Query rewrite(Query query) throws IOException { return query; }
 
-	public Explanation explain(Weight weight, int doc) throws IOException {
-		throw new UnsupportedOperationException();
-	}
+	public Explanation explain(Weight weight, int doc) throws IOException { throw new UnsupportedOperationException(); }
 
-	public TopFieldDocs search(Weight weight, Filter filter, int n, Sort sort)
-			throws IOException {
-		return new TopFieldDocs(0, new ScoreDoc[0], new SortField[0], Float.NaN);
-	}
+	public TopFieldDocs search(Weight weight, Filter filter, int n, Sort sort) throws IOException {	return new TopFieldDocs(0, new ScoreDoc[0], new SortField[0], Float.NaN); }
 
 }

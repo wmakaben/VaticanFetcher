@@ -82,9 +82,7 @@ import com.google.common.io.Closeables;
 @ThreadSafe
 public final class Searcher {
 	
-	/**
-	 * A single page of results.
-	 */
+	/** A single page of results. */
 	public static final class ResultPage {
 		/** The result documents for this page. */
 		@ImmutableCopy
@@ -99,10 +97,7 @@ public final class Searcher {
 		/** The total number of result documents across all pages. */
 		public final int hitCount;
 		
-		private ResultPage(	@NotNull List<ResultDocument> resultDocuments,
-							int pageIndex,
-							int pageCount,
-							int hitCount) {
+		private ResultPage(@NotNull List<ResultDocument> resultDocuments, int pageIndex, int pageCount, int hitCount) {
 			this.resultDocuments = Util.checkNotNull(resultDocuments);
 			this.pageIndex = pageIndex;
 			this.pageCount = pageCount;
@@ -129,19 +124,15 @@ public final class Searcher {
 	private final Lock writeLock;
 
 	/**
-	 * This method should not be called by clients. Use
-	 * {@link IndexRegistry#getSearcher()} instead.
+	 * This method should not be called by clients. Use {@link IndexRegistry#getSearcher()} instead.
 	 * 
 	 * @param corruptedIndexes
-	 *            A list that will be filled by this constructor with indexes
-	 *            that couldn't be loaded.
+	 *            A list that will be filled by this constructor with indexes that couldn't be loaded.
 	 */
 	@VisibleForPackageGroup
-	public Searcher(@NotNull IndexRegistry indexRegistry,
-					@NotNull FileFactory fileFactory,
-					@NotNull OutlookMailFactory outlookMailFactory,
-					@NotNull final List<CorruptedIndex> corruptedIndexes)
-			throws IOException {
+	public Searcher(@NotNull IndexRegistry indexRegistry, @NotNull FileFactory fileFactory, 
+					@NotNull OutlookMailFactory outlookMailFactory, @NotNull final List<CorruptedIndex> corruptedIndexes)
+					throws IOException {
 		Util.checkNotNull(indexRegistry, fileFactory, outlookMailFactory);
 		this.indexRegistry = indexRegistry;
 		this.fileFactory = fileFactory;
@@ -157,10 +148,7 @@ public final class Searcher {
 			}
 		};
 		
-		/*
-		 * This lock could be moved into the indexes handler, but we'll put it
-		 * here to avoid releasing and reacquiring it.
-		 */
+		/* This lock could be moved into the indexes handler, but we'll put it here to avoid releasing and reacquiring it. */
 		writeLock.lock();
 		try {
 			indexRegistry.addListeners(new ExistingIndexesHandler() {
@@ -201,10 +189,7 @@ public final class Searcher {
 		deletionThread.start();
 	}
 	
-	/**
-	 * Updates the cached indexes and replaces the current Lucene searcher with
-	 * a new one.
-	 */
+	/** Updates the cached indexes and replaces the current Lucene searcher with a new one. */
 	@ThreadSafe
 	@VisibleForPackageGroup
 	public void replaceLuceneSearcher() {
@@ -224,8 +209,7 @@ public final class Searcher {
 	// Caller must close returned searcher
 	@NotNull
 	@NotThreadSafe
-	private List<CorruptedIndex> setLuceneSearcher(@NotNull List<LuceneIndex> indexes)
-			throws IOException {
+	private List<CorruptedIndex> setLuceneSearcher(@NotNull List<LuceneIndex> indexes) throws IOException {
 		this.indexes = Util.checkNotNull(indexes);
         Searchable[] searchables = new Searchable[indexes.size()];
         LazyList<CorruptedIndex> corrupted = new LazyList<CorruptedIndex>();
@@ -247,13 +231,10 @@ public final class Searcher {
 	@ImmutableCopy
 	@NotNull
 	@ThreadSafe
-	public List<ResultDocument> search(@NotNull String queryString)
-			throws SearchException, CheckedOutOfMemoryError {
+	public List<ResultDocument> search(@NotNull String queryString) throws SearchException, CheckedOutOfMemoryError {
 		/*
-		 * Note: For the desktop interface, we'll always search in all available
-		 * indexes, even those which are unchecked on the filter panel. This
-		 * allows the user to re-check the unchecked indexes and see previously
-		 * hidden results without starting another search.
+		 * Note: For the desktop interface, we'll always search in all available indexes, even those which are unchecked on the filter panel. This
+		 * allows the user to re-check the unchecked indexes and see previously hidden results without starting another search.
 		 */
 		
 		// Create Lucene query
@@ -264,14 +245,11 @@ public final class Searcher {
 		/*
 		 * Notes regarding the following code:
 		 * 
-		 * 1) Lucene will throw an IOException if the user deletes one or more
-		 * indexes while a search is running over the affected indexes. This can
-		 * happen when two DocFetcher instances are running.
+		 * 1) Lucene will throw an IOException if the user deletes one or more indexes while a search is 
+		 * running over the affected indexes. This can happen when two DocFetcher instances are running.
 		 * 
-		 * 2) All the information needed for displaying the results must be
-		 * loaded and returned immediately rather than lazily, because after the
-		 * search the user might delete one or more indexes. This also means the
-		 * result documents must not access the indexes later on.
+		 * 2) All the information needed for displaying the results must be loaded and returned immediately rather than lazily, because after 
+		 * the search the user might delete one or more indexes. This also means the result documents must not access the indexes later on.
 		 */
 
 		readLock.lock();
@@ -288,9 +266,7 @@ public final class Searcher {
 				float score = scoreDocs[i].score;
 				LuceneIndex index = indexes.get(luceneSearcher.subSearcher(i));
 				IndexingConfig config = index.getConfig();
-				results[i] = new ResultDocument(
-					doc, score, query, isPhraseQuery, config, fileFactory,
-					outlookMailFactory);
+				results[i] = new ResultDocument(doc, score, query, isPhraseQuery, config, fileFactory, outlookMailFactory);
 			}
 			return Arrays.asList(results);
 		}
@@ -312,12 +288,9 @@ public final class Searcher {
 	private static SearchException wrapEmptyIndexException(@NotNull IllegalArgumentException e)
 			throws SearchException {
 		/*
-		 * Workaround for bug #390: Lucene 3.5 throws this exception if the
-		 * indexes are empty, i.e. if no documents have been indexed so far.
-		 * This happens if the user indexes an empty folder hierarchy with no
-		 * files in it. Apparently, this problem has been fixed in Lucene 4.0,
-		 * so when the Lucene jar is upgraded to 4.0, this workaround may be
-		 * removed.
+		 * Workaround for bug #390: Lucene 3.5 throws this exception if the indexes are empty, i.e. if no documents have been 
+		 * indexed so far. This happens if the user indexes an empty folder hierarchy with no files in it. Apparently, this 
+		 * problem has been fixed in Lucene 4.0, so when the Lucene jar is upgraded to 4.0, this workaround may be removed.
 		 */
 		if (e.getMessage().contains("numHits must be > 0"))
 			return new SearchException("No files were indexed."); // not internationalized
@@ -328,8 +301,7 @@ public final class Searcher {
 	@ImmutableCopy
 	@NotNull
 	@ThreadSafe
-	public List<ResultDocument> list(@NotNull Set<String> uids)
-			throws SearchException, CheckedOutOfMemoryError {
+	public List<ResultDocument> list(@NotNull Set<String> uids) throws SearchException, CheckedOutOfMemoryError {
 		// Construct a filter that only matches documents with the given UIDs
 		TermsFilter uidFilter = new TermsFilter();
 		String fieldName = Fields.UID.key();
@@ -352,16 +324,13 @@ public final class Searcher {
 				float score = scoreDocs[i].score;
 				LuceneIndex index = indexes.get(luceneSearcher.subSearcher(i));
 				IndexingConfig config = index.getConfig();
-				results[i] = new ResultDocument(
-					doc, score, query, true, config, fileFactory,
-					outlookMailFactory);
+				results[i] = new ResultDocument(doc, score, query, true, config, fileFactory, outlookMailFactory);
 			}
 			
 			// Sort results by title
 			Arrays.sort(results, new Comparator<ResultDocument>() {
 				public int compare(ResultDocument o1, ResultDocument o2) {
-					return AlphanumComparator.ignoreCaseInstance.compare(
-						o1.getTitle(), o2.getTitle());
+					return AlphanumComparator.ignoreCaseInstance.compare(o1.getTitle(), o2.getTitle());
 				}
 			});
 			
@@ -382,14 +351,12 @@ public final class Searcher {
 	}
 	
 	/**
-	 * For the given query, returns the requested page of results. This method
-	 * should not be called anymore after {@link #shutdown()} has been called,
-	 * otherwise an IOException will be thrown.
+	 * For the given query, returns the requested page of results. This method should not be called 
+	 * anymore after {@link #shutdown()} has been called, otherwise an IOException will be thrown.
 	 */
 	@NotNull
 	@ThreadSafe
-	public ResultPage search(@NotNull WebQuery webQuery)
-			throws IOException, SearchException, CheckedOutOfMemoryError {
+	public ResultPage search(@NotNull WebQuery webQuery) throws IOException, SearchException, CheckedOutOfMemoryError {
 		Util.checkNotNull(webQuery);
 		
 		if (ioException != null)
@@ -399,9 +366,7 @@ public final class Searcher {
 		
 		// Add size filter to filter chain
 		if (webQuery.minSize != null || webQuery.maxSize != null) {
-			filters.add(NumericRangeFilter.newLongRange(
-				Fields.SIZE.key(), webQuery.minSize, webQuery.maxSize, true,
-				true));
+			filters.add(NumericRangeFilter.newLongRange(Fields.SIZE.key(), webQuery.minSize, webQuery.maxSize, true, true));
 		}
 		
 		// Add type filter to filter chain
@@ -430,8 +395,7 @@ public final class Searcher {
 		}
 		
 		// Construct filter chain
-		Filter filter = filters.size() == 0 ? null : new ChainedFilter(
-			filters.toArray(new Filter[filters.size()]), ChainedFilter.AND);
+		Filter filter = filters.size() == 0 ? null : new ChainedFilter(filters.toArray(new Filter[filters.size()]), ChainedFilter.AND);
 		
 		// Create query
 		QueryWrapper queryWrapper = createQuery(webQuery.query);
@@ -474,8 +438,7 @@ public final class Searcher {
 			int newPageIndex = start / PAGE_SIZE;
 			int pageCount = (int) Math.ceil((float) hitCount / PAGE_SIZE);
 			
-			return new ResultPage(
-				Arrays.asList(results), newPageIndex, pageCount, hitCount);
+			return new ResultPage(Arrays.asList(results), newPageIndex, pageCount, hitCount);
 		}
 		catch (IllegalArgumentException e) {
 			throw wrapEmptyIndexException(e);
@@ -490,10 +453,8 @@ public final class Searcher {
 	
 	@NotNull
 	@ThreadSafe
-	private static QueryWrapper createQuery(@NotNull String queryString)
-			throws SearchException {
-		PhraseDetectingQueryParser queryParser = new PhraseDetectingQueryParser(
-			IndexRegistry.LUCENE_VERSION, Fields.CONTENT.key(), IndexRegistry.analyzer);
+	private static QueryWrapper createQuery(@NotNull String queryString)throws SearchException {
+		PhraseDetectingQueryParser queryParser = new PhraseDetectingQueryParser(IndexRegistry.LUCENE_VERSION, Fields.CONTENT.key(), IndexRegistry.analyzer);
 		queryParser.setAllowLeadingWildcard(true);
 		RewriteMethod rewriteMethod = MultiTermQuery.SCORING_BOOLEAN_QUERY_REWRITE;
 		queryParser.setMultiTermRewriteMethod(rewriteMethod);
@@ -506,10 +467,7 @@ public final class Searcher {
 			return new QueryWrapper(query, isPhraseQuery);
 		}
 		catch (IllegalArgumentException e) {
-			/*
-			 * This happens for example when you enter a fuzzy search with
-			 * similarity >= 1, e.g. "fuzzy~1".
-			 */
+			/* This happens for example when you enter a fuzzy search with similarity >= 1, e.g. "fuzzy~1". */
 			String msg = Msg.invalid_query.get() + "\n\n" + e.getMessage();
 			throw new SearchException(msg);
 		}
@@ -535,8 +493,7 @@ public final class Searcher {
 		}
 	}
 	
-	// Given deletions should not be in the registry anymore, since the receiver
-	// will retrieve a fresh set of indexes from the registry before approval
+	// Given deletions should not be in the registry anymore, since the receiver will retrieve a fresh set of indexes from the registry before approval
 	@ThreadSafe
 	@VisibleForPackageGroup
 	public void approveDeletions(@NotNull List<PendingDeletion> deletions) {
@@ -545,10 +502,8 @@ public final class Searcher {
 			return;
 		
 		/*
-		 * If the deletion thread is not available anymore, approve of deletions
-		 * immediately. - Otherwise the given deletion objects would just hang
-		 * around in the queue until program shutdown and never receive
-		 * approval, thus the associated indexes would never get deleted.
+		 * If the deletion thread is not available anymore, approve of deletions immediately. - Otherwise the given deletion objects would just 
+		 * hang around in the queue until program shutdown and never receive approval, thus the associated indexes would never get deleted.
 		 */
 		synchronized (this) {
 			if (deletionThread.isInterrupted()) {
@@ -561,10 +516,7 @@ public final class Searcher {
 		}
 	}
 	
-	/**
-	 * Disposes of the receiver. The caller should make sure that no more search
-	 * requests are submitted to the receiver after this method is called.
-	 */
+	/** Disposes of the receiver. The caller should make sure that no more search requests are submitted to the receiver after this method is called. */
 	@ThreadSafe
 	public void shutdown() {
 		if (ioException != null)
@@ -580,9 +532,8 @@ public final class Searcher {
 		}
 		
 		/*
-		 * This should be done after closing the Lucene searcher in order to
-		 * ensure that no indexes will be deleted outside the deletion queue
-		 * while the Lucene searcher is still open.
+		 * This should be done after closing the Lucene searcher in order to ensure that no indexes 
+		 * will be deleted outside the deletion queue while the Lucene searcher is still open.
 		 */
 		synchronized (this) {
 			deletionThread.interrupt();

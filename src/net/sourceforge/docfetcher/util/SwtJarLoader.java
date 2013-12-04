@@ -8,6 +8,9 @@
  * Contributors:
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
+/**
+ * @author Tran Nam Quang
+ */
 
 package net.sourceforge.docfetcher.util;
 
@@ -18,23 +21,16 @@ import org.aspectj.lang.annotation.SuppressAjWarnings;
 
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 
-/**
- * @author Tran Nam Quang
- */
 public final class SwtJarLoader {
 	
-	private SwtJarLoader() {
-	}
+	private SwtJarLoader() {}
 	
 	@SuppressAjWarnings
 	public static void loadSwtJar() throws IOException {
 		String osNamePart = getOsNamePart();
 		String osArchPart = getOsArchPart();
 		
-		/*
-		 * Determine the directory containing the SWT jars. For all versions
-		 * except the non-portable Mac OS X version, this is simply 'lib/swt'.
-		 */
+		/* Determine the directory containing the SWT jars. For all versions except the non-portable Mac OS X version, this is simply 'lib/swt'. */
 		File swtDir = new File("lib/swt");
 		if (osNamePart.contains("mac") && !swtDir.exists()) {
 			File altSwtDir = new File("../Resources/lib/swt");
@@ -44,8 +40,7 @@ public final class SwtJarLoader {
 		
         for (File file : swtDir.listFiles()) {
         	String filename = file.getName();
-			if (filename.contains(osNamePart)
-					&& filename.endsWith(osArchPart + ".jar")) {
+			if (filename.contains(osNamePart) && filename.endsWith(osArchPart + ".jar")) {
         		ClassPathHack.addFile(file);
         		return;
         	}

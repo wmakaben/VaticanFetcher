@@ -40,9 +40,8 @@ public abstract class TreeIndex <
 	}
 	
 	/*
-	 * Note: It is important to always serialize Path objects instead of
-	 * java.io.File objects to avoid certain portability issues caused by
-	 * non-normalized file paths.
+	 * Note: It is important to always serialize Path objects instead of java.io.File objects 
+	 * to avoid certain portability issues caused by non-normalized file paths.
 	 */
 	
 	private static final long serialVersionUID = 1L;
@@ -54,10 +53,8 @@ public abstract class TreeIndex <
 	@Nullable private transient RAMDirectory ramIndexDir;
 	@Nullable private transient File indexParentDir;
 	
-	// if indexDir is null, all content is written to a RAM index, which
-	// can be retrieved via getLuceneDir
-	protected TreeIndex(@Nullable File indexParentDir,
-	                    @NotNull File rootFile) {
+	// if indexDir is null, all content is written to a RAM index, which can be retrieved via getLuceneDir
+	protected TreeIndex(@Nullable File indexParentDir, @NotNull File rootFile) {
 		Util.checkNotNull(rootFile);
 		this.indexParentDir = indexParentDir;
 		
@@ -96,14 +93,10 @@ public abstract class TreeIndex <
 		}
 	}
 	
-	public final long getCreated() {
-		return created;
-	}
+	public final long getCreated() { return created; }
 	
 	@NotNull
-	public final File getCanonicalRootFile() {
-		return rootFolder.getPath().getCanonicalFile();
-	}
+	public final File getCanonicalRootFile() { return rootFolder.getPath().getCanonicalFile(); }
 	
 	@NotNull
 	protected abstract String getIndexDirName(@NotNull File rootFile);
@@ -112,9 +105,7 @@ public abstract class TreeIndex <
 	protected abstract F createRootFolder(@NotNull Path path);
 
 	@NotNull
-	public final IndexingConfig getConfig() {
-		return config;
-	}
+	public final IndexingConfig getConfig() { return config; }
 	
 	@Nullable
 	public final Path getIndexDirPath() {
@@ -137,8 +128,7 @@ public abstract class TreeIndex <
 	}
 	
 	@NotNull
-	public final IndexingResult update(	@Nullable IndexingReporter reporter,
-										@Nullable Cancelable cancelable) {
+	public final IndexingResult update(	@Nullable IndexingReporter reporter, @Nullable Cancelable cancelable) {
 		if (reporter == null)
 			reporter = IndexingReporter.nullReporter;
 		if (cancelable == null)
@@ -149,8 +139,7 @@ public abstract class TreeIndex <
 	}
 	
 	@NotNull
-	protected abstract IndexingResult doUpdate(	@NotNull IndexingReporter reporter,
-												@NotNull Cancelable cancelable);
+	protected abstract IndexingResult doUpdate(	@NotNull IndexingReporter reporter, @NotNull Cancelable cancelable);
 	
 	@NotNull
 	public final Directory getLuceneDir() throws IOException {
@@ -164,27 +153,17 @@ public abstract class TreeIndex <
 	}
 	
 	@NotNull
-	public final F getRootFolder() {
-		return rootFolder;
-	}
+	public final F getRootFolder() { return rootFolder; }
 	
 	@NotNull
-	public final String getDisplayName() {
-		return rootFolder.getDisplayName();
-	}
+	public final String getDisplayName() { return rootFolder.getDisplayName(); }
 	
 	@NotNull
-	public final Iterable<ViewNode> getChildren() {
-		return rootFolder.getChildren();
-	}
+	public final Iterable<ViewNode> getChildren() {	return rootFolder.getChildren(); }
 	
-	public final void clear() {
-		clear(false);
-	}
+	public final void clear() {	clear(false); }
 	
-	public final void delete() {
-		clear(true);
-	}
+	public final void delete() { clear(true); }
 	
 	private void clear(boolean removeTopLevel) {
 		if (fileIndexDirPath != null) {
@@ -206,43 +185,26 @@ public abstract class TreeIndex <
 			ramIndexDir = new RAMDirectory();
 		}
 		
-		/*
-		 * The last-modified field of the root folder must be cleared so that
-		 * the next index update will detect the root folder as modified.
-		 */
+		/* The last-modified field of the root folder must be cleared so that the next index update will detect the root folder as modified. */
 		rootFolder.setLastModified(null);
 		rootFolder.removeChildren();
 	}
 	
-	public final boolean isChecked() {
-		return rootFolder.isChecked();
-	}
+	public final boolean isChecked() { return rootFolder.isChecked(); }
 	
-	public final void setChecked(boolean isChecked) {
-		rootFolder.setChecked(isChecked);
-	}
+	public final void setChecked(boolean isChecked) { rootFolder.setChecked(isChecked); }
 	
 	@NotNull
-	public final TreeCheckState getTreeCheckState() {
-		return rootFolder.getTreeCheckState();
-	}
+	public final TreeCheckState getTreeCheckState() { return rootFolder.getTreeCheckState(); }
 	
-	public final boolean isIndex() {
-		return true;
-	}
+	public final boolean isIndex() {  return true;	}
 	
 	@ImmutableCopy
 	@NotNull
-	public final List<String> getDocumentIds() {
-		return rootFolder.getDocumentIds();
-	}
+	public final List<String> getDocumentIds() {  return rootFolder.getDocumentIds();  }
 	
-	public final boolean isWatchFolders() {
-		return config.isWatchFolders();
-	}
+	public final boolean isWatchFolders() {	return config.isWatchFolders();	}
 	
-	public final boolean hasErrorsDeep() {
-		return rootFolder.hasErrorsDeep();
-	}
+	public final boolean hasErrorsDeep() {	return rootFolder.hasErrorsDeep();	}
 	
 }

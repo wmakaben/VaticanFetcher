@@ -8,6 +8,9 @@
  * Contributors:
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
+/**
+ * @author Tran Nam Quang
+ */
 
 package net.sourceforge.docfetcher.model.index.file;
 
@@ -22,9 +25,6 @@ import net.sourceforge.docfetcher.util.annotations.Nullable;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Fieldable;
 
-/**
- * @author Tran Nam Quang
- */
 final class AppendingDocWriter extends LuceneDocWriter {
 	
 	@Nullable private Document luceneDoc;
@@ -34,9 +34,7 @@ final class AppendingDocWriter extends LuceneDocWriter {
 		return luceneDoc == null;
 	}
 	
-	public void write(	@NotNull FileDocument doc,
-						@NotNull Document luceneDoc,
-						boolean added) throws IOException {
+	public void write(@NotNull FileDocument doc, @NotNull Document luceneDoc, boolean added) throws IOException {
 		if (this.luceneDoc == null)
 			this.luceneDoc = luceneDoc;
 		else
@@ -44,9 +42,7 @@ final class AppendingDocWriter extends LuceneDocWriter {
 				this.luceneDoc.add(field);
 	}
 
-	public void update(	@NotNull FileDocument doc,
-						@NotNull File file,
-						@NotNull ParseResult parseResult) throws IOException {
+	public void update(@NotNull FileDocument doc, @NotNull File file, @NotNull ParseResult parseResult) throws IOException {
 		throw new UnsupportedOperationException();
 	}
 
