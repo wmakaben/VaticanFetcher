@@ -8,6 +8,9 @@
  * Contributors:
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
+/**
+ * @author Tran Nam Quang
+ */
 
 package net.sourceforge.docfetcher.gui.indexing;
 
@@ -31,17 +34,13 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 
-/**
- * @author Tran Nam Quang
- */
 final class OutlookConfigPanel extends ConfigPanel {
 	
 	@NotNull private Button indexFilenameBt;
 	@NotNull private Button storeRelativePathsBt;
 	@NotNull private Button watchFolderBt;
 	
-	public OutlookConfigPanel(	@NotNull Composite parent,
-								@NotNull final LuceneIndex index) {
+	public OutlookConfigPanel(@NotNull Composite parent, @NotNull final LuceneIndex index) {
 		super(parent, index, false);
 	}
 	

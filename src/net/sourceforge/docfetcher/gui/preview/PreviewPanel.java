@@ -8,6 +8,9 @@
  * Contributors:
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
+/**
+ * @author Tran Nam Quang
+ */
 
 package net.sourceforge.docfetcher.gui.preview;
 
@@ -51,17 +54,13 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Widget;
 
-/**
- * @author Tran Nam Quang
- */
 public final class PreviewPanel extends Composite {
 	
 	public final Event<Void> evtHideInSystemTray = new Event<Void>();
 	
 	/*
-	 * Mixing custom locking with SWT code has been found to be very dead-lock
-	 * prone, so this class relies exclusively on SWT's synchronization
-	 * facilities for thread-safety.
+	 * Mixing custom locking with SWT code has been found to be very dead-lock prone, 
+	 * so this class relies exclusively on SWT's synchronization facilities for thread-safety.
 	 */
 	
 	private final TextPreview textPreview;
@@ -248,8 +247,7 @@ public final class PreviewPanel extends Composite {
 	}
 	
 	@ThreadSafe
-	private void setError(	@Nullable final String message,
-							final long requestCount) {
+	private void setError(@Nullable final String message, final long requestCount) {
 		Util.runSwtSafe(errorField, new Runnable() {
 			public void run() {
 				if (requestCount != PreviewPanel.this.requestCount)
@@ -275,8 +273,7 @@ public final class PreviewPanel extends Composite {
 				
 				/*
 				 * It is important to avoid calling layout() if not needed:
-				 * layout() will be extremely slow if there is a lot of text in
-				 * the text preview.
+				 * layout() will be extremely slow if there is a lot of text in the text preview.
 				 */
 				if (wasShown != show)
 					layout();
@@ -295,20 +292,14 @@ public final class PreviewPanel extends Composite {
 	
 	// Returns true on success
 	@ThreadSafe
-	private boolean setTextSafely(	@NotNull HighlightedString string,
-									boolean isPlainTextFile,
-									long requestCount,
-									boolean append) {
+	private boolean setTextSafely(@NotNull HighlightedString string, boolean isPlainTextFile, long requestCount, boolean append) {
 		return setTextSafely(
 			Arrays.asList(string), isPlainTextFile, requestCount, append);
 	}
 	
 	// Returns true on success
 	@ThreadSafe
-	private boolean setTextSafely(	@NotNull final List<HighlightedString> strings,
-	                              	final boolean isPlainTextFile,
-									final long requestCount,
-									final boolean append) {
+	private boolean setTextSafely(@NotNull final List<HighlightedString> strings, final boolean isPlainTextFile, final long requestCount, final boolean append) {
 		/*
 		 * TODO post-release-1.1: Number of characters in the text preview should be limited,
 		 * see setting Pref.Int.PreviewLimit.getValue(). -> Don't append error
@@ -335,9 +326,7 @@ public final class PreviewPanel extends Composite {
 	
 	// Returns true on success
 	@ThreadSafe
-	private boolean runSafely(	final long requestCount,
-								@NotNull Widget widget,
-								@NotNull final Runnable runnable) {
+	private boolean runSafely(final long requestCount,	@NotNull Widget widget, 	@NotNull final Runnable runnable) {
 		final AtomicBoolean wasValid = new AtomicBoolean(true);
 		boolean wasRun = Util.runSwtSafe(widget, new Runnable() {
 			public void run() {
@@ -356,8 +345,7 @@ public final class PreviewPanel extends Composite {
 			super(doc, startCount);
 		}
 
-		protected void doRun(Hider overlayHider) throws ParseException,
-				FileNotFoundException, CheckedOutOfMemoryError {
+		protected void doRun(Hider overlayHider) throws ParseException,	FileNotFoundException, CheckedOutOfMemoryError {
 			final MailResource mailResource = doc.getMailResource();
 			boolean success = runSafely(startCount, stackComp, new Runnable() {
 				public void run() {
@@ -375,8 +363,7 @@ public final class PreviewPanel extends Composite {
 			super(doc, startCount);
 		}
 
-		protected void doRun(Hider overlayHider) throws ParseException,
-				FileNotFoundException {
+		protected void doRun(Hider overlayHider) throws ParseException, FileNotFoundException {
 			final FileResource htmlResource = doc.getFileResource();
 			boolean success = runSafely(startCount, stackComp, new Runnable() {
 				public void run() {
@@ -457,8 +444,7 @@ public final class PreviewPanel extends Composite {
 			super(doc, startCount);
 		}
 
-		protected void doRun(Hider overlayHider) throws ParseException,
-				FileNotFoundException, CheckedOutOfMemoryError {
+		protected void doRun(Hider overlayHider) throws ParseException,	FileNotFoundException, CheckedOutOfMemoryError {
 			HighlightedString string = doc.getHighlightedText();
 			setTextSafely(string, doc.isPlainTextFile(), startCount, false);
 		}
@@ -495,8 +481,7 @@ public final class PreviewPanel extends Composite {
 			}
 		}
 		
-		protected abstract void doRun(@NotNull Hider overlayHider)
-				throws ParseException, FileNotFoundException,
+		protected abstract void doRun(@NotNull Hider overlayHider) throws ParseException, FileNotFoundException,
 				CheckedOutOfMemoryError;
 	}
 	

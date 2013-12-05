@@ -8,6 +8,9 @@
  * Contributors:
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
+/**
+ * @author Tran Nam Quang
+ */
 
 package net.sourceforge.docfetcher.gui.pref;
 
@@ -34,9 +37,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-/**
- * @author Tran Nam Quang
- */
 final class HotkeyDialog {
 	
 	// TODO post-release-1.1: macosx: On Mac maybe use Command key instead of Control key
@@ -108,10 +108,7 @@ final class HotkeyDialog {
 		
 		okBt.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				/*
-				 * Don't call shell.close() here, we don't want to reset the
-				 * hotkey.
-				 */
+				/* Don't call shell.close() here, we don't want to reset the hotkey. */
 				SettingsConf.IntArray.HotkeyToFront.set(hotkey);
 				shell.dispose();
 			}
@@ -143,9 +140,8 @@ final class HotkeyDialog {
 	}
 	
 	/**
-	 * Returns the hotkey if the given SWT state mask and keycode represent
-	 * valid user input, otherwise returns null. Some user inputs are invalid
-	 * because they wouldn't work as global hotkeys.
+	 * Returns the hotkey if the given SWT state mask and keycode represent valid user input, otherwise returns null. 
+	 * Some user inputs are invalid because they wouldn't work as global hotkeys.
 	 */
 	@Nullable
 	private int[] acceptHotkey(int stateMask, int keyCode) {

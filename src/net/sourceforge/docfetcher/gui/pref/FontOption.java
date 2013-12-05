@@ -8,6 +8,9 @@
  * Contributors:
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
+/**
+ * @author Tran Nam Quang
+ */
 
 package net.sourceforge.docfetcher.gui.pref;
 
@@ -27,9 +30,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FontDialog;
 
-/**
- * @author Tran Nam Quang
- */
 final class FontOption extends PrefOption {
 	
 	private final FontDescription fontDescription;
@@ -37,8 +37,7 @@ final class FontOption extends PrefOption {
 	@NotNull private Font font;
 	private int fontHeight;
 	
-	public FontOption(	@NotNull String labelText,
-						@NotNull SettingsConf.FontDescription fontDescription) {
+	public FontOption(@NotNull String labelText, @NotNull SettingsConf.FontDescription fontDescription) {
 		super(labelText);
 		this.fontDescription = fontDescription;
 	}

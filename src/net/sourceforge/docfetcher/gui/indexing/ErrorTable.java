@@ -7,6 +7,9 @@
  * Contributors:
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
+/**
+ * @author Tran Nam Quang
+ */
 
 package net.sourceforge.docfetcher.gui.indexing;
 
@@ -35,9 +38,6 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Composite;
 
-/**
- * @author Tran Nam Quang
- */
 final class ErrorTable {
 	
 	public final Event<Integer> evtErrorCountChanged = new Event<Integer>();
@@ -93,10 +93,7 @@ final class ErrorTable {
 		
 		SettingsConf.ColumnWidths.IndexingErrorTable.bind(tv.getControl());
 		
-		/*
-		 * Open file associated with error item on doubleclick or when spacebar
-		 * is pressed.
-		 */
+		/* Open file associated with error item on doubleclick or when spacebar is pressed. */
 		tv.getControl().addSelectionListener(new SelectionAdapter() {
 			public void widgetDefaultSelected(SelectionEvent e) {
 				launchSelection();
@@ -176,9 +173,8 @@ final class ErrorTable {
 	}
 	
 	/**
-	 * Copies the errors selected in the error panel to the clipboard. If the
-	 * selection is empty, all errors are copied instead, if there are any. If
-	 * there are no errors, this method does nothing.
+	 * Copies the errors selected in the error panel to the clipboard. If the selection is empty, 
+	 * all errors are copied instead, if there are any. If there are no errors, this method does nothing.
 	 */
 	private void copySelectedErrorsToClipboard() {
 		if (errors.isEmpty())

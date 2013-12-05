@@ -8,6 +8,9 @@
  * Contributors:
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
+/**
+ * @author Tran Nam Quang
+ */
 
 package net.sourceforge.docfetcher.gui.pref;
 
@@ -28,17 +31,13 @@ import org.eclipse.swt.widgets.ColorDialog;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
-/**
- * @author Tran Nam Quang
- */
 final class ColorOption extends PrefOption {
 	
 	@NotNull private SettingsConf.IntArray enumOption;
 	@NotNull private StyledText st;
 	@NotNull private Color color;
 	
-	public ColorOption(	@NotNull String labelText,
-						@NotNull SettingsConf.IntArray enumOption) {
+	public ColorOption(@NotNull String labelText,@NotNull SettingsConf.IntArray enumOption) {
 		super(labelText);
 		this.enumOption = enumOption;
 	}

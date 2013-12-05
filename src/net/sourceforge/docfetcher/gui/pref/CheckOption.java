@@ -8,6 +8,9 @@
  * Contributors:
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
+/**
+ * @author Tran Nam Quang
+ */
 
 package net.sourceforge.docfetcher.gui.pref;
 
@@ -21,16 +24,12 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
-/**
- * @author Tran Nam Quang
- */
 final class CheckOption extends PrefOption {
 	
 	private final SettingsConf.Bool enumOption;
 	@NotNull private Button bt;
 
-	public CheckOption(	@NotNull String labelText,
-						@NotNull SettingsConf.Bool enumOption) {
+	public CheckOption(	@NotNull String labelText, @NotNull SettingsConf.Bool enumOption) {
 		super(labelText);
 		this.enumOption = enumOption;
 	}

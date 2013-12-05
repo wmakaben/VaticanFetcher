@@ -8,6 +8,9 @@
  * Contributors:
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
+/**
+ * @author Tran Nam Quang
+ */
 
 package net.sourceforge.docfetcher.gui.indexing;
 
@@ -39,9 +42,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Text;
 
-/**
- * @author Tran Nam Quang
- */
 final class FileExtensionGroupWrapper {
 	
 	@NotNull private Text textExtField;
@@ -51,8 +51,7 @@ final class FileExtensionGroupWrapper {
 	private final FileExtensionChooser.Factory extChooserFactory;
 	private final GroupWrapper groupWrapper;
 
-	public FileExtensionGroupWrapper(	@NotNull Composite parent,
-										@NotNull LuceneIndex index) {
+	public FileExtensionGroupWrapper(@NotNull Composite parent, @NotNull LuceneIndex index) {
 		this.index = index;
 		extChooserFactory = new FileExtensionChooser.Factory(
 			parent.getShell(), index.getCanonicalRootFile());
@@ -79,16 +78,12 @@ final class FileExtensionGroupWrapper {
 	}
 
 	private void createContents(Group parent) {
-		textExtField = createExtField(
-			parent, Msg.plain_text.get(), index.getConfig().getTextExtensions());
-		zipExtField = createExtField(
-			parent, Msg.zip_archives.get(), index.getConfig().getZipExtensions());
+		textExtField = createExtField(parent, Msg.plain_text.get(), index.getConfig().getTextExtensions());
+		zipExtField = createExtField(parent, Msg.zip_archives.get(), index.getConfig().getZipExtensions());
 	}
 	
 	@NotNull
-	private Text createExtField(@NotNull Composite parent,
-								@NotNull String label,
-								@NotNull Collection<String> extensions) {
+	private Text createExtField(@NotNull Composite parent, @NotNull String label, @NotNull Collection<String> extensions) {
 		final Text field = Util.createLabeledGridText(parent, label);
 		((GridData)field.getLayoutData()).horizontalIndent = 5;
 		field.setText(Util.join(" ", extensions));
@@ -154,10 +149,7 @@ final class FileExtensionGroupWrapper {
 	private static Collection<String> getExtensions(@NotNull Text text) {
 		String string = text.getText().trim();
 		
-		/*
-		 * Without this, a list containing an empty string would be returned,
-		 * which will crash TrueZIP.
-		 */
+		/* Without this, a list containing an empty string would be returned, which will crash TrueZIP. */
 		if (string.isEmpty())
 			return Collections.emptyList();
 		

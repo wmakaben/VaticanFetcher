@@ -8,6 +8,9 @@
  * Contributors:
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
+/**
+ * @author Tran Nam Quang
+ */
 
 package net.sourceforge.docfetcher.gui.indexing;
 
@@ -38,9 +41,6 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
-/**
- * @author Tran Nam Quang
- */
 final class RegexTestPanel extends Composite {
 	
 	private final Label label;
@@ -48,8 +48,7 @@ final class RegexTestPanel extends Composite {
 	private List<PatternAction> patternActions = Collections.emptyList();
 	private boolean storeRelativePaths;
 
-	public RegexTestPanel(	@NotNull Composite parent,
-							@NotNull final LuceneIndex index) {
+	public RegexTestPanel(@NotNull Composite parent, @NotNull final LuceneIndex index) {
 		super(parent, SWT.NONE);
 		Util.checkNotNull(index);
 		label = new Label(this, SWT.NONE);
@@ -103,9 +102,7 @@ final class RegexTestPanel extends Composite {
 	
 	private void updateLabel() {
 		try {
-			label.setText(matches()
-				? Msg.sel_regex_matches_file_yes.get()
-				: Msg.sel_regex_matches_file_no.get());
+			label.setText(matches()	? Msg.sel_regex_matches_file_yes.get() : Msg.sel_regex_matches_file_no.get());
 		}
 		catch (PatternSyntaxException e) {
 			label.setText(Msg.sel_regex_malformed.get());
@@ -123,9 +120,7 @@ final class RegexTestPanel extends Composite {
 		
 		for (PatternAction patternAction : patternActions) {
 			Pattern pattern = Pattern.compile(patternAction.getRegex());
-			String target = patternAction.getTarget() == MatchTarget.FILENAME
-				? filename
-				: filepath;
+			String target = patternAction.getTarget() == MatchTarget.FILENAME ? filename : filepath;
 			if (pattern.matcher(target).matches())
 				return true;
 		}

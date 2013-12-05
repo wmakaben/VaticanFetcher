@@ -8,6 +8,9 @@
  * Contributors:
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
+/**
+ * @author Tran Nam Quang
+ */
 
 package net.sourceforge.docfetcher.gui.indexing;
 
@@ -24,9 +27,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 
-/**
- * @author Tran Nam Quang
- */
 final class ProgressPanel {
 	
 	private final SashForm sash;
@@ -57,18 +57,12 @@ final class ProgressPanel {
 	}
 	
 	@NotNull
-	public Control getControl() {
-		return sash;
-	}
+	public Control getControl() { return sash; }
 	
 	@NotNull
-	public ProgressTable getProgressTable() {
-		return progressTable;
-	}
+	public ProgressTable getProgressTable() { return progressTable; }
 	
 	@NotNull
-	public ErrorTable getErrorTable() {
-		return errorTable;
-	}
+	public ErrorTable getErrorTable() {	return errorTable; }
 
 }

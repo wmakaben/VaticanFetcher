@@ -8,6 +8,9 @@
  * Contributors:
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
+/**
+ * @author Tran Nam Quang
+ */
 
 package net.sourceforge.docfetcher.gui.preview;
 
@@ -37,9 +40,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
-/**
- * @author Tran Nam Quang
- */
 final class RangeField {
 	
 	public final Event<Integer> evtValueChanged = new Event<Integer>();
@@ -101,15 +101,13 @@ final class RangeField {
 	
 	@Nullable
 	private Integer getIntValue() {
-		// This pattern allows expressions like "12 / 501" and is used to
-		// extract the first number
+		// This pattern allows expressions like "12 / 501" and is used to extract the first number
 		Pattern pattern = Pattern.compile("(\\d+)(?:\\s*/\\s*\\d+)?");
 		Matcher m = pattern.matcher(st.getText());
 		if (!m.matches())
 			return null; // Entered value may be empty
 		try {
-			// User can't enter minus character into text field, so this integer
-			// must be positive
+			// User can't enter minus character into text field, so this integer must be positive
 			return Integer.parseInt(m.group(1));
 		}
 		catch (NumberFormatException e1) {
@@ -129,9 +127,8 @@ final class RangeField {
 	public void setRange(@Nullable Integer current, @Nullable Integer total) {
 		verifyInput = false;
 		/*
-		 * If the user has entered something into the text field and the focus
-		 * is still there, do not overwrite the contents. Also, preserve the
-		 * text selection if possible.
+		 * If the user has entered something into the text field and the focus is still there, 
+		 * do not overwrite the contents. Also, preserve the text selection if possible.
 		 */
 		if (!modifiedByUser) {
 			st.setRedraw(false);

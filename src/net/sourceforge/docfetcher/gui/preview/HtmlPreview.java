@@ -8,6 +8,9 @@
  * Contributors:
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
+/**
+ * @author Tran Nam Quang
+ */
 
 package net.sourceforge.docfetcher.gui.preview;
 
@@ -41,9 +44,6 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 
-/**
- * @author Tran Nam Quang
- */
 final class HtmlPreview extends ToolBarForm {
 	
 	public final Event<Void> evtHtmlToTextBt = new Event<Void>();
@@ -72,47 +72,42 @@ final class HtmlPreview extends ToolBarForm {
 		ToolItemFactory tif = new ToolItemFactory(leftToolBar);
 		tif.enabled(false);
 		
-		backBt = tif.image(Img.ARROW_LEFT.get()).toolTip(Msg.prev_page.get())
-				.listener(new SelectionAdapter() {
-					public void widgetSelected(SelectionEvent e) {
-						browser.back();
-					}
-				}).create();
+		backBt = tif.image(Img.ARROW_LEFT.get()).toolTip(Msg.prev_page.get()).listener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				browser.back();
+			}
+		}).create();
 		
-		forwardBt = tif.image(Img.ARROW_RIGHT.get()).toolTip(Msg.next_page.get())
-				.listener(new SelectionAdapter() {
-					public void widgetSelected(SelectionEvent e) {
-						browser.forward();
-					}
-				}).create();
+		forwardBt = tif.image(Img.ARROW_RIGHT.get()).toolTip(Msg.next_page.get()).listener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				browser.forward();
+			}
+		}).create();
 		
 		tif.enabled(true);
 		
-		tif.image(Img.STOP.get()).toolTip(Msg.browser_stop.get())
-				.listener(new SelectionAdapter() {
-					public void widgetSelected(SelectionEvent e) {
-						browser.stop();
-					}
-				}).create();
+		tif.image(Img.STOP.get()).toolTip(Msg.browser_stop.get()).listener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				browser.stop();
+			}
+		}).create();
 		
-		tif.image(Img.REFRESH.get()).toolTip(Msg.browser_refresh.get())
-				.listener(new SelectionAdapter() {
-					public void widgetSelected(SelectionEvent e) {
-						browser.refresh();
-					}
-				}).create();
+		tif.image(Img.REFRESH.get()).toolTip(Msg.browser_refresh.get()).listener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				browser.refresh();
+			}
+		}).create();
 
-		tif.image(Img.WINDOW.get()).toolTip(Msg.browser_launch_external.get())
-				.listener(new SelectionAdapter() {
-					public void widgetSelected(SelectionEvent e) {
-						String url = browser.getUrl();
-						if (url.equals(""))
-							return;
-						Util.launch(url);
-						if (SettingsConf.Bool.HideOnOpen.get())
-							evtHideInSystemTray.fire(null);
-					}
-				}).create();
+		tif.image(Img.WINDOW.get()).toolTip(Msg.browser_launch_external.get()).listener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				String url = browser.getUrl();
+				if (url.equals(""))
+					return;
+				Util.launch(url);
+				if (SettingsConf.Bool.HideOnOpen.get())
+					evtHideInSystemTray.fire(null);
+			}
+		}).create();
 		
 		locationBar = new Text(comp, SWT.SINGLE | SWT.BORDER);
 		locationBar.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
@@ -131,13 +126,11 @@ final class HtmlPreview extends ToolBarForm {
 		tif.toolBar(rightToolBar);
 		tif.style(SWT.CHECK);
 		
-		htmlBt = tif.image(Img.BUILDING_BLOCKS.get())
-				.toolTip(Msg.use_embedded_html_viewer.get())
-				.listener(new SelectionAdapter() {
-					public void widgetSelected(SelectionEvent e) {
-						evtHtmlToTextBt.fire(null);
-					}
-				}).create();
+		htmlBt = tif.image(Img.BUILDING_BLOCKS.get()).toolTip(Msg.use_embedded_html_viewer.get()).listener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				evtHtmlToTextBt.fire(null);
+			}
+		}).create();
 		
 		htmlBt.setSelection(true);
 		
@@ -168,19 +161,14 @@ final class HtmlPreview extends ToolBarForm {
 					}
 					catch (Exception e) {
 						/*
-						 * Ignoring URISyntaxException and
-						 * IllegalArgumentException. The latter can happen if
-						 * the URI contains a "fragment component", e.g.
-						 * "myfile.htm#Section_1".
+						 * Ignoring URISyntaxException and IllegalArgumentException. The latter can happen if
+						 * the URI contains a "fragment component", e.g. "myfile.htm#Section_1".
 						 */
 					}
 				}
 				locationBar.setText(path);
 	            
-				/*
-				 * The appropriate color is 'LIST_BACKGROUND', not 'WHITE',
-				 * because the user might have chosen a dark theme.
-				 */
+				/* The appropriate color is 'LIST_BACKGROUND', not 'WHITE', because the user might have chosen a dark theme. */
 	            locationBar.setBackground(Col.LIST_BACKGROUND.get());
 			}
 		});
@@ -192,9 +180,7 @@ final class HtmlPreview extends ToolBarForm {
 	}
 	
 	// TODO post-release-1.1: maybe add HTML highlighting
-	/**
-	 * Sets the file to be displayed.
-	 */
+	/** Sets the file to be displayed. */
 	public void setFile(@NotNull File file, boolean allowSwitchingToTextPreview) {
 		String path = Util.getSystemAbsPath(file);
 		try {

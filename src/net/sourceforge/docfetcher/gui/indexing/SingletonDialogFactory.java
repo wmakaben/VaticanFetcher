@@ -8,6 +8,9 @@
  * Contributors:
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
+/**
+ * @author Tran Nam Quang
+ */
 
 package net.sourceforge.docfetcher.gui.indexing;
 
@@ -31,9 +34,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
-/**
- * @author Tran Nam Quang
- */
 @VisibleForPackageGroup
 public abstract class SingletonDialogFactory<D extends Dialog> {
 
@@ -56,8 +56,7 @@ public abstract class SingletonDialogFactory<D extends Dialog> {
 			}
 		}
 
-		final SingletonDialogFactory<Dialog> factory = new SingletonDialogFactory<Dialog>(
-				shell) {
+		final SingletonDialogFactory<Dialog> factory = new SingletonDialogFactory<Dialog>(shell) {
 			protected Dialog createDialog(Shell parentShell) {
 				Shell shell2 = new Shell(parentShell, SWT.SHELL_TRIM);
 				shell2.setText("Sub-Shell");
@@ -68,8 +67,7 @@ public abstract class SingletonDialogFactory<D extends Dialog> {
 
 				Label label = new Label(shell2, SWT.NONE);
 				label.setText("Label");
-				label.setLayoutData(new GridData(
-					SWT.CENTER, SWT.CENTER, true, true));
+				label.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true));
 
 				return new MyDialog(shell2);
 			}
