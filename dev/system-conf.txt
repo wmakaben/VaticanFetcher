@@ -1,6 +1,5 @@
 # Set a different program name to make it easier to distinguish between
 # development instances and normal program instances.
-ProgramName = DEV Radio Vaticana DocFetcher
-
+ProgramName = Vatican Fetcher
 # Turn development mode on
 IsDevelopmentVersion = true

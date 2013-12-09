@@ -1,4 +1,10 @@
 #===========================================================
+#	Notes
+#===========================================================
+- These are the instructions to set up the original DocFetcher but it can also be used to set up the Vatican Fetcher - Will Makabenta
+
+
+#===========================================================
 #	Setup in Eclipse
 #===========================================================
 - Get Eclipse classic edition (tested with 3.6 and later)
