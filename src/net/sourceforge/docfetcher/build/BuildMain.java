@@ -217,8 +217,8 @@ public final class BuildMain {
 	}
 
 	private static void deployInfoPlist(File dstDir) throws Exception {
-		U.copyTextFile("dist/Info.plist", new File(dstDir, "Info.plist").getPath(),	LineSep.UNIX, "${app_name}", appName,
-			"${app_version}", version, "${build_date}", buildDate, "${package_id}", packageId);
+		U.copyTextFile(	"dist/Info.plist", new File(dstDir, "Info.plist").getPath(), LineSep.UNIX, "${app_name}", appName,
+						"${app_version}", version, "${build_date}", buildDate, "${package_id}", packageId);
 	}
 
 	private static void makeExecutable(String errorMessage, String... paths) throws Exception {

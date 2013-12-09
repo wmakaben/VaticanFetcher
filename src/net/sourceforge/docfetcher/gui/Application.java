@@ -734,7 +734,6 @@ public class Application {
 			}
 		}, new Runnable() {
 			public void run() {
-				// TODO post-release-1.1: Show an about dialog? Or maybe open a manual page?
 				String name = SystemConf.Str.ProgramName.get();
 				String version = SystemConf.Str.ProgramVersion.get();
 				AppUtil.showInfo(name + " " + version);

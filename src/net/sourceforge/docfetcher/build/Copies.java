@@ -8,6 +8,9 @@
  * Contributors:
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
+/**
+ * @author Tran Nam Quang
+ */
 
 package net.sourceforge.docfetcher.build;
 
@@ -20,9 +23,6 @@ import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Copy;
 import org.apache.tools.ant.types.FileSet;
 
-/**
- * @author Tran Nam Quang
- */
 final class Copies {
 	
 	private Copy copy = new Copy();
@@ -41,13 +41,8 @@ final class Copies {
 		return this;
 	}
 	
-	public Copies addDir(	@NotNull String dir,
-							@Nullable String include,
-							@Nullable String exclude) {
-		FileSet fileSet = new FileSets().setDir(dir)
-				.include(include)
-				.exclude(exclude)
-				.get();
+	public Copies addDir(@NotNull String dir, @Nullable String include,	@Nullable String exclude) {
+		FileSet fileSet = new FileSets().setDir(dir).include(include).exclude(exclude).get();
 		copy.addFileset(fileSet);
 		return this;
 	}
@@ -67,8 +62,6 @@ final class Copies {
 		return this;
 	}
 	
-	public void execute() {
-		copy.execute();
-	}
+	public void execute() {	copy.execute(); }
 
 }

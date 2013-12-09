@@ -1,0 +1,303 @@
+
+
+CmdLine:	C:\Users\makabenta\Documents\Eclipse_DF\Radio Vaticana DocFetcher\dist\launchers\RVDocFetcher.exe --l4j-debug
+WOW64:		yes
+Working dir:	C:\Users\makabenta\Documents\Eclipse_DF\Radio Vaticana DocFetcher\dist\launchers\.
+64-bit search:	SOFTWARE\JavaSoft\Java Runtime Environment...
+Match:		SOFTWARE\JavaSoft\Java Runtime Environment\1.7
+Match:		SOFTWARE\JavaSoft\Java Runtime Environment\1.7.0_45
+Using 64-bit runtime.
+64-bit search:	SOFTWARE\JavaSoft\Java Development Kit...
+Ignore:		SOFTWARE\JavaSoft\Java Development Kit\1.7
+Ignore:		SOFTWARE\JavaSoft\Java Development Kit\1.7.0_45
+Using 64-bit runtime.
+Check launcher:	C:\Program Files\Java\jre7\bin\javaw.exe (OK)
+Heap -Xmx:	Requested 1024 MB / 0%, Available: 4827 MB, Heap size: 1024 MB
+Add classpath:	C:\Users\makabenta\Documents\Eclipse_DF\Radio Vaticana DocFetcher\lib\*.jar
+Launcher:	C:\Program Files\Java\jre7\bin\javaw.exe
+Launcher args:	-Xmx1024m -Djava.library.path="lib" -enableassertions -Xss2m -classpath "..\..\lib" C:\Users\makabenta\Documents\Eclipse_DF\Radio Vaticana DocFetcher\src\net\sourceforge\docfetcher\Main.java
+Args length:	190/32768 chars
+Exit code:	1
+
+
+CmdLine:	C:\Users\makabenta\Documents\Eclipse_DF\Radio_Vaticana_DocFetcher\dist\launchers\RVDocFetcher.exe --l4j-debug
+WOW64:		yes
+Working dir:	C:\Users\makabenta\Documents\Eclipse_DF\Radio_Vaticana_DocFetcher\dist\launchers\.
+64-bit search:	SOFTWARE\JavaSoft\Java Runtime Environment...
+Match:		SOFTWARE\JavaSoft\Java Runtime Environment\1.7
+Match:		SOFTWARE\JavaSoft\Java Runtime Environment\1.7.0_45
+Using 64-bit runtime.
+64-bit search:	SOFTWARE\JavaSoft\Java Development Kit...
+Ignore:		SOFTWARE\JavaSoft\Java Development Kit\1.7
+Ignore:		SOFTWARE\JavaSoft\Java Development Kit\1.7.0_45
+Using 64-bit runtime.
+Check launcher:	C:\Program Files\Java\jre7\bin\javaw.exe (OK)
+Heap -Xmx:	Requested 1024 MB / 0%, Available: 4554 MB, Heap size: 1024 MB
+Add classpath:	C:\Users\makabenta\Documents\Eclipse_DF\Radio_Vaticana_DocFetcher\lib\*.jar
+Launcher:	C:\Program Files\Java\jre7\bin\javaw.exe
+Launcher args:	-Xmx1024m -Djava.library.path="lib" -enableassertions -Xss2m -classpath "..\..\lib" C:\Users\makabenta\Documents\Eclipse_DF\Radio_Vaticana_DocFetcher\src\net\sourceforge\docfetcher\Main.java
+Args length:	190/32768 chars
+Exit code:	1
+
+
+CmdLine:	C:\Users\makabenta\Documents\Eclipse_DF\Radio_Vaticana_DocFetcher\dist\launchers\RVDocFetcher.exe --l4j-debug
+WOW64:		yes
+Working dir:	C:\Users\makabenta\Documents\Eclipse_DF\Radio_Vaticana_DocFetcher\dist\launchers\.
+64-bit search:	SOFTWARE\JavaSoft\Java Runtime Environment...
+Match:		SOFTWARE\JavaSoft\Java Runtime Environment\1.7
+Match:		SOFTWARE\JavaSoft\Java Runtime Environment\1.7.0_45
+Using 64-bit runtime.
+64-bit search:	SOFTWARE\JavaSoft\Java Development Kit...
+Ignore:		SOFTWARE\JavaSoft\Java Development Kit\1.7
+Ignore:		SOFTWARE\JavaSoft\Java Development Kit\1.7.0_45
+Using 64-bit runtime.
+Check launcher:	C:\Program Files\Java\jre7\bin\javaw.exe (OK)
+Heap -Xmx:	Requested 1024 MB / 0%, Available: 4542 MB, Heap size: 1024 MB
+Add classpath:	C:\Users\makabenta\Documents\Eclipse_DF\Radio_Vaticana_DocFetcher\lib\*.jar
+Launcher:	C:\Program Files\Java\jre7\bin\javaw.exe
+Launcher args:	-Xmx1024m -Djava.library.path="lib" -enableassertions -Xss2m -classpath "..\..\lib" C:\Users\makabenta\Documents\Eclipse_DF\Radio_Vaticana_DocFetcher\src\net\sourceforge\docfetcher\Main
+Args length:	185/32768 chars
+Exit code:	1
+
+
+CmdLine:	C:\Users\makabenta\Documents\Eclipse_DF\Radio_Vaticana_DocFetcher\dist\launchers\RVDocFetcher.exe --l4j-debug
+WOW64:		yes
+Working dir:	C:\Users\makabenta\Documents\Eclipse_DF\Radio_Vaticana_DocFetcher\dist\launchers\.
+64-bit search:	SOFTWARE\JavaSoft\Java Runtime Environment...
+Match:		SOFTWARE\JavaSoft\Java Runtime Environment\1.7
+Match:		SOFTWARE\JavaSoft\Java Runtime Environment\1.7.0_45
+Using 64-bit runtime.
+64-bit search:	SOFTWARE\JavaSoft\Java Development Kit...
+Ignore:		SOFTWARE\JavaSoft\Java Development Kit\1.7
+Ignore:		SOFTWARE\JavaSoft\Java Development Kit\1.7.0_45
+Using 64-bit runtime.
+Check launcher:	C:\Program Files\Java\jre7\bin\javaw.exe (OK)
+Heap -Xmx:	Requested 1024 MB / 0%, Available: 4552 MB, Heap size: 1024 MB
+Add classpath:	C:\Users\makabenta\Documents\Eclipse_DF\Radio_Vaticana_DocFetcher\lib\*.jar
+Launcher:	C:\Program Files\Java\jre7\bin\javaw.exe
+Launcher args:	-Xmx1024m -Djava.library.path="lib" -enableassertions -Xss2m -classpath "..\..\lib" C:\Users\makabenta\Documents\Eclipse_DF\Radio_Vaticana_DocFetcher\src\net\sourceforge\docfetcher\Main.java
+Args length:	190/32768 chars
+Exit code:	1
+
+
+CmdLine:	C:\Users\makabenta\Documents\Eclipse_DF\Radio_Vaticana_DocFetcher\dist\launchers\RVDocFetcher.exe --l4j-debug
+WOW64:		yes
+Working dir:	C:\Users\makabenta\Documents\Eclipse_DF\Radio_Vaticana_DocFetcher\dist\launchers\.
+64-bit search:	SOFTWARE\JavaSoft\Java Runtime Environment...
+Match:		SOFTWARE\JavaSoft\Java Runtime Environment\1.7
+Match:		SOFTWARE\JavaSoft\Java Runtime Environment\1.7.0_45
+Using 64-bit runtime.
+64-bit search:	SOFTWARE\JavaSoft\Java Development Kit...
+Ignore:		SOFTWARE\JavaSoft\Java Development Kit\1.7
+Ignore:		SOFTWARE\JavaSoft\Java Development Kit\1.7.0_45
+Using 64-bit runtime.
+Check launcher:	C:\Program Files\Java\jre7\bin\javaw.exe (OK)
+Heap -Xmx:	Requested 1024 MB / 0%, Available: 4516 MB, Heap size: 1024 MB
+Add classpath:	C:\Users\makabenta\Documents\Eclipse_DF\Radio_Vaticana_DocFetcher\lib\*.jar
+Launcher:	C:\Program Files\Java\jre7\bin\javaw.exe
+Launcher args:	-Xmx1024m -Djava.library.path="lib" -enableassertions -Xss2m -classpath "..\..\lib" C:\Users\makabenta\Documents\Eclipse_DF\Radio_Vaticana_DocFetcher\src\net\sourceforge\docfetcher\Main.java
+Args length:	190/32768 chars
+Exit code:	1
+
+
+CmdLine:	C:\Users\makabenta\Documents\Eclipse_DF\Radio_Vaticana_DocFetcher\dist\launchers\RVDocFetcher.exe --l4j-debug
+WOW64:		yes
+Working dir:	C:\Users\makabenta\Documents\Eclipse_DF\Radio_Vaticana_DocFetcher\dist\launchers\.
+64-bit search:	SOFTWARE\JavaSoft\Java Runtime Environment...
+Match:		SOFTWARE\JavaSoft\Java Runtime Environment\1.7
+Match:		SOFTWARE\JavaSoft\Java Runtime Environment\1.7.0_45
+Using 64-bit runtime.
+64-bit search:	SOFTWARE\JavaSoft\Java Development Kit...
+Ignore:		SOFTWARE\JavaSoft\Java Development Kit\1.7
+Ignore:		SOFTWARE\JavaSoft\Java Development Kit\1.7.0_45
+Using 64-bit runtime.
+Check launcher:	C:\Program Files\Java\jre7\bin\javaw.exe (OK)
+Heap -Xmx:	Requested 1024 MB / 0%, Available: 4537 MB, Heap size: 1024 MB
+Add classpath:	C:\Users\makabenta\Documents\Eclipse_DF\Radio_Vaticana_DocFetcher\src\net\sourceforge\docfetcher\
+Launcher:	C:\Program Files\Java\jre7\bin\javaw.exe
+Launcher args:	-Xmx1024m -Djava.library.path="lib" -enableassertions -Xss2m -classpath "..\..\lib;C:\Users\makabenta\Documents\Eclipse_DF\Radio_Vaticana_DocFetcher\src\net\sourceforge\docfetcher\" Main.java
+Args length:	191/32768 chars
+Exit code:	1
+
+
+CmdLine:	C:\Users\makabenta\Documents\Eclipse_DF\Radio_Vaticana_DocFetcher\dist\launchers\RVDocFetcher.exe --l4j-debug
+WOW64:		yes
+Working dir:	C:\Users\makabenta\Documents\Eclipse_DF\Radio_Vaticana_DocFetcher\dist\launchers\.
+64-bit search:	SOFTWARE\JavaSoft\Java Runtime Environment...
+Match:		SOFTWARE\JavaSoft\Java Runtime Environment\1.7
+Match:		SOFTWARE\JavaSoft\Java Runtime Environment\1.7.0_45
+Using 64-bit runtime.
+64-bit search:	SOFTWARE\JavaSoft\Java Development Kit...
+Ignore:		SOFTWARE\JavaSoft\Java Development Kit\1.7
+Ignore:		SOFTWARE\JavaSoft\Java Development Kit\1.7.0_45
+Using 64-bit runtime.
+Check launcher:	C:\Program Files\Java\jre7\bin\javaw.exe (OK)
+Heap -Xmx:	Requested 1024 MB / 0%, Available: 4536 MB, Heap size: 1024 MB
+Add classpath:	C:\Users\makabenta\Documents\Eclipse_DF\Radio_Vaticana_DocFetcher\src\net\sourceforge\docfetcher\
+Launcher:	C:\Program Files\Java\jre7\bin\javaw.exe
+Launcher args:	-Xmx1024m -Djava.library.path="lib" -enableassertions -Xss2m -classpath "..\..\lib;C:\Users\makabenta\Documents\Eclipse_DF\Radio_Vaticana_DocFetcher\src\net\sourceforge\docfetcher\" Main.java
+Args length:	191/32768 chars
+Exit code:	1
+
+
+CmdLine:	C:\Users\makabenta\Documents\Eclipse_DF\Radio_Vaticana_DocFetcher\dist\launchers\RVDocFetcher.exe --l4j-debug
+WOW64:		yes
+Working dir:	C:\Users\makabenta\Documents\Eclipse_DF\Radio_Vaticana_DocFetcher\dist\launchers\.
+64-bit search:	SOFTWARE\JavaSoft\Java Runtime Environment...
+Match:		SOFTWARE\JavaSoft\Java Runtime Environment\1.7
+Match:		SOFTWARE\JavaSoft\Java Runtime Environment\1.7.0_45
+Using 64-bit runtime.
+64-bit search:	SOFTWARE\JavaSoft\Java Development Kit...
+Ignore:		SOFTWARE\JavaSoft\Java Development Kit\1.7
+Ignore:		SOFTWARE\JavaSoft\Java Development Kit\1.7.0_45
+Using 64-bit runtime.
+Check launcher:	C:\Program Files\Java\jre7\bin\javaw.exe (OK)
+Heap -Xmx:	Requested 1024 MB / 0%, Available: 4533 MB, Heap size: 1024 MB
+Add classpath:	C:\Users\makabenta\Documents\Eclipse_DF\Radio_Vaticana_DocFetcher\src\net\sourceforge\docfetcher\
+Add classpath:	C:\Users\makabenta\Documents\Eclipse_DF\Radio_Vaticana_DocFetcher\lib\*.jar
+Launcher:	C:\Program Files\Java\jre7\bin\javaw.exe
+Launcher args:	-Xmx1024m -Djava.library.path="lib" -enableassertions -Xss2m -classpath "..\..\lib;C:\Users\makabenta\Documents\Eclipse_DF\Radio_Vaticana_DocFetcher\src\net\sourceforge\docfetcher\" Main.java
+Args length:	191/32768 chars
+Exit code:	1
+
+
+CmdLine:	C:\Users\makabenta\Documents\Eclipse_DF\Radio_Vaticana_DocFetcher\dist\launchers\RVDocFetcher.exe --l4j-debug
+WOW64:		yes
+Working dir:	C:\Users\makabenta\Documents\Eclipse_DF\Radio_Vaticana_DocFetcher\dist\launchers\.
+64-bit search:	SOFTWARE\JavaSoft\Java Runtime Environment...
+Match:		SOFTWARE\JavaSoft\Java Runtime Environment\1.7
+Match:		SOFTWARE\JavaSoft\Java Runtime Environment\1.7.0_45
+Using 64-bit runtime.
+64-bit search:	SOFTWARE\JavaSoft\Java Development Kit...
+Ignore:		SOFTWARE\JavaSoft\Java Development Kit\1.7
+Ignore:		SOFTWARE\JavaSoft\Java Development Kit\1.7.0_45
+Using 64-bit runtime.
+Check launcher:	C:\Program Files\Java\jre7\bin\javaw.exe (OK)
+Heap -Xmx:	Requested 1024 MB / 0%, Available: 4537 MB, Heap size: 1024 MB
+Add classpath:	C:\Users\makabenta\Documents\Eclipse_DF\Radio_Vaticana_DocFetcher\src\net\sourceforge\docfetcher\
+Add classpath:	C:\Users\makabenta\Documents\Eclipse_DF\Radio_Vaticana_DocFetcher\lib\*.jar
+Launcher:	C:\Program Files\Java\jre7\bin\javaw.exe
+Launcher args:	-Xmx1024m -Djava.library.path="lib" -enableassertions -Xss2m -classpath "..\..\lib;C:\Users\makabenta\Documents\Eclipse_DF\Radio_Vaticana_DocFetcher\src\net\sourceforge\docfetcher\" Main.java
+Args length:	191/32768 chars
+Exit code:	1
+
+
+CmdLine:	C:\Users\makabenta\Documents\Eclipse_DF\Radio_Vaticana_DocFetcher\dist\launchers\RVDocFetcher.exe --l4j-debug
+WOW64:		yes
+Working dir:	C:\Users\makabenta\Documents\Eclipse_DF\Radio_Vaticana_DocFetcher\dist\launchers\.
+64-bit search:	SOFTWARE\JavaSoft\Java Runtime Environment...
+Match:		SOFTWARE\JavaSoft\Java Runtime Environment\1.7
+Match:		SOFTWARE\JavaSoft\Java Runtime Environment\1.7.0_45
+Using 64-bit runtime.
+64-bit search:	SOFTWARE\JavaSoft\Java Development Kit...
+Ignore:		SOFTWARE\JavaSoft\Java Development Kit\1.7
+Ignore:		SOFTWARE\JavaSoft\Java Development Kit\1.7.0_45
+Using 64-bit runtime.
+Check launcher:	C:\Program Files\Java\jre7\bin\javaw.exe (OK)
+Heap -Xmx:	Requested 1024 MB / 0%, Available: 4536 MB, Heap size: 1024 MB
+Add classpath:	C:\Users\makabenta\Documents\Eclipse_DF\Radio_Vaticana_DocFetcher\src\net\sourceforge\docfetcher\
+Add classpath:	C:\Users\makabenta\Documents\Eclipse_DF\Radio_Vaticana_DocFetcher\lib\*.jar
+Launcher:	C:\Program Files\Java\jre7\bin\javaw.exe
+Launcher args:	-Xmx1024m -Djava.library.path="lib" -enableassertions -Xss2m -classpath "..\..\lib;C:\Users\makabenta\Documents\Eclipse_DF\Radio_Vaticana_DocFetcher\src\net\sourceforge\docfetcher\" C:\Users\makabenta\Documents\Eclipse_DF\Radio_Vaticana_DocFetcher\src\net\sourceforge\docfetcher\Main.java
+Args length:	288/32768 chars
+Exit code:	1
+
+
+CmdLine:	C:\Users\makabenta\Documents\Eclipse_DF\Radio_Vaticana_DocFetcher\dist\launchers\RVDocFetcher.exe --l4j-debug
+WOW64:		yes
+Working dir:	C:\Users\makabenta\Documents\Eclipse_DF\Radio_Vaticana_DocFetcher\dist\launchers\.
+64-bit search:	SOFTWARE\JavaSoft\Java Runtime Environment...
+Match:		SOFTWARE\JavaSoft\Java Runtime Environment\1.7
+Match:		SOFTWARE\JavaSoft\Java Runtime Environment\1.7.0_45
+Using 64-bit runtime.
+64-bit search:	SOFTWARE\JavaSoft\Java Development Kit...
+Ignore:		SOFTWARE\JavaSoft\Java Development Kit\1.7
+Ignore:		SOFTWARE\JavaSoft\Java Development Kit\1.7.0_45
+Using 64-bit runtime.
+Check launcher:	C:\Program Files\Java\jre7\bin\javaw.exe (OK)
+Heap -Xmx:	Requested 1024 MB / 0%, Available: 4531 MB, Heap size: 1024 MB
+Add classpath:	C:\Users\makabenta\Documents\Eclipse_DF\Radio_Vaticana_DocFetcher\lib\*.jar
+Launcher:	C:\Program Files\Java\jre7\bin\javaw.exe
+Launcher args:	-Xmx1024m -Djava.library.path="lib" -enableassertions -Xss2m -classpath "..\..\lib" C:\Users\makabenta\Documents\Eclipse_DF\Radio_Vaticana_DocFetcher\src\net\sourceforge\docfetcher\Main.java
+Args length:	190/32768 chars
+Exit code:	1
+
+
+CmdLine:	C:\Users\makabenta\Documents\Eclipse_DF\Radio_Vaticana_DocFetcher\dist\launchers\RVDoc.exe --l4j-debug
+WOW64:		yes
+Working dir:	C:\Users\makabenta\Documents\Eclipse_DF\Radio_Vaticana_DocFetcher\dist\launchers\.
+64-bit search:	SOFTWARE\JavaSoft\Java Runtime Environment...
+Match:		SOFTWARE\JavaSoft\Java Runtime Environment\1.7
+Match:		SOFTWARE\JavaSoft\Java Runtime Environment\1.7.0_45
+Using 64-bit runtime.
+64-bit search:	SOFTWARE\JavaSoft\Java Development Kit...
+Ignore:		SOFTWARE\JavaSoft\Java Development Kit\1.7
+Ignore:		SOFTWARE\JavaSoft\Java Development Kit\1.7.0_45
+Using 64-bit runtime.
+Check launcher:	C:\Program Files\Java\jre7\bin\javaw.exe (OK)
+Heap -Xmx:	Requested 1024 MB / 0%, Available: 5937 MB, Heap size: 1024 MB
+Add classpath:	lib\*.jar
+Launcher:	C:\Program Files\Java\jre7\bin\javaw.exe
+Launcher args:	-Xmx1024m -Djava.library.path="lib" -enableassertions -Xss2m -classpath "lib" net.sourceforge.docfetcher.Main
+Args length:	109/32768 chars
+Exit code:	1
+
+
+CmdLine:	C:\Users\makabenta\Documents\Eclipse_DF\Radio_Vaticana_DocFetcher\dist\launchers\RVDoc.exe --l4j-debug
+WOW64:		yes
+Working dir:	C:\Users\makabenta\Documents\Eclipse_DF\Radio_Vaticana_DocFetcher\dist\launchers\.
+64-bit search:	SOFTWARE\JavaSoft\Java Runtime Environment...
+Match:		SOFTWARE\JavaSoft\Java Runtime Environment\1.7
+Match:		SOFTWARE\JavaSoft\Java Runtime Environment\1.7.0_45
+Using 64-bit runtime.
+64-bit search:	SOFTWARE\JavaSoft\Java Development Kit...
+Ignore:		SOFTWARE\JavaSoft\Java Development Kit\1.7
+Ignore:		SOFTWARE\JavaSoft\Java Development Kit\1.7.0_45
+Using 64-bit runtime.
+Check launcher:	C:\Program Files\Java\jre7\bin\javaw.exe (OK)
+Heap -Xmx:	Requested 1024 MB / 0%, Available: 5928 MB, Heap size: 1024 MB
+Add classpath:	lib\*.jar
+Launcher:	C:\Program Files\Java\jre7\bin\javaw.exe
+Launcher args:	-Xmx1024m -Djava.library.path="lib" -enableassertions -Xss2m -classpath "lib" net.sourceforge.docfetcher.Main
+Args length:	109/32768 chars
+Exit code:	1
+
+
+CmdLine:	C:\Users\makabenta\Documents\Eclipse_DF\Radio_Vaticana_DocFetcher\dist\launchers\RVDoc.exe --l4j-debug
+WOW64:		yes
+Working dir:	C:\Users\makabenta\Documents\Eclipse_DF\Radio_Vaticana_DocFetcher\dist\launchers\.
+64-bit search:	SOFTWARE\JavaSoft\Java Runtime Environment...
+Match:		SOFTWARE\JavaSoft\Java Runtime Environment\1.7
+Match:		SOFTWARE\JavaSoft\Java Runtime Environment\1.7.0_45
+Using 64-bit runtime.
+64-bit search:	SOFTWARE\JavaSoft\Java Development Kit...
+Ignore:		SOFTWARE\JavaSoft\Java Development Kit\1.7
+Ignore:		SOFTWARE\JavaSoft\Java Development Kit\1.7.0_45
+Using 64-bit runtime.
+Check launcher:	C:\Program Files\Java\jre7\bin\javaw.exe (OK)
+Heap -Xmx:	Requested 1024 MB / 0%, Available: 5844 MB, Heap size: 1024 MB
+Add classpath:	lib\*.jar
+Launcher:	C:\Program Files\Java\jre7\bin\javaw.exe
+Launcher args:	-Xmx1024m -Djava.library.path="lib" -enableassertions -Xss2m -classpath "lib" net.sourceforge.docfetcher.Main
+Args length:	109/32768 chars
+Exit code:	1
+
+
+CmdLine:	C:\Users\makabenta\Documents\Eclipse_DF\Radio_Vaticana_DocFetcher\dist\launchers\RVDoc.exe --l4j-debug
+WOW64:		yes
+Working dir:	C:\Users\makabenta\Documents\Eclipse_DF\Radio_Vaticana_DocFetcher\dist\launchers\.
+64-bit search:	SOFTWARE\JavaSoft\Java Runtime Environment...
+Match:		SOFTWARE\JavaSoft\Java Runtime Environment\1.7
+Match:		SOFTWARE\JavaSoft\Java Runtime Environment\1.7.0_45
+Using 64-bit runtime.
+64-bit search:	SOFTWARE\JavaSoft\Java Development Kit...
+Ignore:		SOFTWARE\JavaSoft\Java Development Kit\1.7
+Ignore:		SOFTWARE\JavaSoft\Java Development Kit\1.7.0_45
+Using 64-bit runtime.
+Check launcher:	C:\Program Files\Java\jre7\bin\javaw.exe (OK)
+Heap -Xmx:	Requested 1024 MB / 0%, Available: 5842 MB, Heap size: 1024 MB
+Add classpath:	lib\*.jar
+Launcher:	C:\Program Files\Java\jre7\bin\javaw.exe
+Launcher args:	-Xmx1024m -Djava.library.path="lib" -enableassertions -Xss2m -classpath "lib" net.sourceforge.docfetcher.Main
+Args length:	109/32768 chars
+Exit code:	1
