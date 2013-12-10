@@ -175,7 +175,7 @@ public final class BuildMain {
 		makeExecutable("Cannot make the portable launcher shell scripts executable.", linuxLauncher, macOsXLauncher);
 
 		String exeLauncher = U.format("%s/%s.exe", releaseDir, appName);
-		U.copyBinaryFile("dist/launchers/DocFetcher-512.exe", exeLauncher);
+		U.copyBinaryFile("dist/launchers/VaticanFetcher-512.exe", exeLauncher);
 
 		for (int heapSize : new int[] {256, 512, 768, 1024}) {
 			String exeName = U.format("%s-%d.exe", appName, heapSize);
