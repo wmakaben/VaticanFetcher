@@ -44,7 +44,7 @@ import com.google.common.base.Strings;
 
 public final class BuildMain {
 
-	public static final String appName = "Radio Vaticana DocFetcher";
+	public static final String appName = "Vatican Fetcher";
 	private static final String version = readVersionNumber();
 
 	private static final String packageId = Main.class.getPackage().getName();
@@ -169,7 +169,7 @@ public final class BuildMain {
 		// Create DocFetcher.app launcher for Mac OS X
 		String macOsXLauncher = U.format("%s/%s.app/Contents/MacOS/%s", releaseDir, appName, appName);
 		U.copyTextFile("dist/launchers/launcher-macosx-portable.sh", macOsXLauncher, LineSep.UNIX, "${app_name}", appName,"${main_class}", Main.class.getName());
-		U.copyBinaryFile("dist/DocFetcher.icns", U.format("%s/%s.app/Contents/Resources/%s.icns", releaseDir, appName, appName));
+		U.copyBinaryFile("dist/VaticanFetcher.icns", U.format("%s/%s.app/Contents/Resources/%s.icns", releaseDir, appName, appName));
 		deployInfoPlist(new File(U.format("%s/%s.app/Contents", releaseDir, appName)));
 
 		makeExecutable("Cannot make the portable launcher shell scripts executable.", linuxLauncher, macOsXLauncher);
@@ -243,7 +243,7 @@ public final class BuildMain {
 		U.copyDir("dist/help", resourcesDir + "/help");
 		U.copyDir("dist/lang", resourcesDir + "/lang");
 		updateManualVersionNumber(new File(resourcesDir, "help"));
-		U.copyBinaryFile("dist/DocFetcher.icns", U.format("%s/%s.icns", resourcesDir, appName));
+		U.copyBinaryFile("dist/VaticanFetcher.icns", U.format("%s/%s.icns", resourcesDir, appName));
 		deployInfoPlist(new File(contentsDir));
 
 		String excludedLibs = U.readPatterns("lib/excluded_jar_patterns.txt");
