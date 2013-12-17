@@ -9,14 +9,14 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.util.gui.dialog;
+package net.sourceforge.vaticanfetcher.util.gui.dialog;
 
-import net.sourceforge.docfetcher.util.AppUtil;
-import net.sourceforge.docfetcher.util.Event;
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.annotations.Nullable;
-import net.sourceforge.docfetcher.util.gui.FormDataFactory;
+import net.sourceforge.vaticanfetcher.util.AppUtil;
+import net.sourceforge.vaticanfetcher.util.Event;
+import net.sourceforge.vaticanfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.Nullable;
+import net.sourceforge.vaticanfetcher.util.gui.FormDataFactory;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -33,9 +33,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 
-/**
- * @author Tran Nam Quang
- */
 public final class ListConfirmDialog {
 
 	public static void main(String[] args) {
@@ -134,9 +131,7 @@ public final class ListConfirmDialog {
 		shell.setText(title);
 	}
 	
-	/**
-	 * Sets the dialog message. Hyperlinks are supported.
-	 */
+	/** Sets the dialog message. Hyperlinks are supported. */
 	public void setText(@NotNull String text) {
 		textControl.setText(text);
 	}
@@ -153,9 +148,7 @@ public final class ListConfirmDialog {
 		cancelBt.setText(cancelLabel);
 	}
 	
-	/**
-	 * Opens the dialog and returns whether the OK button was clicked.
-	 */
+	/** Opens the dialog and returns whether the OK button was clicked. */
 	public boolean open() {
 		Util.setCenteredBounds(shell, 350, 350);
 		shell.open();

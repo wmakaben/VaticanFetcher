@@ -9,15 +9,12 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.util.gui.dialog;
+package net.sourceforge.vaticanfetcher.util.gui.dialog;
 
-import net.sourceforge.docfetcher.util.AppUtil;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.annotations.Nullable;
+import net.sourceforge.vaticanfetcher.util.AppUtil;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.Nullable;
 
-/**
- * @author Tran Nam Quang
- */
 public abstract class InputLoop <T> {
 	
 	@Nullable

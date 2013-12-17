@@ -9,11 +9,11 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.util.gui.dialog;
+package net.sourceforge.vaticanfetcher.util.gui.dialog;
 
-import net.sourceforge.docfetcher.util.AppUtil;
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.gui.FormDataFactory;
+import net.sourceforge.vaticanfetcher.util.AppUtil;
+import net.sourceforge.vaticanfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.gui.FormDataFactory;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyAdapter;
@@ -26,11 +26,7 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
-/**
- * A generic input dialog widget.
- * 
- * @author Tran Nam Quang
- */
+/** A generic input dialog widget. */
 public class InputDialog {
 	
 	private Shell shell;
@@ -39,8 +35,7 @@ public class InputDialog {
 	private boolean selectFilenameOnly = false;
 	
 	/**
-	 * Creates an input dialog instance. The dialog remains invisible until
-	 * {@link #open()} is called.
+	 * Creates an input dialog instance. The dialog remains invisible until {@link #open()} is called.
 	 * 
 	 * @param parent
 	 *            The parent shell.
@@ -102,35 +97,27 @@ public class InputDialog {
 		});
 	}
 	
-	/**
-	 * @see #setSelectFilenameOnly(boolean)
-	 */
+	/** @see #setSelectFilenameOnly(boolean) */
 	public boolean isSelectFilenameOnly() {
 		return selectFilenameOnly;
 	}
 
 	/**
-	 * If a filename has been set as the default value for this input dialog,
-	 * calling this method will set the initial selection to the filename only,
-	 * excluding the file extension.
+	 * If a filename has been set as the default value for this input dialog, calling this method 
+	 * will set the initial selection to the filename only, excluding the file extension.
 	 */
 	public void setSelectFilenameOnly(boolean selectFilenameOnly) {
 		this.selectFilenameOnly = selectFilenameOnly;
 	}
 
-	/**
-	 * Sets the items in the drop-down list of the dialog.
-	 */
+	/** Sets the items in the drop-down list of the dialog. */
 	public void setHistory(String[] history) {
 		String str = text.getText();
 		text.setItems(history);
 		text.setText(str);
 	}
 	
-	/**
-	 * Opens the dialog and returns the input string or null if the dialog was
-	 * canceled.
-	 */
+	/** Opens the dialog and returns the input string or null if the dialog was canceled. */
 	public String open() {
 		Util.setCenteredMinBounds(shell, 300, 150);
 		shell.open();

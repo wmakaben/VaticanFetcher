@@ -9,11 +9,11 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.util.gui.dialog;
+package net.sourceforge.vaticanfetcher.util.gui.dialog;
 
-import net.sourceforge.docfetcher.util.AppUtil;
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.AppUtil;
+import net.sourceforge.vaticanfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -25,9 +25,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Link;
 import org.eclipse.swt.widgets.Shell;
 
-/**
- * @author Tran Nam Quang
- */
 public class InfoDialog {
 	
 	private final Shell shell;

@@ -9,11 +9,11 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.util.gui.dialog;
+package net.sourceforge.vaticanfetcher.util.gui.dialog;
 
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.annotations.Nullable;
+import net.sourceforge.vaticanfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.Nullable;
 
 import org.eclipse.swt.widgets.Shell;
 
@@ -26,27 +26,17 @@ public abstract class InputDialogLoop<T> extends InputLoop<T> {
 	@NotNull private String message = ENTER_NAME;
 	private boolean selectFilenameOnly = false;
 	
-	public InputDialogLoop(@NotNull Shell parent) {
-		this.parent = Util.checkNotNull(parent);
-	}
+	public InputDialogLoop(@NotNull Shell parent) {this.parent = Util.checkNotNull(parent);}
 	
 	@NotNull
-	public final String getShellTitle() {
-		return shellTitle;
-	}
+	public final String getShellTitle() {return shellTitle;}
 
-	public final void setShellTitle(@NotNull String shellTitle) {
-		this.shellTitle = Util.checkNotNull(shellTitle);
-	}
+	public final void setShellTitle(@NotNull String shellTitle) {this.shellTitle = Util.checkNotNull(shellTitle);}
 
 	@NotNull
-	public final String getMessage() {
-		return message;
-	}
+	public final String getMessage() {return message;}
 
-	public final void setMessage(@NotNull String message) {
-		this.message = Util.checkNotNull(message);
-	}
+	public final void setMessage(@NotNull String message) {this.message = Util.checkNotNull(message);}
 	
 	@Nullable
 	protected final String getNewValue(@NotNull String lastValue) {
@@ -55,12 +45,8 @@ public abstract class InputDialogLoop<T> extends InputLoop<T> {
 		return dialog.open();
 	}
 
-	public final boolean isSelectFilenameOnly() {
-		return selectFilenameOnly;
-	}
+	public final boolean isSelectFilenameOnly() {return selectFilenameOnly;}
 
-	public final void setSelectFilenameOnly(boolean selectFilenameOnly) {
-		this.selectFilenameOnly = selectFilenameOnly;
-	}
+	public final void setSelectFilenameOnly(boolean selectFilenameOnly) {this.selectFilenameOnly = selectFilenameOnly;}
 
 }

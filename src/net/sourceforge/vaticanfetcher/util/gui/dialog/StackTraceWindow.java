@@ -9,12 +9,12 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.util.gui.dialog;
+package net.sourceforge.vaticanfetcher.util.gui.dialog;
 
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.AppUtil.Messages;
-import net.sourceforge.docfetcher.util.gui.Col;
-import net.sourceforge.docfetcher.util.gui.FormDataFactory;
+import net.sourceforge.vaticanfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.AppUtil.Messages;
+import net.sourceforge.vaticanfetcher.util.gui.Col;
+import net.sourceforge.vaticanfetcher.util.gui.FormDataFactory;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -54,21 +54,13 @@ public class StackTraceWindow {
 		fdf.top(label).bottom().applyTo(text);
 	}
 	
-	public void setTitle(String title) {
-		shell.setText(title);
-	}
+	public void setTitle(String title) {shell.setText(title);}
 	
-	public void setText(String textWithLinks) {
-		label.setText(textWithLinks);
-	}
+	public void setText(String textWithLinks) {label.setText(textWithLinks);}
 	
-	public void setTitleImage(Image image) {
-		shell.setImage(image);
-	}
+	public void setTitleImage(Image image) {shell.setImage(image);}
 	
-	public void setStackTrace(String stackTrace) {
-		text.setText(stackTrace);
-	}
+	public void setStackTrace(String stackTrace) {text.setText(stackTrace);}
 	
 	public void open() {
 		Util.setCenteredBounds(shell, 400, 400); // Don't store shell size
