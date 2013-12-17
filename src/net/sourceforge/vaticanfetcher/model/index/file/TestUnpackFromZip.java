@@ -9,7 +9,7 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model.index.file;
+package net.sourceforge.vaticanfetcher.model.index.file;
 
 import static org.junit.Assert.assertTrue;
 
@@ -18,8 +18,8 @@ import java.io.OutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import net.sourceforge.docfetcher.TestFiles;
-import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.TestFiles;
+import net.sourceforge.vaticanfetcher.util.Util;
 
 import org.junit.Test;
 
@@ -34,10 +34,7 @@ import de.schlichtherle.truezip.file.TFile;
 import de.schlichtherle.truezip.file.TFileOutputStream;
 
 /**
- * This unit test checks whether J7Zip and JUnRar, the two libraries used for
- * handling non-zip archives, can operate on compressed TrueZIP archive entries.
- * 
- * @author Tran Nam Quang
+ * This unit test checks whether J7Zip and JUnRar, the two libraries used for handling non-zip archives, can operate on compressed TrueZIP archive entries.
  */
 public class TestUnpackFromZip {
 	

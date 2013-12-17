@@ -9,23 +9,20 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model.index.file;
+package net.sourceforge.vaticanfetcher.model.index.file;
 
 import java.io.IOException;
 
-import net.sourceforge.docfetcher.model.TreeNode;
-import net.sourceforge.docfetcher.model.index.IndexingError.ErrorType;
-import net.sourceforge.docfetcher.model.index.IndexingException;
-import net.sourceforge.docfetcher.model.index.IndexingInfo.InfoType;
-import net.sourceforge.docfetcher.model.index.IndexingReporter;
-import net.sourceforge.docfetcher.util.CheckedOutOfMemoryError;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.model.TreeNode;
+import net.sourceforge.vaticanfetcher.model.index.IndexingError.ErrorType;
+import net.sourceforge.vaticanfetcher.model.index.IndexingException;
+import net.sourceforge.vaticanfetcher.model.index.IndexingInfo.InfoType;
+import net.sourceforge.vaticanfetcher.model.index.IndexingReporter;
+import net.sourceforge.vaticanfetcher.util.CheckedOutOfMemoryError;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
 
 import org.apache.lucene.document.Document;
 
-/**
- * @author Tran Nam Quang
- */
 final class AppendingContext extends FileContext {
 	
 	private final FileContext outerContext;

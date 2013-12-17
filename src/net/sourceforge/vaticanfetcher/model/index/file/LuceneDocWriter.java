@@ -9,49 +9,35 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model.index.file;
+package net.sourceforge.vaticanfetcher.model.index.file;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import net.sourceforge.docfetcher.model.Fields;
-import net.sourceforge.docfetcher.model.parse.ParseResult;
-import net.sourceforge.docfetcher.util.CheckedOutOfMemoryError;
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.model.Fields;
+import net.sourceforge.vaticanfetcher.model.parse.ParseResult;
+import net.sourceforge.vaticanfetcher.util.CheckedOutOfMemoryError;
+import net.sourceforge.vaticanfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
 
 import org.apache.lucene.document.Document;
 
-/**
- * @author Tran Nam Quang
- */
 abstract class LuceneDocWriter {
 	
-	public final void add(	@NotNull FileDocument doc,
-							@NotNull File file,
-							@NotNull ParseResult parseResult)
-			throws IOException, CheckedOutOfMemoryError {
+	public final void add(@NotNull FileDocument doc, @NotNull File file, @NotNull ParseResult parseResult) throws IOException, CheckedOutOfMemoryError {
 		Document luceneDoc = createLuceneDoc(doc, file, parseResult);
 		write(doc, luceneDoc, true);
 	}
 	
-	public void update(	@NotNull FileDocument doc,
-						@NotNull File file,
-						@NotNull ParseResult parseResult)
-			throws IOException, CheckedOutOfMemoryError {
+	public void update(	@NotNull FileDocument doc, @NotNull File file, @NotNull ParseResult parseResult)throws IOException, CheckedOutOfMemoryError {
 		Document luceneDoc = createLuceneDoc(doc, file, parseResult);
 		write(doc, luceneDoc, false);
 	}
 
 	@NotNull
-	private Document createLuceneDoc(	@NotNull FileDocument doc,
-										@NotNull File file,
-										@NotNull ParseResult parseResult) {
-		/*
-		 * The given file might be a temporary one, so we'll have to get the
-		 * original filename and last-modified value from the document.
-		 */
+	private Document createLuceneDoc(@NotNull FileDocument doc,	@NotNull File file,	@NotNull ParseResult parseResult) {
+		/* The given file might be a temporary one, so we'll have to get the original filename and last-modified value from the document. */
 		Document luceneDoc = new Document();
 		String filename = doc.getName();
 		
@@ -75,12 +61,9 @@ abstract class LuceneDocWriter {
 		}
 		
 		/*
-		 * Create content field with metadata appended to it. Note that two
-		 * versions of the filename are appended: The filename with and without
-		 * file extension. The reason for this is that Lucene's StandardAnalyzer
-		 * won't split the filename at the dot before the file extension, so the
-		 * user wouldn't find the file if we store only the full filename and
-		 * the user searches for the filename without extension.
+		 * Create content field with metadata appended to it. Note that two versions of the filename are appended: The filename with and without
+		 * file extension. The reason for this is that Lucene's StandardAnalyzer won't split the filename at the dot before the file extension, 
+		 * so the user wouldn't find the file if we store only the full filename and the user searches for the filename without extension.
 		 */
 		luceneDoc.add(Fields.createContent(parseResult.getContent()));
 		StringBuilder metadata = parseResult.getMetadata();
@@ -96,10 +79,7 @@ abstract class LuceneDocWriter {
 	
 	protected abstract boolean appendMetadata();
 	
-	public abstract void write(	@NotNull FileDocument doc,
-								@NotNull Document luceneDoc,
-								boolean added) throws IOException,
-			CheckedOutOfMemoryError;
+	public abstract void write(	@NotNull FileDocument doc, @NotNull Document luceneDoc,	boolean added) throws IOException, CheckedOutOfMemoryError;
 	
 	public abstract void delete(@NotNull String uid) throws IOException;
 

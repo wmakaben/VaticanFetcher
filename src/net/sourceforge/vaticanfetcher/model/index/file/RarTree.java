@@ -9,7 +9,7 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model.index.file;
+package net.sourceforge.vaticanfetcher.model.index.file;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -17,13 +17,13 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Map;
 
-import net.sourceforge.docfetcher.model.Path;
-import net.sourceforge.docfetcher.model.TreeNode;
-import net.sourceforge.docfetcher.model.index.IndexingConfig;
-import net.sourceforge.docfetcher.model.index.IndexingError.ErrorType;
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.annotations.Nullable;
+import net.sourceforge.vaticanfetcher.model.Path;
+import net.sourceforge.vaticanfetcher.model.TreeNode;
+import net.sourceforge.vaticanfetcher.model.index.IndexingConfig;
+import net.sourceforge.vaticanfetcher.model.index.IndexingError.ErrorType;
+import net.sourceforge.vaticanfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.Nullable;
 
 import com.google.common.collect.Maps;
 import com.google.common.io.Closeables;
@@ -33,24 +33,14 @@ import de.innosystec.unrar.Archive;
 import de.innosystec.unrar.exception.RarException;
 import de.innosystec.unrar.rarfile.FileHeader;
 
-/**
- * @author Tran Nam Quang
- */
 final class RarTree extends SolidArchiveTree<FileHeader> {
 
-	public RarTree(@NotNull File archiveFile,
-	               @NotNull IndexingConfig config,
-                   @Nullable Path originalPath,
-	               @Nullable FailReporter failReporter)
+	public RarTree(@NotNull File archiveFile, @NotNull IndexingConfig config, @Nullable Path originalPath, @Nullable FailReporter failReporter)
 			throws IOException, ArchiveEncryptedException {
 		super(archiveFile, config, originalPath, failReporter);
 	}
 	
-	public RarTree(@NotNull File archiveFile,
-	               @NotNull IndexingConfig config,
-	               boolean isHtmlPairing,
-                   @Nullable Path originalPath,
-	               @Nullable FailReporter failReporter)
+	public RarTree(@NotNull File archiveFile, @NotNull IndexingConfig config, boolean isHtmlPairing, @Nullable Path originalPath, @Nullable FailReporter failReporter)
 			throws IOException, ArchiveEncryptedException {
 		super(archiveFile, config, isHtmlPairing, originalPath, failReporter);
 	}
@@ -59,8 +49,7 @@ final class RarTree extends SolidArchiveTree<FileHeader> {
 		// Do nothing
 	}
 	
-	protected ArchiveIterator<FileHeader> getArchiveIterator(	File archiveFile,
-																String archivePath)
+	protected ArchiveIterator<FileHeader> getArchiveIterator(File archiveFile, String archivePath)
 			throws IOException, ArchiveEncryptedException {
 		Archive archive = null;
 		try {
@@ -120,26 +109,19 @@ final class RarTree extends SolidArchiveTree<FileHeader> {
 		return RarEntryReader.instance;
 	}
 	
-	protected Map<Integer, File> doUnpack(	Map<Integer, TreeNode> unpackMap,
-											TempFileFactory tempFileFactory)
-			throws IOException {
+	protected Map<Integer, File> doUnpack(Map<Integer, TreeNode> unpackMap,	TempFileFactory tempFileFactory)throws IOException {
 		Map<Integer, File> indexFileMap = Maps.newHashMap();
 		Archive archive = null;
 		try {
 			archive = new Archive(archiveFile);
 
 			/*
-			 * If the archive uses solid compression, all files preceding the
-			 * target files must be extracted, otherwise JUnRar will throw
-			 * errors, such as 'crcError'. In order to save disk space, we can
-			 * extract unneeded files into a NullOutputStream.
+			 * If the archive uses solid compression, all files preceding the target files must be extracted, otherwise JUnRar will throw
+			 * errors, such as 'crcError'. In order to save disk space, we can extract unneeded files into a NullOutputStream.
 			 * 
-			 * To find out whether the archive uses solid compression, we'll
-			 * have to iterate over all file headers and check their solid flags
-			 * one by one. - This is necessary, because it is usually not the
-			 * case that all file headers have the same solid flag! In fact, in
-			 * a regular solid archive the first file header is marked
-			 * 'non-solid', while the remaining file headers are marked 'solid'.
+			 * To find out whether the archive uses solid compression, we'll have to iterate over all file headers and check their solid flags
+			 * one by one. - This is necessary, because it is usually not the case that all file headers have the same solid flag! In fact, in
+			 * a regular solid archive the first file header is marked 'non-solid', while the remaining file headers are marked 'solid'.
 			 */
 			boolean isSolid = isSolidRarArchive(archive);
 			
@@ -147,8 +129,7 @@ final class RarTree extends SolidArchiveTree<FileHeader> {
 			NullOutputStream nullOut = isSolid ? new NullOutputStream() : null;
 			for (int i = 0;; i++) {
 				/*
-				 * We can abort early if we've extracted all needed files before
-				 * reaching the end of the archive.
+				 * We can abort early if we've extracted all needed files before reaching the end of the archive.
 				 */
 				if (unpackMap.isEmpty())
 					break;
@@ -158,15 +139,13 @@ final class RarTree extends SolidArchiveTree<FileHeader> {
 				if (fh.isDirectory()) continue;
 
 				/*
-				 * This was already reported when the tree was constructed, so
-				 * we can continue silently here.
+				 * This was already reported when the tree was constructed, so we can continue silently here.
 				 */
 				if (fh.isEncrypted())
 					continue;
 				
 				/*
-				 * Remove entry from map so we'll know when there are no more
-				 * files to extract.
+				 * Remove entry from map so we'll know when there are no more files to extract.
 				 */
 				TreeNode treeNode = unpackMap.remove(i);
 				
@@ -184,8 +163,7 @@ final class RarTree extends SolidArchiveTree<FileHeader> {
 				}
 				catch (OutOfMemoryError e) {
 					/*
-					 * Calling extractFile can throw an OutOfMemoryError. See
-					 * bug #3443490.
+					 * Calling extractFile can throw an OutOfMemoryError. See bug #3443490.
 					 */
 					if (treeNode != null) // Ignore errors for entries written to NullOutputStream
 						failReporter.fail(ErrorType.OUT_OF_MEMORY, treeNode, e);

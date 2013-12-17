@@ -9,7 +9,7 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model.index.file;
+package net.sourceforge.vaticanfetcher.model.index.file;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -18,20 +18,17 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import net.sourceforge.docfetcher.model.Path;
-import net.sourceforge.docfetcher.model.TreeNode;
-import net.sourceforge.docfetcher.model.index.IndexingConfig;
-import net.sourceforge.docfetcher.model.index.IndexingError;
-import net.sourceforge.docfetcher.model.index.IndexingError.ErrorType;
-import net.sourceforge.docfetcher.model.index.IndexingReporter;
-import net.sourceforge.docfetcher.util.Stoppable;
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.annotations.Nullable;
+import net.sourceforge.vaticanfetcher.model.Path;
+import net.sourceforge.vaticanfetcher.model.TreeNode;
+import net.sourceforge.vaticanfetcher.model.index.IndexingConfig;
+import net.sourceforge.vaticanfetcher.model.index.IndexingError;
+import net.sourceforge.vaticanfetcher.model.index.IndexingError.ErrorType;
+import net.sourceforge.vaticanfetcher.model.index.IndexingReporter;
+import net.sourceforge.vaticanfetcher.util.Stoppable;
+import net.sourceforge.vaticanfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.Nullable;
 
-/**
- * @author Tran Nam Quang
- */
 abstract class HtmlFileLister<T extends Throwable> extends Stoppable<T> {
 	
 	private final File parentDir;
@@ -40,9 +37,7 @@ abstract class HtmlFileLister<T extends Throwable> extends Stoppable<T> {
 	private final boolean htmlPairing;
 	@Nullable private final IndexingReporter reporter;
 	
-	public HtmlFileLister(	@NotNull File parentDir,
-							@NotNull IndexingConfig config,
-							@Nullable IndexingReporter reporter) {
+	public HtmlFileLister(@NotNull File parentDir, @NotNull IndexingConfig config,	@Nullable IndexingReporter reporter) {
 		Util.checkNotNull(parentDir, config);
 		this.parentDir = parentDir;
 		this.config = config;
@@ -128,11 +123,9 @@ abstract class HtmlFileLister<T extends Throwable> extends Stoppable<T> {
 		}
 		
 		/*
-		 * Bug #3538230: We've already called isFile() and isDirectory() on all
-		 * found files and directories in the previous loop, but we must do it
-		 * again in the two following loops, because enough time may have passed
-		 * due to indexing to allow the user to delete any of the files and
-		 * directories from outside.
+		 * Bug #3538230: We've already called isFile() and isDirectory() on all found files and directories in the previous loop, 
+		 * but we must do it again in the two following loops, because enough time may have passed due to indexing to allow the 
+		 * user to delete any of the files and directories from outside.
 		 */
 		
 		for (File dirCandidate : tempDirs) {
@@ -174,13 +167,10 @@ abstract class HtmlFileLister<T extends Throwable> extends Stoppable<T> {
 		return Util.hasExtension(file.getName(), htmlExtensions);
 	}
 	
-	private void handleFileException(	@NotNull Throwable t,
-										@NotNull final File file) {
+	private void handleFileException(@NotNull Throwable t, @NotNull final File file) {
 		/*
-		 * TrueZIP can throw various runtime exceptions, e.g. a
-		 * CharConversionException while traversing zip files containing Chinese
-		 * encodings. There was also a tar-related crash, as reported in
-		 * #3436750.
+		 * TrueZIP can throw various runtime exceptions, e.g. a CharConversionException while traversing zip files containing Chinese
+		 * encodings. There was also a tar-related crash, as reported in #3436750.
 		 */
 		if (reporter == null) {
 			Util.printErr(Util.getLowestMessage(t));
@@ -202,8 +192,7 @@ abstract class HtmlFileLister<T extends Throwable> extends Stoppable<T> {
 	
 	// if HTML pairing is off, this method will be called on HTML files as well,
 	// but with empty htmlDir argument
-	protected abstract void handleHtmlPair(	@NotNull File htmlFile,
-											@Nullable File htmlDir);
+	protected abstract void handleHtmlPair(@NotNull File htmlFile, @Nullable File htmlDir);
 	
 	// dir will never be a symlink
 	protected abstract void handleDir(@NotNull File dir);

@@ -9,19 +9,15 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model.index.file;
+package net.sourceforge.vaticanfetcher.model.index.file;
 
-import net.sourceforge.docfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
 
-/**
- * @author Tran Nam Quang
- */
 final class WrappedStackOverflowError extends Error {
 
 	private static final long serialVersionUID = 1L;
 	
-	public WrappedStackOverflowError(	@NotNull String msg,
-										@NotNull StackOverflowError cause) {
+	public WrappedStackOverflowError(@NotNull String msg, @NotNull StackOverflowError cause) {
 		super(msg, cause);
 	}
 

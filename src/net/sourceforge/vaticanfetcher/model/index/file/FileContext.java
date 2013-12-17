@@ -9,36 +9,33 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model.index.file;
+package net.sourceforge.vaticanfetcher.model.index.file;
 
 import java.io.File;
 import java.io.IOException;
 
-import net.sourceforge.docfetcher.model.Cancelable;
-import net.sourceforge.docfetcher.model.Path;
-import net.sourceforge.docfetcher.model.TreeNode;
-import net.sourceforge.docfetcher.model.UtilModel;
-import net.sourceforge.docfetcher.model.index.IndexingConfig;
-import net.sourceforge.docfetcher.model.index.IndexingError.ErrorType;
-import net.sourceforge.docfetcher.model.index.IndexingException;
-import net.sourceforge.docfetcher.model.index.IndexingInfo;
-import net.sourceforge.docfetcher.model.index.IndexingInfo.InfoType;
-import net.sourceforge.docfetcher.model.index.IndexingReporter;
-import net.sourceforge.docfetcher.model.index.MutableInt;
-import net.sourceforge.docfetcher.model.index.PatternAction;
-import net.sourceforge.docfetcher.model.parse.ParseException;
-import net.sourceforge.docfetcher.model.parse.ParseResult;
-import net.sourceforge.docfetcher.model.parse.ParseService;
-import net.sourceforge.docfetcher.util.CheckedOutOfMemoryError;
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.annotations.Nullable;
+import net.sourceforge.vaticanfetcher.model.Cancelable;
+import net.sourceforge.vaticanfetcher.model.Path;
+import net.sourceforge.vaticanfetcher.model.TreeNode;
+import net.sourceforge.vaticanfetcher.model.UtilModel;
+import net.sourceforge.vaticanfetcher.model.index.IndexingConfig;
+import net.sourceforge.vaticanfetcher.model.index.IndexingError.ErrorType;
+import net.sourceforge.vaticanfetcher.model.index.IndexingException;
+import net.sourceforge.vaticanfetcher.model.index.IndexingInfo;
+import net.sourceforge.vaticanfetcher.model.index.IndexingInfo.InfoType;
+import net.sourceforge.vaticanfetcher.model.index.IndexingReporter;
+import net.sourceforge.vaticanfetcher.model.index.MutableInt;
+import net.sourceforge.vaticanfetcher.model.index.PatternAction;
+import net.sourceforge.vaticanfetcher.model.parse.ParseException;
+import net.sourceforge.vaticanfetcher.model.parse.ParseResult;
+import net.sourceforge.vaticanfetcher.model.parse.ParseService;
+import net.sourceforge.vaticanfetcher.util.CheckedOutOfMemoryError;
+import net.sourceforge.vaticanfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.Nullable;
 import de.schlichtherle.truezip.file.TArchiveDetector;
 import de.schlichtherle.truezip.file.TFile;
 
-/**
- * @author Tran Nam Quang
- */
 class FileContext {
 	
 	private final IndexingConfig config;
@@ -69,8 +66,7 @@ class FileContext {
 		setReporter(reporter);
 	}
 	
-	protected FileContext(	@NotNull FileContext superContext,
-							@NotNull Path originalPath) {
+	protected FileContext(	@NotNull FileContext superContext, @NotNull Path originalPath) {
 		this(
 				superContext.config,
 				superContext.zipDetector,
@@ -84,74 +80,47 @@ class FileContext {
 	}
 	
 	@NotNull
-	public final IndexingConfig getConfig() {
-		return config;
-	}
+	public final IndexingConfig getConfig() {return config;}
 	
 	@NotNull
-	public final TArchiveDetector getZipDetector() {
-		return zipDetector;
-	}
+	public final TArchiveDetector getZipDetector() {return zipDetector;}
 	
 	@NotNull
-	public final LuceneDocWriter getWriter() {
-		return writer;
-	}
+	public final LuceneDocWriter getWriter() {return writer;}
 	
 	// May return a default empty reporter
 	@NotNull
-	protected final IndexingReporter getReporter() {
-		return reporter;
-	}
+	protected final IndexingReporter getReporter() {return reporter;}
 
-	public final void setReporter(@Nullable IndexingReporter reporter) {
-		this.reporter = reporter == null
-			? IndexingReporter.nullReporter
-			: reporter;
-	}
+	public final void setReporter(@Nullable IndexingReporter reporter) {this.reporter = reporter == null ? IndexingReporter.nullReporter : reporter;}
 	
 	@Nullable
-	public final Path getOriginalPath() {
-		return originalPath;
-	}
+	public final Path getOriginalPath() {return originalPath;}
 	
-	public final boolean isStopped() {
-		return cancelable.isCanceled();
-	}
+	public final boolean isStopped() {return cancelable.isCanceled();}
 	
 	@NotNull
-	protected final Cancelable getStopper() {
-		return cancelable;
-	}
+	protected final Cancelable getStopper() {return cancelable;}
 	
 	@NotNull
-	protected final MutableInt getFileCount() {
-		return fileCount;
-	}
+	protected final MutableInt getFileCount() {	return fileCount;}
 	
 	@Nullable
-	protected final File getIndexParentDir() {
-		return indexParentDir;
-	}
+	protected final File getIndexParentDir() {return indexParentDir;}
 	
 	// returns success
 	// if the indexing is canceled before or during the execution of this method,
 	// the last-modified value of the given document will be set to -1.
-	public final boolean index(	@NotNull FileDocument doc,
-								@NotNull File file,
-								boolean isAdded) throws IndexingException {
+	public final boolean index(	@NotNull FileDocument doc, @NotNull File file, boolean isAdded) throws IndexingException {
 		info(InfoType.EXTRACTING, doc);
 		try {
 			// Text extraction; may throw OutOfMemoryErrors
-			ParseResult parseResult = ParseService.parse(
-				config, file, doc.getName(), doc.getPath(), reporter, cancelable);
+			ParseResult parseResult = ParseService.parse(config, file, doc.getName(), doc.getPath(), reporter, cancelable);
 			
 			/*
-			 * If we detect a cancel request at this point, the request probably
-			 * came in during the parsing step above. In that case, we'll keep
-			 * the partially extracted text and feed it to Lucene, but set the
-			 * stored last-modified value to -1 so that the next index update
-			 * will see the file as "modified" and therefore reindex it.
+			 * If we detect a cancel request at this point, the request probably came in during the parsing step above. 
+			 * In that case, we'll keep the partially extracted text and feed it to Lucene, but set the stored last-modified 
+			 * value to -1 so that the next index update will see the file as "modified" and therefore reindex it.
 			 */
 			if (cancelable.isCanceled())
 				doc.setLastModified(-1);
@@ -179,10 +148,7 @@ class FileContext {
 		return false;
 	}
 	
-	public final boolean indexAndDeleteFile(@NotNull FileDocument doc,
-											@NotNull File file,
-											boolean added)
-			throws IndexingException {
+	public final boolean indexAndDeleteFile(@NotNull FileDocument doc,	@NotNull File file,	boolean added) throws IndexingException {
 		try {
 			return index(doc, file, added);
 		}
@@ -207,16 +173,13 @@ class FileContext {
 	}
 	
 	// Reports the given error and saves it in the given tree node
-	public final void fail(	@NotNull ErrorType type,
-							@NotNull TreeNode treeNode,
-							@Nullable Throwable cause) {
+	public final void fail(	@NotNull ErrorType type, @NotNull TreeNode treeNode, @Nullable Throwable cause) {
 		UtilModel.fail(reporter, type, treeNode, cause);
 	}
 	
 	/**
-	 * Returns the original path for the given file, taking into account virtual
-	 * files inside TrueZIP archives. The returned path depends on whether a
-	 * non-null original path was set on the receiver.
+	 * Returns the original path for the given file, taking into account virtual files inside TrueZIP archives. 
+	 * The returned path depends on whether a non-null original path was set on the receiver.
 	 */
 	@NotNull
 	public final Path getDirOrZipPath(@NotNull File file) {
@@ -228,22 +191,16 @@ class FileContext {
 		return originalPath.createSubPath(relativePath);
 	}
 	
-	/**
-	 * Returns whether the given TrueZIP file or directory should be skipped,
-	 * given the various settings of the receiver.
-	 */
+	/** Returns whether the given TrueZIP file or directory should be skipped, given the various settings of the receiver. */
 	public final boolean skip(@NotNull TFile fileOrDir) {
 		String filename = fileOrDir.getName();
 		Path filepath = getDirOrZipPath(fileOrDir);
 		
 		boolean isFileOrSolidArchive = fileOrDir.isFile();
 		boolean isZipArchiveOrFolder = !isFileOrSolidArchive;
-		boolean isZipArchive = isZipArchiveOrFolder
-			? UtilModel.isZipArchive(fileOrDir)
-			: false;
+		boolean isZipArchive = isZipArchiveOrFolder	? UtilModel.isZipArchive(fileOrDir)	: false;
 		boolean isFileOrArchive = isFileOrSolidArchive || isZipArchive;
-		boolean isFile = isFileOrSolidArchive
-				&& !config.isSolidArchive(filename);
+		boolean isFile = isFileOrSolidArchive && !config.isSolidArchive(filename);
 		
 		for (PatternAction patternAction : config.getPatternActions()) {
 			switch (patternAction.getAction()) {
@@ -253,9 +210,8 @@ class FileContext {
 				break;
 			case DETECT_MIME:
 				/*
-				 * If the mime pattern matches, we'll check the mime pattern
-				 * again later (right before parsing) in order to determine
-				 * whether to detect the filetype by filename or by mimetype.
+				 * If the mime pattern matches, we'll check the mime pattern again later (right before parsing) 
+				 * in order to determine* whether to detect the filetype by filename or by mimetype.
 				 */
 				if (isFile && patternAction.matches(filename, filepath, isFile))
 					return false;

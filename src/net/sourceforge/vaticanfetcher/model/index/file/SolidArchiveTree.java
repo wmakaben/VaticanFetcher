@@ -9,7 +9,7 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model.index.file;
+package net.sourceforge.vaticanfetcher.model.index.file;
 
 import java.io.Closeable;
 import java.io.File;
@@ -18,49 +18,42 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
 
-import net.sourceforge.docfetcher.enums.ProgramConf;
-import net.sourceforge.docfetcher.model.Folder;
-import net.sourceforge.docfetcher.model.Folder.FolderEvent;
-import net.sourceforge.docfetcher.model.Path;
-import net.sourceforge.docfetcher.model.TreeNode;
-import net.sourceforge.docfetcher.model.index.DiskSpaceException;
-import net.sourceforge.docfetcher.model.index.IndexingConfig;
-import net.sourceforge.docfetcher.model.index.IndexingError.ErrorType;
-import net.sourceforge.docfetcher.model.index.IndexingException;
-import net.sourceforge.docfetcher.model.index.PatternAction;
-import net.sourceforge.docfetcher.model.index.PatternAction.MatchAction;
-import net.sourceforge.docfetcher.model.index.file.FileFolder.FileFolderVisitor;
-import net.sourceforge.docfetcher.model.parse.ParseService;
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.annotations.Nullable;
-import net.sourceforge.docfetcher.util.annotations.RecursiveMethod;
-import net.sourceforge.docfetcher.util.collect.LazyList;
-import net.sourceforge.docfetcher.util.collect.SafeKeyMap;
+import net.sourceforge.vaticanfetcher.enums.ProgramConf;
+import net.sourceforge.vaticanfetcher.model.Folder;
+import net.sourceforge.vaticanfetcher.model.Folder.FolderEvent;
+import net.sourceforge.vaticanfetcher.model.Path;
+import net.sourceforge.vaticanfetcher.model.TreeNode;
+import net.sourceforge.vaticanfetcher.model.index.DiskSpaceException;
+import net.sourceforge.vaticanfetcher.model.index.IndexingConfig;
+import net.sourceforge.vaticanfetcher.model.index.IndexingError.ErrorType;
+import net.sourceforge.vaticanfetcher.model.index.IndexingException;
+import net.sourceforge.vaticanfetcher.model.index.PatternAction;
+import net.sourceforge.vaticanfetcher.model.index.PatternAction.MatchAction;
+import net.sourceforge.vaticanfetcher.model.index.file.FileFolder.FileFolderVisitor;
+import net.sourceforge.vaticanfetcher.model.parse.ParseService;
+import net.sourceforge.vaticanfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.Nullable;
+import net.sourceforge.vaticanfetcher.util.annotations.RecursiveMethod;
+import net.sourceforge.vaticanfetcher.util.collect.LazyList;
+import net.sourceforge.vaticanfetcher.util.collect.SafeKeyMap;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Maps;
 import com.google.common.io.Files;
 
 /**
- * Generic parameter E is the type of the archive entries.
- * Tree is build in constructor; encrypted archive entries are reported and omitted.
- * All other events should be reported by caller.
- * 
- * @author Tran Nam Quang
+ * Generic parameter E is the type of the archive entries. Tree is build in constructor; encrypted 
+ * archive entries are reported and omitted. All other events should be reported by caller.
  */
 abstract class SolidArchiveTree<E> implements Closeable {
 	
 	public interface FailReporter {
-		void fail(	ErrorType type,
-					TreeNode treeNode,
-					@Nullable Throwable cause);
+		void fail(ErrorType type,TreeNode treeNode,	@Nullable Throwable cause);
 	}
 	
 	private static final class NullFailReporter implements FailReporter {
-		public void fail(	ErrorType type,
-							TreeNode treeNode,
-							Throwable cause) {
+		public void fail(ErrorType type, TreeNode treeNode,	Throwable cause) {
 		}
 	}
 	
@@ -68,18 +61,15 @@ abstract class SolidArchiveTree<E> implements Closeable {
 		public boolean hasNext();
 		@NotNull public E next();
 		/**
-		 * This method is called when the end of the iteration has been reached.
-		 * This gives the implementor the chance to perform cleanup operations
-		 * after the iteration.
+		 * This method is called when the end of the iteration has been reached. This gives the implementor the chance to perform cleanup operations after the iteration.
 		 */
 		public void finished();
 	}
 	
 	protected interface ArchiveEntryReader<E> {
 		/**
-		 * Should return a path that is relative to the archive root, always uses
-		 * the forward slashes as separator and does not start with a separator. In
-		 * other words, it should always look like this: path/to/entry
+		 * Should return a path that is relative to the archive root, always uses the forward slashes as separator 
+		 * and does not start with a separator. In other words, it should always look like this: path/to/entry
 		 */
 		public String getInnerPath(E entry);
 		public boolean isDirectory(E entry);
@@ -90,8 +80,7 @@ abstract class SolidArchiveTree<E> implements Closeable {
 	
 	protected class TempFileFactory {
 		@NotNull
-		public File createTempFile(@NotNull TreeNode treeNode)
-				throws IndexingException {
+		public File createTempFile(@NotNull TreeNode treeNode) throws IndexingException {
 			return config.createDerivedTempFile(treeNode.getName());
 		}
 	}
@@ -103,10 +92,7 @@ abstract class SolidArchiveTree<E> implements Closeable {
 		private final boolean isEncrypted;
 		@Nullable private File file; // unpacked temporary file
 
-		public EntryData(	int index,
-							long size,
-							@NotNull String innerPath,
-							boolean isEncrypted) {
+		public EntryData(int index,	long size, @NotNull String innerPath, boolean isEncrypted) {
 			this.index = index;
 			this.size = size;
 			this.innerPath = innerPath;
@@ -127,10 +113,7 @@ abstract class SolidArchiveTree<E> implements Closeable {
 	protected final FailReporter failReporter;
 	protected final File archiveFile;
 	
-	public SolidArchiveTree(@NotNull File archiveFile,
-	                        @NotNull IndexingConfig config,
-	                        @Nullable Path originalPath,
-							@Nullable FailReporter failReporter)
+	public SolidArchiveTree(@NotNull File archiveFile, @NotNull IndexingConfig config, @Nullable Path originalPath,	@Nullable FailReporter failReporter)
 			throws IOException, ArchiveEncryptedException {
 		this(archiveFile, config, config.isHtmlPairing(), originalPath, failReporter);
 	}
@@ -152,20 +135,15 @@ abstract class SolidArchiveTree<E> implements Closeable {
 		else
 			archivePath = originalPath;
 		
-		/*
-		 * Note: The last-modified value of the folder can be null because it
-		 * will not be inserted into the persistent tree structure anyway.
-		 */
+		/* Note: The last-modified value of the folder can be null because it will not be inserted into the persistent tree structure anyway. */
 		archiveFolder = new FileFolder(archivePath, null);
 		
-		ArchiveIterator<E> archiveIt = getArchiveIterator(
-			archiveFile, archivePath.getPath());
+		ArchiveIterator<E> archiveIt = getArchiveIterator(archiveFile, archivePath.getPath());
 		ArchiveEntryReader<E> entryReader = getArchiveEntryReader();
 		
 		/*
-		 * Errors on filtered tree nodes should not be reported, since the
-		 * filtering may detach tree nodes from their parents, which leads to
-		 * NullPointerExceptions when the parents are accessed.
+		 * Errors on filtered tree nodes should not be reported, since the filtering may detach tree 
+		 * nodes from their parents, which leads to NullPointerExceptions when the parents are accessed.
 		 */
 		final LazyList<TreeNode> archiveEncryptedErrors = new LazyList<TreeNode>();
 		
@@ -191,11 +169,9 @@ abstract class SolidArchiveTree<E> implements Closeable {
 					TreeNode childNode;
 					long lastModified = entryReader.getLastModified(entry);
 					if (config.isArchive(innerPart))
-						childNode = new FileFolder(
-							parent, innerPart, lastModified);
+						childNode = new FileFolder(parent, innerPart, lastModified);
 					else
-						childNode = new FileDocument(
-							parent, innerPart, lastModified);
+						childNode = new FileDocument(parent, innerPart, lastModified);
 					Path childPath = childNode.getPath();
 					
 					long unpackedSize = entryReader.getUnpackedSize(entry);
@@ -203,8 +179,7 @@ abstract class SolidArchiveTree<E> implements Closeable {
 					if (isEncrypted)
 						archiveEncryptedErrors.add(childNode);
 					
-					EntryData entryData = new EntryData(
-						i, unpackedSize, innerPath, isEncrypted);
+					EntryData entryData = new EntryData(i, unpackedSize, innerPath, isEncrypted);
 					entryDataMap.put(childPath, entryData);
 				}
 			}
@@ -232,10 +207,7 @@ abstract class SolidArchiveTree<E> implements Closeable {
 						}
 						break;
 					case DETECT_MIME:
-						/*
-						 * If the mime pattern matches, we'll check the mime pattern
-						 * again later, right before parsing.
-						 */
+						/* If the mime pattern matches, we'll check the mime pattern again later, right before parsing. */
 						if (patternAction.matches(name, path, true))
 							return false;
 						break;
@@ -279,8 +251,7 @@ abstract class SolidArchiveTree<E> implements Closeable {
 	
 	// Implementor is expected to close any open resources in case of failure
 	@NotNull
-	protected abstract ArchiveIterator<E> getArchiveIterator(	File archiveFile,
-																String archivePath)
+	protected abstract ArchiveIterator<E> getArchiveIterator(File archiveFile, String archivePath)
 			throws IOException, ArchiveEncryptedException;
 	
 	@NotNull
@@ -307,9 +278,8 @@ abstract class SolidArchiveTree<E> implements Closeable {
 				htmlEntry.setHtmlFolder(subFolder);
 				
 				/*
-				 * Detach HTML folder from previous parent folder. This won't
-				 * throw a ConcurrentModificationException since we're iterating
-				 * over a copy of the subfolders.
+				 * Detach HTML folder from previous parent folder. This won't throw a ConcurrentModificationException 
+				 * since we're iterating over a copy of the subfolders.
 				 */
 				folder.removeSubFolder(subFolder);
 				
@@ -337,8 +307,7 @@ abstract class SolidArchiveTree<E> implements Closeable {
 			applyFilter(subFolder, docPredicate, folderPredicate);
 	}
 	
-	public final void unpack(@NotNull TreeNode unpackEntry) throws IOException,
-			DiskSpaceException {
+	public final void unpack(@NotNull TreeNode unpackEntry) throws IOException,	DiskSpaceException {
 		unpack(Collections.singleton(unpackEntry), null);
 	}
 	
@@ -349,9 +318,7 @@ abstract class SolidArchiveTree<E> implements Closeable {
 	// otherwise the archive entries are unpacked to independently chosen temp files.
 	// If tempDir is given, caller is responsible for deleting it and everything underneath it.
 	// Tip: Use UtilGlobal.convert in case of incompatible Collection types
-	public final void unpack(	@NotNull Iterable<? extends TreeNode> unpackEntries,
-								@Nullable final File tempDir)
-			throws IOException, DiskSpaceException {
+	public final void unpack(@NotNull Iterable<? extends TreeNode> unpackEntries,@Nullable final File tempDir) throws IOException, DiskSpaceException {
 		final long[] requiredSpace = { 0 };
 		final Map<Integer, TreeNode> unpackMap = Maps.newHashMap();
 		
@@ -365,8 +332,7 @@ abstract class SolidArchiveTree<E> implements Closeable {
 			if (!hasHtmlFolder(entry))
 				continue;
 			new FileFolderVisitor<Exception>((FileDocument) entry) {
-				protected void visitDocument(	FileFolder parent,
-				                             	FileDocument fileDocument) {
+				protected void visitDocument(FileFolder parent, FileDocument fileDocument) {
 					Path path = fileDocument.getPath();
 					EntryData entryData = entryDataMap.getValue(path);
 					unpackMap.put(entryData.index, fileDocument);
@@ -375,10 +341,7 @@ abstract class SolidArchiveTree<E> implements Closeable {
 			}.runSilently();
 		}
 		
-		/*
-		 * We can't check emptiness on the given Iterable in an efficient way,
-		 * so we'll do it here.
-		 */
+		/* We can't check emptiness on the given Iterable in an efficient way, so we'll do it here.	 */
 		if (unpackMap.isEmpty()) return;
 		
 		// Fail if there's not enough disk space for unpacking
@@ -420,8 +383,7 @@ abstract class SolidArchiveTree<E> implements Closeable {
 			if (!hasHtmlFolder(entry))
 				continue;
 			new FileFolderVisitor<Exception>((FileDocument) entry) {
-				protected void visitDocument(	FileFolder parent,
-				                             	FileDocument fileDocument) {
+				protected void visitDocument(FileFolder parent, FileDocument fileDocument) {
 					Path path = fileDocument.getPath();
 					EntryData entryData = entryDataMap.getValue(path);
 					entryData.file = indexFileMap.get(entryData.index); // file may be null
@@ -442,8 +404,7 @@ abstract class SolidArchiveTree<E> implements Closeable {
 	// The list of indices may not be sorted
 	// Subclasser is allowed to modify the unpackMap
 	@NotNull
-	protected abstract Map<Integer, File> doUnpack(	@NotNull Map<Integer, TreeNode> unpackMap,
-													@NotNull TempFileFactory tempFileFactory)
+	protected abstract Map<Integer, File> doUnpack(	@NotNull Map<Integer, TreeNode> unpackMap,	@NotNull TempFileFactory tempFileFactory)
 			throws IOException;
 	
 	@NotNull

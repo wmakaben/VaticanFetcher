@@ -9,21 +9,18 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model.index.file;
+package net.sourceforge.vaticanfetcher.model.index.file;
 
 import java.io.Closeable;
 import java.io.IOException;
 
-import net.sourceforge.docfetcher.model.index.IndexWriterAdapter;
-import net.sourceforge.docfetcher.util.CheckedOutOfMemoryError;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.model.index.IndexWriterAdapter;
+import net.sourceforge.vaticanfetcher.util.CheckedOutOfMemoryError;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.store.Directory;
 
-/**
- * @author Tran Nam Quang
- */
 final class SimpleDocWriter extends LuceneDocWriter implements Closeable {
 	
 	private final IndexWriterAdapter writer;
@@ -36,10 +33,7 @@ final class SimpleDocWriter extends LuceneDocWriter implements Closeable {
 		return true;
 	}
 	
-	public void write(	@NotNull FileDocument doc,
-						@NotNull Document luceneDoc,
-						@NotNull boolean added) throws IOException,
-			CheckedOutOfMemoryError {
+	public void write(	@NotNull FileDocument doc, @NotNull Document luceneDoc,	@NotNull boolean added) throws IOException,	CheckedOutOfMemoryError {
 		if (added)
 			writer.add(luceneDoc);
 		else

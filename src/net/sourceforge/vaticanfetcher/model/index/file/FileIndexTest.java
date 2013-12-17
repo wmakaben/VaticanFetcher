@@ -9,7 +9,7 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model.index.file;
+package net.sourceforge.vaticanfetcher.model.index.file;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -20,16 +20,16 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import net.sourceforge.docfetcher.TestFiles;
-import net.sourceforge.docfetcher.model.UtilModel;
-import net.sourceforge.docfetcher.model.index.IndexingError;
-import net.sourceforge.docfetcher.model.index.IndexingInfo;
-import net.sourceforge.docfetcher.model.index.IndexingInfo.InfoType;
-import net.sourceforge.docfetcher.model.index.IndexingReporter;
-import net.sourceforge.docfetcher.util.AppUtil;
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.collect.ListMap;
-import net.sourceforge.docfetcher.util.collect.ListMap.Entry;
+import net.sourceforge.vaticanfetcher.TestFiles;
+import net.sourceforge.vaticanfetcher.model.UtilModel;
+import net.sourceforge.vaticanfetcher.model.index.IndexingError;
+import net.sourceforge.vaticanfetcher.model.index.IndexingInfo;
+import net.sourceforge.vaticanfetcher.model.index.IndexingInfo.InfoType;
+import net.sourceforge.vaticanfetcher.model.index.IndexingReporter;
+import net.sourceforge.vaticanfetcher.util.AppUtil;
+import net.sourceforge.vaticanfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.collect.ListMap;
+import net.sourceforge.vaticanfetcher.util.collect.ListMap.Entry;
 
 import org.apache.lucene.store.Directory;
 import org.junit.Test;
@@ -38,9 +38,6 @@ import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import com.google.common.io.NullOutputStream;
 
-/**
- * @author Tran Nam Quang
- */
 public final class FileIndexTest {
 	
 	static {
@@ -75,10 +72,7 @@ public final class FileIndexTest {
 			index.update(null, null);
 			Directory luceneDir = index.getLuceneDir();
 
-			/*
-			 * JUnRar doesn't support SFX rar archives, so we're expecting zero
-			 * results for those.
-			 */
+			/* JUnRar doesn't support SFX rar archives, so we're expecting zero results for those. */
 			int expectedResultCount = file == rarFile ? 0 : 1;
 			
 			UtilModel.assertDocCount(luceneDir, expectedResultCount);
@@ -86,9 +80,7 @@ public final class FileIndexTest {
 		}
 	}
 	
-	/**
-	 * Checks that the index update works correctly for HTML pairs.
-	 */
+	/** Checks that the index update works correctly for HTML pairs. */
 	@Test
 	public void testHtmlPairUpdate() throws Exception {
 		File tempDir = Util.createTempDir();
@@ -114,11 +106,7 @@ public final class FileIndexTest {
 		assertEquals(1, reporter.extractCount);
 		
 		// Index update must detect changes when files have been modified
-		ListMap<File, Integer> fileMap = ListMap.<File, Integer> create()
-			.add(htmlFile, 1)
-			.add(subFile1, 0)
-			.add(subFile2, 1)
-			.add(subFile3, 1);
+		ListMap<File, Integer> fileMap = ListMap.<File, Integer> create().add(htmlFile, 1).add(subFile1, 0).add(subFile2, 1).add(subFile3, 1);
 		int i = 0;
 		for (ListMap.Entry<File, Integer> entry : fileMap) {
 			reporter.extractCount = 0;
@@ -197,9 +185,7 @@ public final class FileIndexTest {
 		}
 	}
 	
-	/**
-	 * Checks that the index update works correctly after a folder is renamed.
-	 */
+	/** Checks that the index update works correctly after a folder is renamed. */
 	@Test
 	public void testIndexUpdateAfterFolderRenaming() throws Exception {
 		File tempDir = Util.createTempDir();
@@ -224,9 +210,7 @@ public final class FileIndexTest {
 		Util.deleteRecursively(tempDir);
 	}
 	
-	/**
-	 * Checks that the index update works correctly after a file is renamed.
-	 */
+	/** Checks that the index update works correctly after a file is renamed. */
 	@Test
 	public void testIndexUpdateAfterFileRenaming() throws Exception {
 		File tempDir = Util.createTempDir();
@@ -246,10 +230,7 @@ public final class FileIndexTest {
 		Util.deleteRecursively(tempDir);
 	}
 	
-	/**
-	 * Checks that the index update works correctly after an archive entry
-	 * (either a file or a folder) inside a 7z archive is renamed.
-	 */
+	/** Checks that the index update works correctly after an archive entry (either a file or a folder) inside a 7z archive is renamed. */
 	@Test
 	public void testIndexUpdateAfterRenamingIn7z() throws Exception {
 		File tempDir = Util.createTempDir();
@@ -278,10 +259,7 @@ public final class FileIndexTest {
 		Util.deleteRecursively(tempDir);
 	}
 	
-	/**
-	 * Checks that the indexing algorithm can properly deal with HTML files
-	 * nested inside the HTML folders of other HTML files.
-	 */
+	/** Checks that the indexing algorithm can properly deal with HTML files nested inside the HTML folders of other HTML files. */
 	@Test
 	public void testIndexUpdateOnNestedHtml() throws Exception {
 		File dir = TestFiles.index_update_html_in_html.get();

@@ -9,7 +9,7 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model.index.file;
+package net.sourceforge.vaticanfetcher.model.index.file;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -19,21 +19,18 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sourceforge.docfetcher.TestFiles;
-import net.sourceforge.docfetcher.model.TreeNode;
-import net.sourceforge.docfetcher.model.index.IndexingConfig;
-import net.sourceforge.docfetcher.model.index.file.FileFolder.FileFolderVisitor;
-import net.sourceforge.docfetcher.util.AppUtil;
-import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.TestFiles;
+import net.sourceforge.vaticanfetcher.model.TreeNode;
+import net.sourceforge.vaticanfetcher.model.index.IndexingConfig;
+import net.sourceforge.vaticanfetcher.model.index.file.FileFolder.FileFolderVisitor;
+import net.sourceforge.vaticanfetcher.util.AppUtil;
+import net.sourceforge.vaticanfetcher.util.Util;
 
 import org.junit.Test;
 
 import com.google.common.collect.Lists;
 import com.google.common.io.Closeables;
 
-/**
- * @author Tran Nam Quang
- */
 public final class SolidArchiveTreeTest {
 	
 	static {

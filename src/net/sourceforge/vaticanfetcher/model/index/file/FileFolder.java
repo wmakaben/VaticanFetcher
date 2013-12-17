@@ -9,18 +9,15 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model.index.file;
+package net.sourceforge.vaticanfetcher.model.index.file;
 
-import net.sourceforge.docfetcher.model.Folder;
-import net.sourceforge.docfetcher.model.FolderVisitor;
-import net.sourceforge.docfetcher.model.Path;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.annotations.Nullable;
-import net.sourceforge.docfetcher.util.annotations.VisibleForPackageGroup;
+import net.sourceforge.vaticanfetcher.model.Folder;
+import net.sourceforge.vaticanfetcher.model.FolderVisitor;
+import net.sourceforge.vaticanfetcher.model.Path;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.Nullable;
+import net.sourceforge.vaticanfetcher.util.annotations.VisibleForPackageGroup;
 
-/**
- * @author Tran Nam Quang
- */
 @VisibleForPackageGroup
 public class FileFolder extends Folder<FileDocument, FileFolder> {
 	

@@ -9,16 +9,14 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model.index.file;
+package net.sourceforge.vaticanfetcher.model.index.file;
 
 import java.io.File;
 
-import net.sourceforge.docfetcher.util.annotations.Nullable;
+import net.sourceforge.vaticanfetcher.util.annotations.Nullable;
 import de.schlichtherle.truezip.file.TFile;
 
-/**
- * @author Tran Nam Quang
- */
+
 final class ArchiveEncryptedException extends Exception {
 	
 	private static final long serialVersionUID = 1L;

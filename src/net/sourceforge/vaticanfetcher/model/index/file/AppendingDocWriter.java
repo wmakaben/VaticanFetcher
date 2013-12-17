@@ -12,15 +12,15 @@
  * @author Tran Nam Quang
  */
 
-package net.sourceforge.docfetcher.model.index.file;
+package net.sourceforge.vaticanfetcher.model.index.file;
 
 import java.io.File;
 import java.io.IOException;
 
-import net.sourceforge.docfetcher.model.Fields;
-import net.sourceforge.docfetcher.model.parse.ParseResult;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.annotations.Nullable;
+import net.sourceforge.vaticanfetcher.model.Fields;
+import net.sourceforge.vaticanfetcher.model.parse.ParseResult;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.Nullable;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Fieldable;

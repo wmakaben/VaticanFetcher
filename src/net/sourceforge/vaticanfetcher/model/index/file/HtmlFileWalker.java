@@ -9,24 +9,21 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model.index.file;
+package net.sourceforge.vaticanfetcher.model.index.file;
 
 import java.io.File;
-import net.sourceforge.docfetcher.model.index.IndexingConfig;
-import net.sourceforge.docfetcher.util.Stoppable;
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.model.index.IndexingConfig;
+import net.sourceforge.vaticanfetcher.util.Stoppable;
+import net.sourceforge.vaticanfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
 
-/**
- * @author Tran Nam Quang
- */
+
 abstract class HtmlFileWalker extends Stoppable <Exception> {
 	
 	private final File rootDir;
 	private final IndexingConfig config;
 	
-	public HtmlFileWalker(	@NotNull File rootDir,
-							@NotNull IndexingConfig config) {
+	public HtmlFileWalker(@NotNull File rootDir, @NotNull IndexingConfig config) {
 		Util.checkNotNull(rootDir, config);
 		this.rootDir = rootDir;
 		this.config = config;
@@ -67,8 +64,7 @@ abstract class HtmlFileWalker extends Stoppable <Exception> {
 	
 	protected abstract void handleFile(@NotNull File file);
 	
-	protected abstract void handleHtmlPair(	@NotNull File htmlFile,
-											@NotNull File htmlDir);
+	protected abstract void handleHtmlPair(@NotNull File htmlFile, @NotNull File htmlDir);
 	
 	protected abstract void handleDir(@NotNull File dir);
 	

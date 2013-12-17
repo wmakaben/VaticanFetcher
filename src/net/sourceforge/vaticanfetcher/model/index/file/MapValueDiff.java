@@ -9,17 +9,14 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model.index.file;
+package net.sourceforge.vaticanfetcher.model.index.file;
 
 import java.util.Map;
 
-import net.sourceforge.docfetcher.util.Stoppable;
+import net.sourceforge.vaticanfetcher.util.Stoppable;
 
 import com.google.common.collect.Maps;
 
-/**
- * @author Tran Nam Quang
- */
 class MapValueDiff <K, V, T extends Throwable> extends Stoppable<T> {
 	
 	private final Map<K, V> left;

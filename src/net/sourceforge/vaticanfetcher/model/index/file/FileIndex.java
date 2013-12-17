@@ -9,33 +9,33 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model.index.file;
+package net.sourceforge.vaticanfetcher.model.index.file;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import net.sourceforge.docfetcher.enums.Msg;
-import net.sourceforge.docfetcher.model.Cancelable;
-import net.sourceforge.docfetcher.model.DocumentType;
-import net.sourceforge.docfetcher.model.Path;
-import net.sourceforge.docfetcher.model.TreeIndex;
-import net.sourceforge.docfetcher.model.TreeNode;
-import net.sourceforge.docfetcher.model.UtilModel;
-import net.sourceforge.docfetcher.model.index.DiskSpaceException;
-import net.sourceforge.docfetcher.model.index.IndexingConfig;
-import net.sourceforge.docfetcher.model.index.IndexingError;
-import net.sourceforge.docfetcher.model.index.IndexingError.ErrorType;
-import net.sourceforge.docfetcher.model.index.IndexingException;
-import net.sourceforge.docfetcher.model.index.IndexingInfo.InfoType;
-import net.sourceforge.docfetcher.model.index.IndexingReporter;
-import net.sourceforge.docfetcher.model.index.MutableInt;
-import net.sourceforge.docfetcher.model.index.file.FileFolder.FileFolderVisitor;
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.annotations.Nullable;
-import net.sourceforge.docfetcher.util.annotations.RecursiveMethod;
+import net.sourceforge.vaticanfetcher.enums.Msg;
+import net.sourceforge.vaticanfetcher.model.Cancelable;
+import net.sourceforge.vaticanfetcher.model.DocumentType;
+import net.sourceforge.vaticanfetcher.model.Path;
+import net.sourceforge.vaticanfetcher.model.TreeIndex;
+import net.sourceforge.vaticanfetcher.model.TreeNode;
+import net.sourceforge.vaticanfetcher.model.UtilModel;
+import net.sourceforge.vaticanfetcher.model.index.DiskSpaceException;
+import net.sourceforge.vaticanfetcher.model.index.IndexingConfig;
+import net.sourceforge.vaticanfetcher.model.index.IndexingError;
+import net.sourceforge.vaticanfetcher.model.index.IndexingError.ErrorType;
+import net.sourceforge.vaticanfetcher.model.index.IndexingException;
+import net.sourceforge.vaticanfetcher.model.index.IndexingInfo.InfoType;
+import net.sourceforge.vaticanfetcher.model.index.IndexingReporter;
+import net.sourceforge.vaticanfetcher.model.index.MutableInt;
+import net.sourceforge.vaticanfetcher.model.index.file.FileFolder.FileFolderVisitor;
+import net.sourceforge.vaticanfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.Nullable;
+import net.sourceforge.vaticanfetcher.util.annotations.RecursiveMethod;
 
 import com.google.common.collect.Maps;
 import com.google.common.io.Closeables;
@@ -45,41 +45,30 @@ import de.schlichtherle.truezip.file.TFile;
 import de.schlichtherle.truezip.file.TVFS;
 import de.schlichtherle.truezip.fs.FsSyncException;
 
-/**
- * @author Tran Nam Quang
- */
 public final class FileIndex extends TreeIndex<FileDocument, FileFolder> {
 
 	/*
 	 * General exception handling policy used here:
 	 * 
-	 * (1) IOExceptions from read/write operations on the Lucene index are
-	 * encapsulated as IndexingExceptions and propagated upwards.
+	 * (1) IOExceptions from read/write operations on the Lucene index are encapsulated as IndexingExceptions and propagated upwards.
 	 * 
-	 * (2) IOExceptions from user files are reported and swallowed locally.
-	 * TrueZIP is used instead of java.util.zip because it makes HTML pairing
-	 * easier, and putting java.util.zip into solid archive tree will unpack all
-	 * files in one pass, which isn't necessary. Generally, a document or folder
-	 * is stored in the tree even if the parsing fails.
+	 * (2) IOExceptions from user files are reported and swallowed locally. TrueZIP is used instead of java.util.zip 
+	 * because it makes HTML pairing easier, and putting java.util.zip into solid archive tree will unpack all files 
+	 * in one pass, which isn't necessary. Generally, a document or folder is stored in the tree even if the parsing fails.
 	 * 
-	 * (3) A parser failure is treated as if we had successfully extracted an
-	 * empty string. The point of this is to avoid parsing and failing on the
-	 * same problematic files over and over again on each subsequent index
-	 * update: If we failed the first time and the file hasn't changed in the
-	 * meantime, there's no point in trying to parse it again because we know
-	 * we'd fail.
+	 * (3) A parser failure is treated as if we had successfully extracted an empty string. The point of this is to avoid parsing 
+	 * and failing on the same problematic files over and over again on each subsequent index update: If we failed the first time 
+	 * and the file hasn't changed in the meantime, there's no point in trying to parse it again because we know we'd fail.
 	 */
 	
 	private static final long serialVersionUID = 1L;
 
-	// if indexParentDir is null, all content is written to a RAM index, which
-	// can be retrieved via getLuceneDir
+	// if indexParentDir is null, all content is written to a RAM index, which can be retrieved via getLuceneDir
 	public FileIndex(@Nullable File indexParentDir, @NotNull File rootFile) {
 		super(indexParentDir, rootFile);
 		
 		/*
-		 * If the given file object is a file, adjust the indexing configuration
-		 * as needed.
+		 * If the given file object is a file, adjust the indexing configuration as needed.
 		 */
 		if (rootFile.isFile()) {
 			IndexingConfig config = getConfig();
@@ -128,24 +117,19 @@ public final class FileIndex extends TreeIndex<FileDocument, FileFolder> {
 		/*
 		 * Wrap the stored root file in a TFile to enable zip archive support.
 		 * 
-		 * Note that both the path of the rootFolder object and the path of the
-		 * stored root file will be empty if the root corresponds to the current
-		 * working directory. This is why the TFile is initialized with an
-		 * absolute file here: Otherwise TrueZIP would fail to recognize that
-		 * it's an existing directory.
+		 * Note that both the path of the rootFolder object and the path of the stored root file will be empty if the root corresponds to the current
+		 * working directory. This is why the TFile is initialized with an absolute file here: Otherwise TrueZIP would fail to recognize that it's an existing directory.
 		 */
 		TArchiveDetector zipDetector = config.createZipDetector();
 		TFile rootFile = new TFile(getCanonicalRootFile(), zipDetector);
 
 		try {
 			/*
-			 * The user-defined zip extensions have higher priority, so we'll
-			 * check for folders and zip archives first.
+			 * The user-defined zip extensions have higher priority, so we'll check for folders and zip archives first.
 			 */
 			if (rootFile.isDirectory()) {
 				/*
-				 * Return immediately if the root file is a zip archive and it
-				 * wasn't modified.
+				 * Return immediately if the root file is a zip archive and it wasn't modified.
 				 */
 				Long newLastModified = getZipArchiveLastModified(config, rootFile);
 				if (UtilModel.isUnmodifiedArchive(rootFolder, newLastModified))
@@ -169,11 +153,9 @@ public final class FileIndex extends TreeIndex<FileDocument, FileFolder> {
 						.getSolidArchiveFactory(rootFile.getName());
 				if (factory == null) {
 					/*
-					 * This happens when the user tries to index a file that
-					 * isn't an archive.
+					 * This happens when the user tries to index a file that isn't an archive.
 					 * 
-					 * TODO i18n: target may be an archive whose format isn't
-					 * supported
+					 * TODO i18n: target may be an archive whose format isn't supported
 					 */
 					report(ErrorType.NOT_AN_ARCHIVE, reporter, null);
 					return IndexingResult.FAILURE;
@@ -222,9 +204,8 @@ public final class FileIndex extends TreeIndex<FileDocument, FileFolder> {
 	}
 
 	/**
-	 * Returns the last-modified attribute of the given zip archive, or null if
-	 * the given file is not a zip archive. This method does not work for files
-	 * inside archive files: In the latter case, it always returns null.
+	 * Returns the last-modified attribute of the given zip archive, or null if the given file is not a zip archive. 
+	 * This method does not work for files inside archive files: In the latter case, it always returns null.
 	 */
 	@Nullable
 	private static Long getZipArchiveLastModified(	@NotNull IndexingConfig config,
@@ -259,8 +240,7 @@ public final class FileIndex extends TreeIndex<FileDocument, FileFolder> {
 		assert !folder.hasErrors();
 		
 		/*
-		 * The user may have indexed the DocFetcher folder; do not descend into
-		 * the index directory.
+		 * The user may have indexed the vaticanfetcher folder; do not descend into the index directory.
 		 */
 		if (Util.isCanonicallyEqual(context.getIndexParentDir(), dirOrZip))
 			return;
@@ -269,8 +249,7 @@ public final class FileIndex extends TreeIndex<FileDocument, FileFolder> {
 		final Map<String, FileFolder> unseenSubFolders = Maps.newHashMap(folder.getSubFolderMap());
 
 		/*
-		 * Note: If the user aborts the indexing, the file tree must be left in
-		 * a consistent state, so that the user can continue indexing later.
+		 * Note: If the user aborts the indexing, the file tree must be left in a consistent state, so that the user can continue indexing later.
 		 */
 		new HtmlFileLister<IndexingException>(
 			dirOrZip, context.getConfig(), context.getReporter()) {
@@ -293,9 +272,7 @@ public final class FileIndex extends TreeIndex<FileDocument, FileFolder> {
 						doc.setHtmlFolder(null);
 						
 						/*
-						 * Try to index the file. If this fails, remove it from
-						 * the Lucene index, but keep it in the tree so we won't
-						 * index it again on the next index update.
+						 * Try to index the file. If this fails, remove it from the Lucene index, but keep it in the tree so we won't index it again on the next index update.
 						 */
 						if (!context.index(doc, file, false))
 							context.deleteFromIndex(doc.getUniqueId());
@@ -306,26 +283,20 @@ public final class FileIndex extends TreeIndex<FileDocument, FileFolder> {
 				}
 			}
 
-			protected void handleHtmlPair(	@NotNull File htmlFile,
-											@Nullable File htmlDir) {
+			protected void handleHtmlPair(@NotNull File htmlFile, @Nullable File htmlDir) {
 				if (context.isStopped()) stop();
 				try {
 					FileDocument doc = unseenDocs.remove(htmlFile.getName());
 					// HTML pair added
 					if (doc == null) {
 						doc = createFileDoc(folder, htmlFile);
-						FileFolder htmlFolder = htmlDir == null
-							? null
-							: new FileFolder(
-								context.getDirOrZipPath(htmlDir), null);
+						FileFolder htmlFolder = htmlDir == null	? null : new FileFolder(context.getDirOrZipPath(htmlDir), null);
 						doc.setHtmlFolder(htmlFolder);
-						AppendingContext subContext = new AppendingContext(
-							context);
+						AppendingContext subContext = new AppendingContext(context);
 						if (!subContext.index(doc, htmlFile, true)) return;
 						if (htmlDir != null) {
 							subContext.setReporter(null);
-							visitDirOrZip(
-								subContext, doc.getHtmlFolder(), htmlDir);
+							visitDirOrZip(subContext, doc.getHtmlFolder(), htmlDir);
 						}
 						subContext.appendToOuter(doc, true);
 					}
@@ -333,23 +304,16 @@ public final class FileIndex extends TreeIndex<FileDocument, FileFolder> {
 					else if (doc.isModified(context, htmlFile, htmlDir)) {
 						doc.setLastModified(htmlFile.lastModified());
 						/*
-						 * Here, we replace any previous HTML folder with a new
-						 * empty one, which effectively causes all files
-						 * encountered in the on-disk HTML folder to appear as
-						 * 'new', rather than 'modified' or 'removed'.
+						 * Here, we replace any previous HTML folder with a new empty one, which effectively causes all files
+						 * encountered in the on-disk HTML folder to appear as 'new', rather than 'modified' or 'removed'.
 						 */
-						FileFolder htmlFolder = htmlDir == null
-							? null
-							: new FileFolder(
-								context.getDirOrZipPath(htmlDir), null);
+						FileFolder htmlFolder = htmlDir == null	? null : new FileFolder(context.getDirOrZipPath(htmlDir), null);
 						doc.setHtmlFolder(htmlFolder);
-						AppendingContext subContext = new AppendingContext(
-							context);
+						AppendingContext subContext = new AppendingContext(context);
 						if (subContext.index(doc, htmlFile, true)) {
 							if (htmlDir != null) {
 								subContext.setReporter(null);
-								visitDirOrZip(
-									subContext, doc.getHtmlFolder(), htmlDir);
+								visitDirOrZip(subContext, doc.getHtmlFolder(), htmlDir);
 							}
 							subContext.appendToOuter(doc, false);
 						}
@@ -366,9 +330,7 @@ public final class FileIndex extends TreeIndex<FileDocument, FileFolder> {
 			protected void handleDir(@NotNull File dir) {
 				if (context.isStopped()) stop();
 				/*
-				 * The Folder object's last-modified attribute is non-null for
-				 * zip archives. This allows us to avoid recursion into
-				 * unmodified zip archives.
+				 * The Folder object's last-modified attribute is non-null for zip archives. This allows us to avoid recursion into unmodified zip archives.
 				 */
 				FileFolder subFolder = unseenSubFolders.remove(dir.getName());
 				Long newLastModified = getZipArchiveLastModified(
@@ -387,8 +349,7 @@ public final class FileIndex extends TreeIndex<FileDocument, FileFolder> {
 				}
 				catch (StackOverflowError e) {
 					/*
-					 * Folder hierarchy was too deep. Throw wrapped
-					 * StackOverflowError with a more helpful error message.
+					 * Folder hierarchy was too deep. Throw wrapped StackOverflowError with a more helpful error message.
 					 */
 					int depth = subFolder.getParentCount();
 					String path = subFolder.getPath().getCanonicalPath();
@@ -425,10 +386,8 @@ public final class FileIndex extends TreeIndex<FileDocument, FileFolder> {
 		// Handle missing files and folders
 		for (FileDocument doc : unseenDocs.values()) {
 			/*
-			 * Note: Deleting the document from the Lucene index requires
-			 * constructing the document's UID using the parent folder's path,
-			 * so we must do this before detaching the document from the parent
-			 * folder.
+			 * Note: Deleting the document from the Lucene index requires constructing the document's UID using the parent folder's path,
+			 * so we must do this before detaching the document from the parent folder.
 			 */
 			context.deleteFromIndex(doc.getUniqueId());
 			folder.removeDocument(doc);
@@ -443,8 +402,7 @@ public final class FileIndex extends TreeIndex<FileDocument, FileFolder> {
 			throws IndexingException {
 		parent.removeSubFolder(missingFolder);
 		new FileFolderVisitor<IndexingException>(missingFolder) {
-			public void visitDocument(	FileFolder parent,
-			                          	FileDocument fileDocument) {
+			public void visitDocument(	FileFolder parent, FileDocument fileDocument) {
 				try {
 					context.deleteFromIndex(fileDocument.getUniqueId());
 				}
@@ -469,8 +427,7 @@ public final class FileIndex extends TreeIndex<FileDocument, FileFolder> {
 		FileFolder archiveFolder = parentFolder.getSubFolder(archiveName);
 		long newLastModified = archiveFile.lastModified();
 		if (archiveFolder == null) { // Found new archive
-			archiveFolder = new FileFolder(
-				parentFolder, archiveName, newLastModified);
+			archiveFolder = new FileFolder(parentFolder, archiveName, newLastModified);
 		}
 		else { // Found registered archive
 			if (UtilModel.isUnmodifiedArchive(archiveFolder, newLastModified))
@@ -484,10 +441,8 @@ public final class FileIndex extends TreeIndex<FileDocument, FileFolder> {
 			unpackedArchiveFile = UtilModel.maybeUnpackZipEntry(
 				context.getConfig(), archiveFile);
 			boolean isTempArchive = unpackedArchiveFile != null;
-			SolidArchiveContext subContext = new SolidArchiveContext(
-				context, archiveFolder.getPath(), isTempArchive, context.getIndexParentDir());
-			SolidArchiveTree<?> archiveTree = factory.createSolidArchiveTree(
-				subContext, isTempArchive ? unpackedArchiveFile : archiveFile);
+			SolidArchiveContext subContext = new SolidArchiveContext(context, archiveFolder.getPath(), isTempArchive, context.getIndexParentDir());
+			SolidArchiveTree<?> archiveTree = factory.createSolidArchiveTree(subContext, isTempArchive ? unpackedArchiveFile : archiveFile);
 			visitSolidArchive(subContext, archiveFolder, archiveTree);
 		}
 		catch (DiskSpaceException e) {
@@ -518,8 +473,7 @@ public final class FileIndex extends TreeIndex<FileDocument, FileFolder> {
 		FileFolder newArchiveFolder = archiveTree.getArchiveFolder();
 		try {
 			// Collect files to unpack
-			visitSolidArchiveFolder(
-				context, archiveTree, archiveFolder, newArchiveFolder);
+			visitSolidArchiveFolder(context, archiveTree, archiveFolder, newArchiveFolder);
 			List<TreeNode> unpackList = context.getUnpackList();
 			if (unpackList.isEmpty())
 				return;
@@ -535,14 +489,12 @@ public final class FileIndex extends TreeIndex<FileDocument, FileFolder> {
 		}
 		catch (DiskSpaceException e) {
 			archiveFolder.removeChildren();
-			context.fail(
-				ErrorType.ARCHIVE_UNPACK_DISKSPACE, archiveFolder, e);
+			context.fail(ErrorType.ARCHIVE_UNPACK_DISKSPACE, archiveFolder, e);
 			return;
 		}
 		finally {
 			/*
-			 * Close archive, possibly delete it, then continue parsing the
-			 * unpacked files.
+			 * Close archive, possibly delete it, then continue parsing the unpacked files.
 			 */
 			Closeables.closeQuietly(archiveTree);
 			if (context.isTempArchive())
@@ -554,10 +506,8 @@ public final class FileIndex extends TreeIndex<FileDocument, FileFolder> {
 		indexUnpackedDocs(context, archiveTree, false);
 
 		/*
-		 * Note: Processing the unpacked archives after all unpacked documents
-		 * have been processed and deleted gives us more disk space for the
-		 * archive processing, thus reducing the risk of running out of disk
-		 * space in case we need to unpack anything from those archives.
+		 * Note: Processing the unpacked archives after all unpacked documents have been processed and deleted gives us more disk space for the
+		 * archive processing, thus reducing the risk of running out of disk space in case we need to unpack anything from those archives.
 		 */
 
 		// Process unpacked nested archives
@@ -620,9 +570,8 @@ public final class FileIndex extends TreeIndex<FileDocument, FileFolder> {
 										@NotNull FileDocument newDoc) {
 				if (!oldDoc.isModified(newDoc)) return;
 				/*
-				 * We'll replace the old document with the new one to update the
-				 * last modified field and, in case of HTML pairs, to update the
-				 * contents of the HTML folder.
+				 * We'll replace the old document with the new one to update the last modified field and, in case of HTML pairs, 
+				 * to update the contents of the HTML folder.
 				 */
 				oldFolder.putDocument(newDoc);
 				if (!archiveTree.isEncrypted(newDoc))

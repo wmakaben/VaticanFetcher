@@ -9,20 +9,20 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model.index.file;
+package net.sourceforge.vaticanfetcher.model.index.file;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
-import net.sourceforge.docfetcher.model.Path;
-import net.sourceforge.docfetcher.model.TreeNode;
-import net.sourceforge.docfetcher.model.index.IndexingConfig;
-import net.sourceforge.docfetcher.model.index.IndexingError.ErrorType;
-import net.sourceforge.docfetcher.model.index.IndexingException;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.annotations.Nullable;
+import net.sourceforge.vaticanfetcher.model.Path;
+import net.sourceforge.vaticanfetcher.model.TreeNode;
+import net.sourceforge.vaticanfetcher.model.index.IndexingConfig;
+import net.sourceforge.vaticanfetcher.model.index.IndexingError.ErrorType;
+import net.sourceforge.vaticanfetcher.model.index.IndexingException;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.Nullable;
 import SevenZip.Archive.IInArchive;
 import SevenZip.Archive.SevenZipEntry;
 import SevenZip.Archive.SevenZip.Handler;
@@ -33,11 +33,8 @@ final class SevenZipTree extends SolidArchiveTree <SevenZipEntry> {
 	
 	private IInArchive archive;
 	
-	public SevenZipTree(@NotNull File archiveFile,
-	                    @NotNull IndexingConfig config,
-                        @Nullable Path originalPath,
-						@Nullable FailReporter failReporter) throws IOException,
-			ArchiveEncryptedException {
+	public SevenZipTree(@NotNull File archiveFile, @NotNull IndexingConfig config, @Nullable Path originalPath,
+						@Nullable FailReporter failReporter) throws IOException, ArchiveEncryptedException {
 		super(archiveFile, config, originalPath, failReporter);
 	}
 	
@@ -49,18 +46,12 @@ final class SevenZipTree extends SolidArchiveTree <SevenZipEntry> {
 	// isStoreRelativePaths only has effect if originalPath is null
 	// user is responsible for closing the archive via this.close()
 	// Note: Cannot handle TrueZIP archive entries!!!
-	public SevenZipTree(@NotNull File archiveFile,
-	                    @NotNull IndexingConfig config,
-	                    boolean isHtmlPairing,
-                        @Nullable Path originalPath,
-						@Nullable FailReporter failReporter) throws IOException,
-			ArchiveEncryptedException {
+	public SevenZipTree(@NotNull File archiveFile, @NotNull IndexingConfig config, boolean isHtmlPairing, @Nullable Path originalPath,
+						@Nullable FailReporter failReporter) throws IOException, ArchiveEncryptedException {
 		super(archiveFile, config, isHtmlPairing, originalPath, failReporter);
 	}
 	
-	protected ArchiveIterator<SevenZipEntry> getArchiveIterator(File archiveFile,
-																String archivePath)
-			throws IOException, ArchiveEncryptedException {
+	protected ArchiveIterator<SevenZipEntry> getArchiveIterator(File archiveFile, String archivePath)throws IOException, ArchiveEncryptedException {
 		if (archive == null) {
 			SevenZipInputStream istream = new SevenZipInputStream(archiveFile);
 			archive = new Handler();
@@ -104,9 +95,7 @@ final class SevenZipTree extends SolidArchiveTree <SevenZipEntry> {
 		archive.close();
 	}
 	
-	protected Map<Integer, File> doUnpack(	Map<Integer, TreeNode> unpackMap,
-											TempFileFactory tempFileFactory)
-			throws IOException {
+	protected Map<Integer, File> doUnpack(Map<Integer, TreeNode> unpackMap, TempFileFactory tempFileFactory)throws IOException {
 		// Put indices in an int array
 		int[] indices = new int[unpackMap.size()];
 		int i = 0;
@@ -118,27 +107,17 @@ final class SevenZipTree extends SolidArchiveTree <SevenZipEntry> {
 		return unpacker.unpack(indices);
 	}
 	
-	private static final class SevenZipEntryReader implements
-			ArchiveEntryReader<SevenZipEntry> {
+	private static final class SevenZipEntryReader implements ArchiveEntryReader<SevenZipEntry> {
 		private static final SevenZipEntryReader instance = new SevenZipEntryReader();
 		public String getInnerPath(SevenZipEntry entry) {
-			/*
-			 * This should return a path relative to the archive root that
-			 * always uses forward slashes as separators, even on Windows.
-			 */
+			/* This should return a path relative to the archive root that always uses forward slashes as separators, even on Windows. */
 			String path = entry.getName();
 			assert ! path.contains("\\") && ! path.startsWith("/");
 			return path;
 		}
-		public long getLastModified(SevenZipEntry entry) {
-			return entry.getTime();
-		}
-		public boolean isDirectory(SevenZipEntry entry) {
-			return entry.isDirectory();
-		}
-		public long getUnpackedSize(SevenZipEntry entry) {
-			return entry.getSize();
-		}
+		public long getLastModified(SevenZipEntry entry) { return entry.getTime(); }
+		public boolean isDirectory(SevenZipEntry entry) { return entry.isDirectory(); }
+		public long getUnpackedSize(SevenZipEntry entry) { return entry.getSize(); }
 		public boolean isEncrypted(SevenZipEntry entry) {
 			// J7Zip doesn't provide us with enough info to implement this
 			return false;
@@ -168,9 +147,7 @@ final class SevenZipTree extends SolidArchiveTree <SevenZipEntry> {
 			}
 		}
 		
-		public Map<Integer, File> getUnpackResult() {
-			return indexFileMap;
-		}
+		public Map<Integer, File> getUnpackResult() { return indexFileMap; }
 	}
 	
 }

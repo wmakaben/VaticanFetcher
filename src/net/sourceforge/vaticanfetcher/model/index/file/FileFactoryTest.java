@@ -9,7 +9,7 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model.index.file;
+package net.sourceforge.vaticanfetcher.model.index.file;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -18,22 +18,19 @@ import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
 
-import net.sourceforge.docfetcher.TestFiles;
-import net.sourceforge.docfetcher.model.FileResource;
-import net.sourceforge.docfetcher.model.HotColdFileCache;
-import net.sourceforge.docfetcher.model.Path;
-import net.sourceforge.docfetcher.model.index.IndexingConfig;
-import net.sourceforge.docfetcher.model.parse.ParseException;
-import net.sourceforge.docfetcher.util.AppUtil;
-import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.TestFiles;
+import net.sourceforge.vaticanfetcher.model.FileResource;
+import net.sourceforge.vaticanfetcher.model.HotColdFileCache;
+import net.sourceforge.vaticanfetcher.model.Path;
+import net.sourceforge.vaticanfetcher.model.index.IndexingConfig;
+import net.sourceforge.vaticanfetcher.model.parse.ParseException;
+import net.sourceforge.vaticanfetcher.util.AppUtil;
+import net.sourceforge.vaticanfetcher.util.Util;
 
 import org.junit.Test;
 
 import com.google.common.io.Files;
 
-/**
- * @author Tran Nam Quang
- */
 public final class FileFactoryTest {
 	
 	static {

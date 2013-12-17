@@ -9,15 +9,13 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model.index.file;
+package net.sourceforge.vaticanfetcher.model.index.file;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
-/**
- * @author Tran Nam Quang
- */
+
 final class SevenZipInputStream extends SevenZip.IInStream {
 	
 	private final RandomAccessFile file;

@@ -9,7 +9,7 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model.index.file;
+package net.sourceforge.vaticanfetcher.model.index.file;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -19,15 +19,12 @@ import java.util.Arrays;
 
 import com.google.common.io.NullOutputStream;
 
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
 import SevenZip.HRESULT;
 import SevenZip.Archive.IArchiveExtractCallback;
 import SevenZip.Archive.IInArchive;
 
-/**
- * @author Tran Nam Quang
- */
 abstract class SevenZipUnpacker<T> {
 
 	private static final int mode = IInArchive.NExtract_NAskMode_kExtract;
@@ -45,11 +42,9 @@ abstract class SevenZipUnpacker<T> {
 		Arrays.sort(unpackIndices);
 
 		/*
-		 * If the archive is encrypted (without encryption of filenames), the
-		 * IInArchive.Extract call will print an IOException
-		 * "k_7zAES not implemented" on stderr, but then swallow the
-		 * IOException. This means there's no simple way for us to get feedback
-		 * about whether the archive was encrypted or not.
+		 * If the archive is encrypted (without encryption of filenames), the IInArchive.Extract call will print 
+		 * an IOException "k_7zAES not implemented" on stderr, but then swallow the IOException. This means 
+		 * there's no simple way for us to get feedback about whether the archive was encrypted or not.
 		 */
 		Callback callback = new Callback(unpackIndices);
 		archive.Extract(unpackIndices, unpackIndices.length, mode, callback);
@@ -67,24 +62,18 @@ abstract class SevenZipUnpacker<T> {
 			this.indices = Util.checkNotNull(indices);
 		}
 
-		public int GetStream(	int index,
-								OutputStream[] outStream,
-								int askExtractMode) throws IOException {
+		public int GetStream(int index,	OutputStream[] outStream, int askExtractMode) throws IOException {
 			/*
 			 * Notes:
 			 * 
-			 * 1) If the given index is not in the unpack array (determined by
-			 * binary search), then we're probably dealing with a solid archive,
-			 * and J7Zip will request output streams for all archive entries,
-			 * including those we don't need. For the latter, we can give J7Zip
-			 * a NullOutputStream in order to avoid consuming disk space.
+			 * 1) If the given index is not in the unpack array (determined by binary search), then we're probably dealing 
+			 * with a solid archive, and J7Zip will request output streams for all archive entries, including those we 
+			 * don't need. For the latter, we can give J7Zip a NullOutputStream in order to avoid consuming disk space.
 			 * 
-			 * 2) Wrapping the FileOutputStream into a BufferedOutputStream does
-			 * not seem to have a significant effect on performance.
+			 * 2) Wrapping the FileOutputStream into a BufferedOutputStream does not seem to have a significant effect on performance.
 			 * 
-			 * 3) Not sure what to do if we fail to create the output stream.
-			 * Here we're letting the IOException propagate outwards, but J7zip
-			 * might expect HRESULT.E_FAIL or something else.
+			 * 3) Not sure what to do if we fail to create the output stream. Here we're letting the 
+			 * IOException propagate outwards, but J7zip might expect HRESULT.E_FAIL or something else.
 			 */
 			if (Arrays.binarySearch(indices, index) < 0)
 				outStream[0] = new NullOutputStream();
@@ -93,22 +82,13 @@ abstract class SevenZipUnpacker<T> {
 			return HRESULT.S_OK;
 		}
 
-		public final int PrepareOperation(int askExtractMode) {
-			return HRESULT.S_OK;
-		}
+		public final int PrepareOperation(int askExtractMode) { return HRESULT.S_OK; }
 
-		public final int SetCompleted(long completeValue) {
-			return HRESULT.S_OK;
-		}
+		public final int SetCompleted(long completeValue) { return HRESULT.S_OK; }
 
-		public final int SetOperationResult(int resultEOperationResult)
-				throws IOException {
-			return HRESULT.S_OK;
-		}
+		public final int SetOperationResult(int resultEOperationResult) throws IOException { return HRESULT.S_OK; }
 
-		public final int SetTotal(long total) {
-			return HRESULT.S_OK;
-		}
+		public final int SetTotal(long total) {	return HRESULT.S_OK; }
 	}
 
 }
