@@ -9,9 +9,9 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.util.gui;
+package net.sourceforge.vaticanfetcher.util.gui;
 
-import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.Util;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
@@ -24,11 +24,7 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
-/**
- * See official SWT Snippet 137.
- * 
- * @author Tran Nam Quang
- */
+/** See official SWT Snippet 137. */
 public final class BrowserPopupBlocker {
 	
 	public static void initialize(final Display display, Browser browser) {

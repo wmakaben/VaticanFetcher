@@ -9,7 +9,7 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.util.gui;
+package net.sourceforge.vaticanfetcher.util.gui;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
@@ -18,47 +18,29 @@ import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.widgets.Control;
 
 /**
- * Helper class for creating SWT {@link org.eclipse.swt.layout.FormData
- * FormData} objects, similiar to the JFace
+ * Helper class for creating SWT {@link org.eclipse.swt.layout.FormData FormData} objects, similiar to the JFace
  * {@link org.eclipse.jface.layout.GridDataFactory GridDataFactory}. Usage:
  * <ul>
- * <li>Set a <tt>FormLayout</tt> for the parent composite via
- * {@link org.eclipse.swt.widgets.Composite#setLayout(org.eclipse.swt.widgets.Layout)
+ * <li>Set a <tt>FormLayout</tt> for the parent composite via {@link org.eclipse.swt.widgets.Composite#setLayout(org.eclipse.swt.widgets.Layout)
  * Composite.setLayout(Layout)}.
- * <li>Obtain the factory instance via {@link #getInstance()}. The factory
- * instance holds the <tt>FormData</tt> instance that will be applied to the
- * next control.
- * <li>Set the attachment points for the currently stored <tt>FormData</tt>
- * object via <tt>top()</tt>, <tt>bottom()</tt>, <tt>left()</tt> and
- * <tt>right()</tt>, and variants of these methods. The control can be attached
- * to the parent border (e.g. <tt>top()</tt>) or to the border of an adjacent
- * control (e.g. <tt>top(Control)</tt>). The variants of these methods allow
- * setting a specific offset to the border.
- * <li>If necessary, set a width and/or height hint via <tt>width(int)</tt> and
- * <tt>height(int)</tt>. Set a minimum width and/or height for the control via
- * <tt>minWidth(int)</tt> and <tt>minHeight(int)</tt>. Change the default margin
- * via <tt>margin(int)</tt>.
- * <li>Apply the current <tt>FormData</tt> to the control via
- * {@link #applyTo(Control)}.
- * <li>The current factory settings can be reused for subsequent controls. At
- * some point it may be necessary to reset the factory via {@link #reset()}.
- * Note that obtaining the factory via <tt>getInstance()</tt> will also reset
- * it.
- * <li>The above methods to configure the <tt>FormData</tt> can be chained since
- * they return the factory instance.
+ * <li>Obtain the factory instance via {@link #getInstance()}. The factory instance holds the <tt>FormData</tt> instance that will be applied to the next control.
+ * <li>Set the attachment points for the currently stored <tt>FormData</tt> object via <tt>top()</tt>, <tt>bottom()</tt>, <tt>left()</tt> and
+ * <tt>right()</tt>, and variants of these methods. The control can be attached to the parent border (e.g. <tt>top()</tt>) or to the border of an adjacent
+ * control (e.g. <tt>top(Control)</tt>). The variants of these methods allow setting a specific offset to the border.
+ * <li>If necessary, set a width and/or height hint via <tt>width(int)</tt> and <tt>height(int)</tt>. Set a minimum width and/or height for the control via
+ * <tt>minWidth(int)</tt> and <tt>minHeight(int)</tt>. Change the default margin via <tt>margin(int)</tt>.
+ * <li>Apply the current <tt>FormData</tt> to the control via {@link #applyTo(Control)}.
+ * <li>The current factory settings can be reused for subsequent controls. At some point it may be necessary to reset the factory via {@link #reset()}.
+ * Note that obtaining the factory via <tt>getInstance()</tt> will also reset it.
+ * <li>The above methods to configure the <tt>FormData</tt> can be chained since they return the factory instance.
  * </ul>
- * 
- * @author Tran Nam Quang
  */
 public final class FormDataFactory {
 	
 	/** Singleton instance */
 	private static FormDataFactory instance;
 	
-	/**
-	 * The margin to use if {@link #top()}, {@link #bottom()}, {@link #left()}
-	 * or {@link #right()} are called.
-	 */
+	/** The margin to use if {@link #top()}, {@link #bottom()}, {@link #left()} or {@link #right()} are called. */
 	public static final int DEFAULT_MARGIN = 5;
 	
 	// Current form data settings
@@ -71,19 +53,14 @@ public final class FormDataFactory {
 		// Singleton
 	}
 	
-	/**
-	 * Returns the instance of this class with all fields reset.
-	 */
+	/** Returns the instance of this class with all fields reset. */
 	public static FormDataFactory getInstance() {
 		if (instance == null)
 			 instance = new FormDataFactory();
 		return instance.reset();
 	}
 	
-	/**
-	 * Creates a copy of the currently stored FormData object and applies the
-	 * copy to this control.
-	 */
+	/** Creates a copy of the currently stored FormData object and applies the copy to this control. */
 	public FormDataFactory applyTo(Control control) {
 		Point defaultSize = null;
 		if (minWidth > 0 || minHeight > 0) {
@@ -105,9 +82,7 @@ public final class FormDataFactory {
 		return this;
 	}
 	
-	/**
-	 * Creates a FormData object for the current state of the factory.
-	 */
+	/** Creates a FormData object for the current state of the factory. */
 	public FormData create() {
 		FormData ret = new FormData();
 		ret.width = fd.width;
@@ -119,10 +94,7 @@ public final class FormDataFactory {
 		return ret;
 	}
 	
-	/**
-	 * Resets all <tt>FormData</tt> fields. The margin is reset to
-	 * {@link #DEFAULT_MARGIN}.
-	 */
+	/** Resets all <tt>FormData</tt> fields. The margin is reset to {@link #DEFAULT_MARGIN}. */
 	public FormDataFactory reset() {
 		fd = new FormData();
 		margin = DEFAULT_MARGIN;
@@ -131,21 +103,14 @@ public final class FormDataFactory {
 		return this;
 	}
 	
-	/**
-	 * Sets the margin to be used for subsequently created <tt>FormData</tt>
-	 * objects.
-	 */
+	/** Sets the margin to be used for subsequently created <tt>FormData</tt> objects. */
 	public FormDataFactory margin(int margin) {
 		this.margin = margin;
 		return this;
 	}
 	
-	/**
-	 * Returns the current margin.
-	 */
-	public int getMargin() {
-		return margin;
-	}
+	/** Returns the current margin. */
+	public int getMargin() {return margin;}
 	
 	public FormDataFactory top(int numerator, int offset) {
 		fd.top = new FormAttachment(numerator, offset);
@@ -267,19 +232,13 @@ public final class FormDataFactory {
 		return this;
 	}
 	
-	/**
-	 * The minimum width of the control. Can be set to 0 to remove any previous
-	 * minimum setting.
-	 */
+	/** The minimum width of the control. Can be set to 0 to remove any previous minimum setting. */
 	public FormDataFactory minWidth(int width) {
 		minWidth = width;
 		return this;
 	}
 	
-	/**
-	 * The minimum height of the control. Can be set to 0 to remove any previous
-	 * minimum setting.
-	 */
+	/** The minimum height of the control. Can be set to 0 to remove any previous minimum setting. */
 	public FormDataFactory minHeight(int height) {
 		minHeight = height;
 		return this;

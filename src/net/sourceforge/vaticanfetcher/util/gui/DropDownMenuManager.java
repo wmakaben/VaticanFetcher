@@ -9,13 +9,13 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.util.gui;
+package net.sourceforge.vaticanfetcher.util.gui;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MenuAdapter;
@@ -30,9 +30,8 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.ToolItem;
 
 /**
- * Utility class for creating a drop-down menu located at the bottom of a given
- * tool item, and having a given parent control. The latter is usually the
- * control containing the tool bar.
+ * Utility class for creating a drop-down menu located at the bottom of a given tool item, 
+ * and having a given parent control. The latter is usually the control containing the tool bar.
  */
 public final class DropDownMenuManager {
 	
@@ -41,8 +40,7 @@ public final class DropDownMenuManager {
 	private final Point location;
 	private final Control parent;
 	
-	public DropDownMenuManager(	@NotNull ToolItem toolItem,
-								@NotNull Control parent) {
+	public DropDownMenuManager(@NotNull ToolItem toolItem, @NotNull Control parent) {
 		Util.checkNotNull(toolItem, parent);
 		this.toolItem = toolItem;
 		this.parent = parent;
@@ -66,9 +64,8 @@ public final class DropDownMenuManager {
 			bounds = parent.getDisplay().map(toolItem.getParent(), null, bounds);
 			menu.setLocation(bounds.x, bounds.y);
 		}
-		else {
+		else 
 			menu.setLocation(location.x, location.y);
-		}
 		
 		// Create menu items from stored menu actions
 		for (final MenuAction action : menuItems) {
@@ -115,8 +112,6 @@ public final class DropDownMenuManager {
 		menuItems.add(action);
 	}
 	
-	public void addSeparator() {
-		menuItems.add(null);
-	}
+	public void addSeparator() {menuItems.add(null);}
 
 }

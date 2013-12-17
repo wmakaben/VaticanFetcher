@@ -9,11 +9,11 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.util.gui;
+package net.sourceforge.vaticanfetcher.util.gui;
 
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.annotations.Nullable;
+import net.sourceforge.vaticanfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.Nullable;
 
 import org.eclipse.swt.graphics.Image;
 
@@ -31,25 +31,16 @@ public class MenuAction {
 		this.label = Util.checkNotNull(label);
 	}
 
-	public void run() {
-	}
+	public void run() {	}
 
-	public boolean isEnabled() {
-		return true;
-	}
+	public boolean isEnabled() {return true;}
 	
-	public boolean isDefaultItem() {
-		return false;
-	}
+	public boolean isDefaultItem() {return false;}
 	
 	@Nullable
-	public final Image getImage() {
-		return image;
-	}
+	public final Image getImage() {return image;}
 
 	@NotNull
-	public final String getLabel() {
-		return label;
-	}
+	public final String getLabel() {return label;}
 	
 }

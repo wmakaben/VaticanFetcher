@@ -9,15 +9,13 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.util.gui;
+package net.sourceforge.vaticanfetcher.util.gui;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Display;
 
-/**
- * This enumeration provides convenient access to the SWT system colors.
- */
+/** This enumeration provides convenient access to the SWT system colors. */
 public enum Col {
 	
 	BLACK (SWT.COLOR_BLACK),
@@ -66,9 +64,8 @@ public enum Col {
 	/**
 	 * Returns the SWT color object for this color.
 	 * <p>
-	 * Note: This method should not be called before the application's display
-	 * is created, otherwise it will attempt to create its own display, which
-	 * may cause an SWTError.
+	 * Note: This method should not be called before the application's display is created, 
+	 * otherwise it will attempt to create its own display, which may cause an SWTError.
 	 */
 	public Color get() {
 		return Display.getDefault().getSystemColor(styleBit);

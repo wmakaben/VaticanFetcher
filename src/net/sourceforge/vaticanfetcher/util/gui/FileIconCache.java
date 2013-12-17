@@ -9,14 +9,14 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.util.gui;
+package net.sourceforge.vaticanfetcher.util.gui;
 
 import java.io.File;
 import java.util.Map;
 
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.annotations.Nullable;
+import net.sourceforge.vaticanfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.Nullable;
 
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
@@ -28,11 +28,8 @@ import org.eclipse.swt.widgets.Widget;
 import com.google.common.collect.Maps;
 
 /**
- * This class serves as a cache for file icons. Its main purpose is to avoid
- * hitting the platform's limit on the number of image handles. See bug #2916975
- * and bug #2829490.
- * 
- * @author Tran Nam Quang
+ * This class serves as a cache for file icons. Its main purpose is to avoid hitting the 
+ * platform's limit on the number of image handles. See bug #2916975 and bug #2829490.
  */
 public final class FileIconCache {
 	
@@ -52,19 +49,13 @@ public final class FileIconCache {
 	}
 	
 	/**
-	 * Returns a file icon for the given file. If none is available, the given
-	 * default icon is returned, which may be null. The caller does not need to
-	 * dispose of the returned images. This method should not be called from a
-	 * non-GUI thread.
+	 * Returns a file icon for the given file. If none is available, the given default icon is returned, which may be null. 
+	 * The caller does not need to dispose of the returned images. This method should not be called from a non-GUI thread.
 	 */
 	@Nullable
-	public Image getIcon(@NotNull File file, @Nullable Image defaultIcon) {
-		return getIcon(file.getName(), defaultIcon);
-	}
+	public Image getIcon(@NotNull File file, @Nullable Image defaultIcon) { return getIcon(file.getName(), defaultIcon); }
 	
-	/**
-	 * See {@link #getIcon(File, Image)}.
-	 */
+	/** See {@link #getIcon(File, Image)}. */
 	@Nullable
 	public Image getIcon(@NotNull String filename, @Nullable Image defaultIcon) {
 		String extension = Util.getExtension(filename);

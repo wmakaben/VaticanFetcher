@@ -9,11 +9,11 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.util.gui;
+package net.sourceforge.vaticanfetcher.util.gui;
 
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.annotations.Nullable;
+import net.sourceforge.vaticanfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.Nullable;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionListener;
@@ -21,9 +21,6 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 
-/**
- * @author Tran Nam Quang
- */
 public final class ToolItemFactory {
 	
 	@NotNull private ToolBar toolBar;
@@ -62,9 +59,7 @@ public final class ToolItemFactory {
 		return item;
 	}
 	
-	/**
-	 * Allowed styles: PUSH, CHECK, RADIO, SEPARATOR, DROP_DOWN
-	 */
+	/** Allowed styles: PUSH, CHECK, RADIO, SEPARATOR, DROP_DOWN */
 	@NotNull
 	public ToolItemFactory style(int style) {
 		this.style = style;

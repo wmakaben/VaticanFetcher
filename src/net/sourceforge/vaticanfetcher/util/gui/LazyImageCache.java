@@ -9,18 +9,18 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.util.gui;
+package net.sourceforge.vaticanfetcher.util.gui;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import net.sourceforge.docfetcher.util.AppUtil;
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.annotations.Nullable;
-import net.sourceforge.docfetcher.util.collect.LazyList;
+import net.sourceforge.vaticanfetcher.util.AppUtil;
+import net.sourceforge.vaticanfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.Nullable;
+import net.sourceforge.vaticanfetcher.util.collect.LazyList;
 
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
@@ -29,9 +29,6 @@ import org.eclipse.swt.widgets.Shell;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Maps;
 
-/**
- * @author Tran Nam Quang
- */
 public final class LazyImageCache {
 	
 	public interface FilenameProvider {
@@ -77,14 +74,10 @@ public final class LazyImageCache {
 		return image;
 	}
 	
-	public <T extends Enum<T> & FilenameProvider> void reportMissingFiles(	@NotNull Shell shell,
-	                                                                      	@NotNull Class<T> clazz,
-																			@NotNull String errorMessage) {
+	public <T extends Enum<T> & FilenameProvider> void reportMissingFiles(	@NotNull Shell shell, @NotNull Class<T> clazz,	@NotNull String errorMessage) {
 		/*
-		 * Note: We don't really need the shell argument here, but it will make
-		 * sure this method isn't called before any shells are created. This is
-		 * a requirement, as the showError method below depends on a shell to be
-		 * available.
+		 * Note: We don't really need the shell argument here, but it will make sure this method isn't called before any 
+		 * shells are created. This is a requirement, as the showError method below depends on a shell to be available.
 		 */
 		LazyList<File> missingFiles = new LazyList<File>();
 		for (FilenameProvider provider : clazz.getEnumConstants()) {
@@ -106,10 +99,7 @@ public final class LazyImageCache {
 			firstItems.add(Util.getSystemAbsPath(file));
 			counter++;
 		}
-		AppUtil.showError(
-				errorMessage + "\n" + Joiner.on("\n").join(firstItems),
-				true, false
-		);
+		AppUtil.showError(errorMessage + "\n" + Joiner.on("\n").join(firstItems), true, false);
 	}
 
 }

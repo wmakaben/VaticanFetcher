@@ -9,10 +9,10 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.util.gui;
+package net.sourceforge.vaticanfetcher.util.gui;
 
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
@@ -32,10 +32,7 @@ public final class TabFolderFactory {
 	
 	private TabFolderFactory() {}
 	
-	public static CTabFolder create(@NotNull Composite parent,
-									boolean close,
-									boolean curvyTabs,
-									boolean coloredTabs) {
+	public static CTabFolder create(@NotNull Composite parent,	boolean close,	boolean curvyTabs,	boolean coloredTabs) {
 		int style = SWT.BORDER;
 		if (close)
 			style |= SWT.CLOSE;
@@ -90,29 +87,20 @@ public final class TabFolderFactory {
 			boolean isSelected = Util.contains(state, SWT.SELECTED);
 			
 			// Color definitions
-			Color borderCol = coloredTabs
-				? Col.TITLE_BACKGROUND.get()
-				: Col.WIDGET_NORMAL_SHADOW.get();
+			Color borderCol = coloredTabs ? Col.TITLE_BACKGROUND.get()	: Col.WIDGET_NORMAL_SHADOW.get();
 			Color backCol = null;
 			if (isHot || isSelected)
-				backCol = coloredTabs
-					? Col.TITLE_BACKGROUND.get()
-					: Col.WIDGET_HIGHLIGHT_SHADOW.get();
+				backCol = coloredTabs ? Col.TITLE_BACKGROUND.get()	: Col.WIDGET_HIGHLIGHT_SHADOW.get();
 			else
 				backCol = Col.WIDGET_BACKGROUND.get();
 			Color shadowCol = Col.WIDGET_DARK_SHADOW.get();
-			Color textCol = coloredTabs && (isSelected || isHot)
-				? Util.getTextForeground(Col.TITLE_BACKGROUND.get())
-				: Col.WIDGET_FOREGROUND.get();
+			Color textCol = coloredTabs && (isSelected || isHot) ? Util.getTextForeground(Col.TITLE_BACKGROUND.get()) : Col.WIDGET_FOREGROUND.get();
 			
 			// Draw separating line between tabs and body
 			if (Util.contains(part, CTabFolderRenderer.PART_HEADER)) {
 				int tabHeight = tabFolder.getTabHeight();
 				gc.setForeground(borderCol);
-				/*
-				 * The drawn line must be shifted down by 1 pixel, otherwise it
-				 * will overlap with the tabfolder menu.
-				 */
+				/* The drawn line must be shifted down by 1 pixel, otherwise it will overlap with the tabfolder menu. */
 				gc.drawLine(
 						bounds.x,
 						bounds.y + tabHeight + 1,

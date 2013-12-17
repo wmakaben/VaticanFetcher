@@ -1,4 +1,4 @@
-package net.sourceforge.docfetcher.util.gui;
+package net.sourceforge.vaticanfetcher.util.gui;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -10,19 +10,18 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Listener;
 
 /**
- * Provide a hook to connecting the Preferences, About and Quit menu items of the Mac OS X
- * Application menu when using the SWT Cocoa bindings.
+ * Provide a hook to connecting the Preferences, About and Quit menu items of 
+ * the Mac OS X Application menu when using the SWT Cocoa bindings.
  * <p>
- * This code does not require the Cocoa SWT JAR in order to be compiled as it uses reflection to
- * access the Cocoa specific API methods. It does, however, depend on JFace (for IAction), but you
- * could easily modify the code to use SWT Listeners instead in order to use this class in SWT only
- * applications.
+ * This code does not require the Cocoa SWT JAR in order to be compiled as it uses reflection to access 
+ * the Cocoa specific API methods. It does, however, depend on JFace (for IAction), but you could easily 
+ * modify the code to use SWT Listeners instead in order to use this class in SWT only applications.
  * </p>
  * <p>
- * This code was influenced by the <a
- * href="http://www.simidude.com/blog/2008/macify-a-swt-application-in-a-cross-platform-way/"
- * >CarbonUIEnhancer from Agynami</a> with the implementation being modified from the <a href="http://dev.eclipse.org/viewcvs/index.cgi/org.eclipse.ui.cocoa/src/org/eclipse/ui/internal/cocoa/CocoaUIEnhancer.java"
- * >org.eclipse.ui.internal.cocoa.CocoaUIEnhancer</a>.
+ * This code was influenced by the 
+ * <a href="http://www.simidude.com/blog/2008/macify-a-swt-application-in-a-cross-platform-way/">CarbonUIEnhancer from Agynami</a> 
+ * with the implementation being modified from the 
+ * <a href="http://dev.eclipse.org/viewcvs/index.cgi/org.eclipse.ui.cocoa/src/org/eclipse/ui/internal/cocoa/CocoaUIEnhancer.java">org.eclipse.ui.internal.cocoa.CocoaUIEnhancer</a>.
  * </p>
  * <p>
  * This class works with both the 32-bit and 64-bit versions of the SWT Cocoa bindings.
@@ -63,17 +62,13 @@ public class CocoaUIEnhancer {
             this.pref = pref;
         }
 
-        /**
-         * Will be called on 32bit SWT.
-         */
+        /** Will be called on 32bit SWT. */
         @SuppressWarnings( "unused" )
         public int actionProc( int id, int sel, int arg0 ) {
             return (int) actionProc( (long) id, (long) sel, (long) arg0 );
         }
 
-        /**
-         * Will be called on 64bit SWT.
-         */
+        /** Will be called on 64bit SWT. */
         public long actionProc( long id, long sel, long arg0 ) {
             if ( sel == sel_aboutMenuItemSelected_ ) {
                 about.run();
@@ -100,8 +95,7 @@ public class CocoaUIEnhancer {
     }
 
     /**
-     * Hook the given Listener to the Mac OS X application Quit menu and the IActions to the About
-     * and Preferences menus.
+     * Hook the given Listener to the Mac OS X application Quit menu and the IActions to the About and Preferences menus.
      * 
      * @param display
      *            The Display to use.
@@ -150,8 +144,7 @@ public class CocoaUIEnhancer {
             sel_aboutMenuItemSelected_ = registerName( osCls, "aboutMenuItemSelected:" ); //$NON-NLS-1$
         }
 
-        // Create an SWT Callback object that will invoke the actionProc method of our internal
-        // callbackObject.
+        // Create an SWT Callback object that will invoke the actionProc method of our internal callbackObject.
         proc3Args = new Callback( callbackObject, "actionProc", 3 ); //$NON-NLS-1$
         Method getAddress = Callback.class.getMethod( "getAddress", new Class[0] );
         Object object = getAddress.invoke( proc3Args, (Object[]) null );
@@ -165,25 +158,15 @@ public class CocoaUIEnhancer {
         Class<?> nsstringCls = classForName( "org.eclipse.swt.internal.cocoa.NSString" );
         Class<?> nsapplicationCls = classForName( "org.eclipse.swt.internal.cocoa.NSApplication" );
 
-        // Instead of creating a new delegate class in objective-c,
-        // just use the current SWTApplicationDelegate. An instance of this
-        // is a field of the Cocoa Display object and is already the target
-        // for the menuItems. So just get this class and add the new methods
-        // to it.
+        // Instead of creating a new delegate class in objective-c, just use the current SWTApplicationDelegate. 
+        // An instance of this is a field of the Cocoa Display object and is already the target for the menuItems. 
+        // So just get this class and add the new methods to it.
         object = invoke( osCls, "objc_lookUpClass", new Object[] { "SWTApplicationDelegate" } );
         long cls = convertToLong( object );
 
         // Add the action callbacks for Preferences and About menu items.
-        invoke( osCls, "class_addMethod", new Object[] {
-                                                        wrapPointer( cls ),
-                                                        wrapPointer( sel_preferencesMenuItemSelected_ ),
-                                                        wrapPointer( proc3 ),
-                                                        "@:@" } ); //$NON-NLS-1$
-        invoke( osCls, "class_addMethod", new Object[] {
-                                                        wrapPointer( cls ),
-                                                        wrapPointer( sel_aboutMenuItemSelected_ ),
-                                                        wrapPointer( proc3 ),
-                                                        "@:@" } ); //$NON-NLS-1$
+        invoke( osCls, "class_addMethod", new Object[] { wrapPointer( cls ), wrapPointer( sel_preferencesMenuItemSelected_ ), wrapPointer( proc3 ), "@:@" } ); //$NON-NLS-1$
+        invoke( osCls, "class_addMethod", new Object[] { wrapPointer( cls ), wrapPointer( sel_aboutMenuItemSelected_ ), wrapPointer( proc3 ), "@:@" } ); //$NON-NLS-1$
 
         // Get the Mac OS X Application menu.
         Object sharedApplication = invoke( nsapplicationCls, "sharedApplication" );
@@ -214,17 +197,14 @@ public class CocoaUIEnhancer {
         // Set the action to execute when the About or Preferences menuItem is invoked.
         //
         // We don't need to set the target here as the current target is the SWTApplicationDelegate
-        // and we have registerd the new selectors on it. So just set the new action to invoke the
-        // selector.
+        // and we have registerd the new selectors on it. So just set the new action to invoke the selector.
         invoke( nsmenuitemCls, prefMenuItem, "setAction",
                 new Object[] { wrapPointer( sel_preferencesMenuItemSelected_ ) } );
         invoke( nsmenuitemCls, aboutMenuItem, "setAction",
                 new Object[] { wrapPointer( sel_aboutMenuItemSelected_ ) } );
     }
 
-    private long registerName( Class<?> osCls, String name )
-            throws IllegalArgumentException, SecurityException, IllegalAccessException,
-            InvocationTargetException, NoSuchMethodException {
+    private long registerName( Class<?> osCls, String name ) throws IllegalArgumentException, SecurityException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         Object object = invoke( osCls, "sel_registerName", new Object[] { name } );
         return convertToLong( object );
     }

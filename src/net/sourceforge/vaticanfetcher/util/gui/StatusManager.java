@@ -9,18 +9,13 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.util.gui;
+package net.sourceforge.vaticanfetcher.util.gui;
 
-import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.Util;
 
 import org.eclipse.swt.widgets.Display;
 
-/**
- * @author Tran Nam Quang
- */
 public final class StatusManager {
-	
-	// TODO post-release-1.1: Concurrency is broken here
 	
 	public static interface StatusWidgetProvider {
 		public String getStatus();
@@ -37,9 +32,8 @@ public final class StatusManager {
 	}
 	
 	/**
-	 * Sets the message to be displayed in the status bar for the given duration
-	 * in milliseconds. If the latter is <= 0, the message is shown without time
-	 * limit.
+	 * Sets the message to be displayed in the status bar for the given duration in milliseconds. 
+	 * If the latter is <= 0, the message is shown without time limit.
 	 */
 	public void setStatus(final String message, final int milliseconds) {
 		// Stop previous thread so it won't interfere with us

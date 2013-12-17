@@ -9,11 +9,11 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.util.gui;
+package net.sourceforge.vaticanfetcher.util.gui;
 
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.annotations.RecursiveMethod;
+import net.sourceforge.vaticanfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.RecursiveMethod;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MenuAdapter;
@@ -40,8 +40,7 @@ public final class ContextMenuManager {
 		final int timeout = 2000;
 		
 		Label label = new Label(shell, SWT.CENTER);
-		label.setText("Right-click on the area below to open the menu.\n" +
-				String.format("(It will automatically close after %d ms.)", timeout));
+		label.setText("Right-click on the area below to open the menu.\n" +	String.format("(It will automatically close after %d ms.)", timeout));
 		
 		class MyMenuAction extends MenuAction {
 			private final String label;
@@ -51,12 +50,8 @@ public final class ContextMenuManager {
 				this.label = label;
 				this.enabled = enabled;
 			}
-			public boolean isEnabled() {
-				return enabled;
-			}
-			public void run() {
-				Util.println(label + " clicked");
-			}
+			public boolean isEnabled() {return enabled;}
+			public void run() {Util.println(label + " clicked");}
 		}
 		
 		ContextMenuManager menuManager = new ContextMenuManager(label);
@@ -130,9 +125,8 @@ public final class ContextMenuManager {
 		item.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				/*
-				 * The conditions required to execute the action might have
-				 * changed while the context menu was displayed, so we should
-				 * double-check before executing the action.
+				 * The conditions required to execute the action might have changed while the context 
+				 * menu was displayed, so we should double-check before executing the action.
 				 */
 				if (action.isEnabled())
 					action.run();
@@ -142,9 +136,7 @@ public final class ContextMenuManager {
 			submenu.setDefaultItem(item);
 	}
 	
-	public void addSeparator() {
-		new MenuItem(menu, SWT.SEPARATOR);
-	}
+	public void addSeparator() {new MenuItem(menu, SWT.SEPARATOR);}
 	
 	public void addSeparatorIfNonEmpty() {
 		int count = menu.getItemCount();
@@ -155,9 +147,7 @@ public final class ContextMenuManager {
 			new MenuItem(menu, SWT.SEPARATOR);
 	}
 	
-	public void addSeparator(@NotNull Menu submenu) {
-		new MenuItem(submenu, SWT.SEPARATOR);
-	}
+	public void addSeparator(@NotNull Menu submenu) {new MenuItem(submenu, SWT.SEPARATOR);}
 	
 	// action will not be executed
 	@NotNull

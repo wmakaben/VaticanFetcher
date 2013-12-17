@@ -9,12 +9,12 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.util.gui;
+package net.sourceforge.vaticanfetcher.util.gui;
 
 import java.util.LinkedList;
 import java.util.regex.Pattern;
 
-import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.Util;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ExtendedModifyEvent;
@@ -23,9 +23,6 @@ import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 
-/**
- * @author Tran Nam Quang
- */
 public final class UndoRedoProvider {
 	
 	private static Pattern leadingSpaces = Pattern.compile("[\\s&&[^\\n\\r]]*\\S+");
@@ -55,8 +52,7 @@ public final class UndoRedoProvider {
 				Edit e2 = undoStack.getLast();
 				
 				// Case 1: A continuous sequence of characters was inserted
-				if (e1.start + e1.length == e2.start
-						&& e1.text.equals("") && e2.text.equals("")) {
+				if (e1.start + e1.length == e2.start && e1.text.equals("") && e2.text.equals("")) {
 					String text = st.getTextRange(e1.start, e1.length + e2.length);
 					if (trailingSpaces.matcher(text).matches()) {
 						int length = e1.length + e2.length;

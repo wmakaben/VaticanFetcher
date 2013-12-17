@@ -9,10 +9,10 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.util.gui;
+package net.sourceforge.vaticanfetcher.util.gui;
 
-import net.sourceforge.docfetcher.util.Event;
-import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.Event;
+import net.sourceforge.vaticanfetcher.util.Util;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
@@ -28,21 +28,14 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Sash;
 
 /**
- * A sash form similar to the SWT {@link org.eclipse.swt.custom.SashForm
- * SashForm}, but with the following differences:
+ * A sash form similar to the SWT {@link org.eclipse.swt.custom.SashForm SashForm}, but with the following differences:
  * <ul>
- * <li>This sash form can only manage two controls, referred to as 'first
- * control' and 'second control'.
- * <li>The first control has a fixed dimension (either with or height),
- * depending on the orientation of the sash form. A fixed width/height means the
- * width/height won't change when the separating sash is dragged, or when the
- * sash form is resized as a whole. The second control on the other hand will be
- * resized to fill the available space.
- * <li>The two controls are provided by subclassers who must implement
- * {@link #createFirstControl} and {@link #createSecondControl}.
+ * <li>This sash form can only manage two controls, referred to as 'first control' and 'second control'.
+ * <li>The first control has a fixed dimension (either with or height), depending on the orientation of the sash 
+ * form. A fixed width/height means the width/height won't change when the separating sash is dragged, or when the 
+ * sash form is resized as a whole. The second control on the other hand will be resized to fill the available space.
+ * <li>The two controls are provided by subclassers who must implement {@link #createFirstControl} and {@link #createSecondControl}.
  * </ul>
- * 
- * @author Tran Nam Quang
  */
 public abstract class FixedSashForm extends Composite {
 	
@@ -58,12 +51,10 @@ public abstract class FixedSashForm extends Composite {
 	private boolean isSmooth = false;
 
 	/**
-	 * Creates an instance with the given parent and orientation, and an initial
-	 * value for the fixed dimension of the first control.
+	 * Creates an instance with the given parent and orientation, and an initial value for the fixed dimension of the first control.
 	 * <p>
-	 * The orientation can be SWT.TOP, SWT.BOTTOM, SWT.LEFT or SWT.RIGHT. If the
-	 * orientation is SWT.TOP or SWT.BOTTOM, the height of the first control is
-	 * fixed, otherwise its width is fixed.
+	 * The orientation can be SWT.TOP, SWT.BOTTOM, SWT.LEFT or SWT.RIGHT. If the orientation is SWT.TOP or SWT.BOTTOM, 
+	 * the height of the first control is fixed, otherwise its width is fixed.
 	 */
 	public FixedSashForm(Composite parent, int orientation, int startOffset) {
 		super(parent, SWT.NONE);
@@ -107,46 +98,33 @@ public abstract class FixedSashForm extends Composite {
 		}
 	}
 	
-	/**
-	 * Returns the width of the sash.
-	 */
+	/** Returns the width of the sash. */
 	public final int getSashWidth() {
 		return ((FormData) sash.getLayoutData()).width;
 	}
 	
-	/**
-	 * Sets the width of the sash.
-	 */
+	/** Sets the width of the sash. */
 	public final void setSashWidth(int width) {
 		((FormData) sash.getLayoutData()).width = width;
 		layout(false);
 	}
 
-	/**
-	 * Returns the minimum for the fixed dimension of the first control.
-	 */
+	/** Returns the minimum for the fixed dimension of the first control. */
 	public final int getLimit() {
 		return limit;
 	}
 
-	/**
-	 * Sets the minimum for the fixed dimension of the first control.
-	 */
+	/** Sets the minimum for the fixed dimension of the first control. */
 	public final void setLimit(int limit) {
 		this.limit = limit;
 	}
 	
-	/**
-	 * Returns whether the first control is visible.
-	 */
+	/** Returns whether the first control is visible. */
 	public final boolean isFirstControlVisible() {
 		return isFirstVisible;
 	}
 	
-	/**
-	 * Sets the visibility of the first control. If it's invisible, the second
-	 * control will fill the entire sash form.
-	 */
+	/** Sets the visibility of the first control. If it's invisible, the second control will fill the entire sash form. */
 	public final void setFirstControlVisible(boolean isVisible) {
 		if (this.isFirstVisible == isVisible) return;
 		this.isFirstVisible = isVisible;
@@ -163,9 +141,7 @@ public abstract class FixedSashForm extends Composite {
 		evtFirstControlShown.fire(isVisible);
 	}
 	
-	/**
-	 * Returns the fixed dimension of the first control.
-	 */
+	/** Returns the fixed dimension of the first control. */
 	public final int getFixedDimension() {
 		Control fixedControl = isFirstFixed ? firstControl : secondControl;
 		Point size = fixedControl.getSize();
@@ -205,40 +181,28 @@ public abstract class FixedSashForm extends Composite {
 		parent.layout();
 	}
 	
-	/**
-	 * Returns whether 'smooth' dragging for the sash is enabled.
-	 */
+	/** Returns whether 'smooth' dragging for the sash is enabled. */
 	public final boolean isSmooth() {
 		return isSmooth;
 	}
 	
-	/**
-	 * Enables or disables 'smooth' dragging for the sash.
-	 */
+	/** Enables or disables 'smooth' dragging for the sash. */
 	public final void setSmooth(boolean isSmooth) {
 		this.isSmooth = isSmooth;
 	}
 
-	/**
-	 * Creates and returns the first control with the given parent.
-	 */
+	/** Creates and returns the first control with the given parent. */
 	protected abstract Control createFirstControl(Composite parent);
 
-	/**
-	 * Creates and returns the second control with the given parent.
-	 */
+	/** Creates and returns the second control with the given parent. */
 	protected abstract Control createSecondControl(Composite parent);
 
-	/**
-	 * Returns the first control.
-	 */
+	/** Returns the first control. */
 	public final Control getFirstControl() {
 		return firstControl;
 	}
 
-	/**
-	 * Returns the second control.
-	 */
+	/** Returns the second control. */
 	public final Control getSecondControl() {
 		return secondControl;
 	}

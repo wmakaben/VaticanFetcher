@@ -9,13 +9,13 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.util.gui;
+package net.sourceforge.vaticanfetcher.util.gui;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
@@ -28,17 +28,12 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Widget;
 
-/**
- * @author Tran Nam Quang
- */
 public final class SystemFont {
 	
 	private final List<Control> controls = new ArrayList<Control>();
 	@NotNull private Font font;
 	
-	public SystemFont(	@NotNull final Widget widget,
-						final int height,
-						final int style) {
+	public SystemFont(@NotNull final Widget widget,	final int height, final int style) {
 		Util.checkNotNull(widget);
 		font = getSystemFont(widget, height, style);
 		
@@ -60,15 +55,11 @@ public final class SystemFont {
 	}
 	
 	/**
-	 * Returns a new font derived from the SWT system font by setting the given
-	 * font and style. The height argument will be ignored if its value is less
-	 * than or equal to zero. The caller is responsible for disposing the
-	 * returned font.
+	 * Returns a new font derived from the SWT system font by setting the given font and style. The height argument 
+	 * will be ignored if its value is less than or equal to zero. The caller is responsible for disposing the returned font.
 	 */
 	@NotNull
-	private static Font getSystemFont(	@NotNull Widget widget,
-	                                  	int height,
-										int style) {
+	private static Font getSystemFont(@NotNull Widget widget, int height, int style) {
 		Display display = widget.getDisplay();
 		FontData fontData = display.getSystemFont().getFontData()[0];
 		if (height > 0)
