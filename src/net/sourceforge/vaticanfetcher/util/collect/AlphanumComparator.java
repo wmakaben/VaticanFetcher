@@ -22,13 +22,12 @@
  *
  */
 
-package net.sourceforge.docfetcher.util.collect;
+package net.sourceforge.vaticanfetcher.util.collect;
 
 import java.util.Comparator;
 
 /**
- * This is an updated version with enhancements made by Daniel Migowski,
- * Andre Bogus, and David Koelle
+ * This is an updated version with enhancements made by Daniel Migowski, Andre Bogus, and David Koelle
  *
  * To use this class:
  *   Use the static "sort" method from the java.util.Collections class:

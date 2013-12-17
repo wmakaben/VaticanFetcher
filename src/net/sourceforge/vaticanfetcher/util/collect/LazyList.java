@@ -9,7 +9,7 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.util.collect;
+package net.sourceforge.vaticanfetcher.util.collect;
 
 import java.util.AbstractList;
 import java.util.ArrayList;
@@ -18,12 +18,9 @@ import java.util.List;
 
 import com.google.common.collect.Iterators;
 
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.annotations.Nullable;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.Nullable;
 
-/**
- * @author Tran Nam Quang
- */
 public final class LazyList<T> extends AbstractList<T> {
 	
 	@Nullable private List<T> list;

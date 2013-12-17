@@ -9,20 +9,17 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.util.collect;
+package net.sourceforge.vaticanfetcher.util.collect;
 
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
 
 import com.google.common.collect.ForwardingCollection;
 
-/**
- * @author Tran Nam Quang
- */
 public final class BoundedList<T> extends ForwardingCollection<T> {
 	
 	private final int capacity;
@@ -89,17 +86,11 @@ public final class BoundedList<T> extends ForwardingCollection<T> {
 	}
 	
 	@NotNull
-	public T getLast() {
-		return list.getLast();
-	}
+	public T getLast() {return list.getLast();}
 	
-	public int getVirtualSize() {
-		return virtualSize;
-	}
+	public int getVirtualSize() {return virtualSize;}
 	
-	public int getCapacity() {
-		return capacity;
-	}
+	public int getCapacity() {return capacity;}
 	
 	@NotNull
 	public Iterator<T> iterator() {
