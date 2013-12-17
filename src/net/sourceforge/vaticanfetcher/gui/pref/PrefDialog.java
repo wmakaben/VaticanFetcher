@@ -9,25 +9,25 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.gui.pref;
+package net.sourceforge.vaticanfetcher.gui.pref;
 
 import java.io.File;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-import net.sourceforge.docfetcher.enums.Img;
-import net.sourceforge.docfetcher.enums.Msg;
-import net.sourceforge.docfetcher.enums.ProgramConf;
-import net.sourceforge.docfetcher.enums.SettingsConf;
-import net.sourceforge.docfetcher.gui.ManualLocator;
-import net.sourceforge.docfetcher.gui.UtilGui;
-import net.sourceforge.docfetcher.util.Event;
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.annotations.VisibleForPackageGroup;
-import net.sourceforge.docfetcher.util.gui.ConfigComposite;
-import net.sourceforge.docfetcher.util.gui.FormDataFactory;
+import net.sourceforge.vaticanfetcher.enums.Img;
+import net.sourceforge.vaticanfetcher.enums.Msg;
+import net.sourceforge.vaticanfetcher.enums.ProgramConf;
+import net.sourceforge.vaticanfetcher.enums.SettingsConf;
+import net.sourceforge.vaticanfetcher.gui.ManualLocator;
+import net.sourceforge.vaticanfetcher.gui.UtilGui;
+import net.sourceforge.vaticanfetcher.util.Event;
+import net.sourceforge.vaticanfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.VisibleForPackageGroup;
+import net.sourceforge.vaticanfetcher.util.gui.ConfigComposite;
+import net.sourceforge.vaticanfetcher.util.gui.FormDataFactory;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -41,9 +41,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Link;
 import org.eclipse.swt.widgets.Shell;
 
-/**
- * @author Tran Nam Quang
- */
 @VisibleForPackageGroup
 public final class PrefDialog {
 
@@ -65,54 +62,34 @@ public final class PrefDialog {
 		SettingsConf.ShellBounds.PreferencesDialog.bind(shell);
 
 		checkOptions.addAll(Arrays.<PrefOption> asList(
-			new CheckOption(
-				Msg.pref_manual_on_startup.get(),
-				SettingsConf.Bool.ShowManualOnStartup),
+			new CheckOption(Msg.pref_manual_on_startup.get(), SettingsConf.Bool.ShowManualOnStartup),
 
-			new CheckOption(
-				Msg.pref_use_or_operator.get(),
-				SettingsConf.Bool.UseOrOperator),
+			new CheckOption(Msg.pref_use_or_operator.get(),	SettingsConf.Bool.UseOrOperator),
 
-			new CheckOption(
-				Msg.pref_scroll_to_first_match.get(),
-				SettingsConf.Bool.AutoScrollToFirstMatch)
+			new CheckOption(Msg.pref_scroll_to_first_match.get(), SettingsConf.Bool.AutoScrollToFirstMatch)
 		));
 
 		if (!Util.IS_UBUNTU_UNITY) {
 			checkOptions.addAll(Arrays.<PrefOption> asList(
-			new CheckOption(
-				Msg.pref_hide_in_systray.get(),
-				SettingsConf.Bool.HideOnOpen),
+			new CheckOption(Msg.pref_hide_in_systray.get(),	SettingsConf.Bool.HideOnOpen),
 
-			new CheckOption(
-				Msg.pref_close_to_systray.get(),
-					SettingsConf.Bool.CloseToTray)
+			new CheckOption(Msg.pref_close_to_systray.get(), SettingsConf.Bool.CloseToTray)
 			));
 		}
 
 		checkOptions.addAll(Arrays.<PrefOption> asList(
-			new CheckOption(
-				Msg.pref_clear_search_history_on_exit.get(),
-				SettingsConf.Bool.ClearSearchHistoryOnExit)
+			new CheckOption(Msg.pref_clear_search_history_on_exit.get(), SettingsConf.Bool.ClearSearchHistoryOnExit)
 
 			// TODO post-release-1.1: Implement this; requires saving and restoring the tree expansion state
-			//	new CheckOption(
-			//		"Reset location filter on exit",
-			//		SettingsConf.Bool.ResetLocationFilterOnExit),
+			//	new CheckOption("Reset location filter on exit", SettingsConf.Bool.ResetLocationFilterOnExit),
 		));
 
 		fieldOptions.addAll(Arrays.asList(
-			new ColorOption(
-				Msg.pref_highlight_color.get(),
-				SettingsConf.IntArray.PreviewHighlighting),
+			new ColorOption(Msg.pref_highlight_color.get(),	SettingsConf.IntArray.PreviewHighlighting),
 
-			new FontOption(
-				Msg.pref_font_normal.get(),
-				UtilGui.getPreviewFontNormal()),
+			new FontOption(Msg.pref_font_normal.get(),	UtilGui.getPreviewFontNormal()),
 
-			new FontOption(
-				Msg.pref_font_fixed_width.get(),
-				UtilGui.getPreviewFontMono())
+			new FontOption(Msg.pref_font_fixed_width.get(),	UtilGui.getPreviewFontMono())
 		));
 
 		if (!Util.IS_MAC_OS_X)
@@ -220,8 +197,7 @@ public final class PrefDialog {
 	}
 
 	@NotNull
-	static StyledLabel createLabeledStyledLabel(@NotNull Composite parent,
-												@NotNull String labelText) {
+	static StyledLabel createLabeledStyledLabel(@NotNull Composite parent, @NotNull String labelText) {
 		Label label = new Label(parent, SWT.NONE);
 		label.setText(labelText);
 		label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
@@ -236,8 +212,7 @@ public final class PrefDialog {
 		public PrefOption(@NotNull String labelText) {
 			this.labelText = labelText;
 		}
-		// Subclassers must set grid datas on the created controls, assuming
-		// a two-column grid layout
+		// Subclassers must set grid datas on the created controls, assuming a two-column grid layout
 		protected abstract void createControls(@NotNull Composite parent);
 		protected abstract void restoreDefault();
 		protected abstract void save();

@@ -9,21 +9,18 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.gui.pref;
+package net.sourceforge.vaticanfetcher.gui.pref;
 
-import net.sourceforge.docfetcher.enums.SettingsConf;
-import net.sourceforge.docfetcher.gui.UtilGui;
-import net.sourceforge.docfetcher.gui.pref.PrefDialog.PrefOption;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.enums.SettingsConf;
+import net.sourceforge.vaticanfetcher.gui.UtilGui;
+import net.sourceforge.vaticanfetcher.gui.pref.PrefDialog.PrefOption;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.widgets.Composite;
 
-/**
- * @author Tran Nam Quang
- */
 final class HotkeyOption extends PrefOption {
 	
 	@NotNull private StyledLabel st;
@@ -54,8 +51,6 @@ final class HotkeyOption extends PrefOption {
 		st.setText(UtilGui.toString(hotkey));
 	}
 
-	protected void save() {
-		SettingsConf.IntArray.HotkeyToFront.set(hotkey);
-	}
+	protected void save() {	SettingsConf.IntArray.HotkeyToFront.set(hotkey); }
 	
 }

@@ -12,12 +12,12 @@
  * @author Tran Nam Quang
  */
 
-package net.sourceforge.docfetcher.gui.pref;
+package net.sourceforge.vaticanfetcher.gui.pref;
 
-import net.sourceforge.docfetcher.enums.SettingsConf;
-import net.sourceforge.docfetcher.gui.pref.PrefDialog.PrefOption;
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.enums.SettingsConf;
+import net.sourceforge.vaticanfetcher.gui.pref.PrefDialog.PrefOption;
+import net.sourceforge.vaticanfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -40,12 +40,8 @@ final class CheckOption extends PrefOption {
 		bt.setSelection(enumOption.get());
 	}
 
-	protected void restoreDefault() {
-		bt.setSelection(enumOption.defaultValue);
-	}
+	protected void restoreDefault() {bt.setSelection(enumOption.defaultValue);}
 
-	protected void save() {
-		enumOption.set(bt.getSelection());
-	}
+	protected void save() {enumOption.set(bt.getSelection());}
 	
 }

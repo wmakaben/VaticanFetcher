@@ -12,17 +12,17 @@
  * @author Tran Nam Quang
  */
 
-package net.sourceforge.docfetcher.gui.pref;
+package net.sourceforge.vaticanfetcher.gui.pref;
 
-import net.sourceforge.docfetcher.enums.Img;
-import net.sourceforge.docfetcher.enums.Msg;
-import net.sourceforge.docfetcher.enums.SettingsConf;
-import net.sourceforge.docfetcher.gui.UtilGui;
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.annotations.Nullable;
-import net.sourceforge.docfetcher.util.gui.Col;
-import net.sourceforge.docfetcher.util.gui.FormDataFactory;
+import net.sourceforge.vaticanfetcher.enums.Img;
+import net.sourceforge.vaticanfetcher.enums.Msg;
+import net.sourceforge.vaticanfetcher.enums.SettingsConf;
+import net.sourceforge.vaticanfetcher.gui.UtilGui;
+import net.sourceforge.vaticanfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.Nullable;
+import net.sourceforge.vaticanfetcher.util.gui.Col;
+import net.sourceforge.vaticanfetcher.util.gui.FormDataFactory;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyAdapter;
