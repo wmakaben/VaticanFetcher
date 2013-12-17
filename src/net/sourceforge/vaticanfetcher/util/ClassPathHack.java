@@ -1,4 +1,4 @@
-package net.sourceforge.docfetcher.util;
+package net.sourceforge.vaticanfetcher.util;
 
 import java.io.File;
 import java.io.IOException;
@@ -6,13 +6,9 @@ import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
 
-import net.sourceforge.docfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
 
-/**
- * Helper class for dynamically adding jars to the classpath.
- * 
- * @author Tran Nam Quang
- */
+/** Helper class for dynamically adding jars to the classpath. */
 public final class ClassPathHack {
 
 	private static final Class<?>[] parameters = new Class[] { URL.class };

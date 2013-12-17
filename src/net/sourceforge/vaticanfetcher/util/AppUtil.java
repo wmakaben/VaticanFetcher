@@ -9,7 +9,7 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.util;
+package net.sourceforge.vaticanfetcher.util;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,11 +21,11 @@ import java.util.Date;
 import java.awt.AWTException;
 import java.awt.Robot;
 
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.annotations.Nullable;
-import net.sourceforge.docfetcher.util.gui.dialog.StackTraceWindow;
-import net.sourceforge.docfetcher.gui.KeyCodeTranslator;
-import net.sourceforge.docfetcher.enums.SettingsConf;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.Nullable;
+import net.sourceforge.vaticanfetcher.util.gui.dialog.StackTraceWindow;
+import net.sourceforge.vaticanfetcher.gui.KeyCodeTranslator;
+import net.sourceforge.vaticanfetcher.enums.SettingsConf;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.aspectj.lang.annotation.SuppressAjWarnings;
@@ -43,8 +43,6 @@ import com.sun.jna.platform.win32.Shell32Util;
  * A container for various utility methods. These aren't members of the {@link Util} package because they depend on some enum constants 
  * defined in {@link Const} and {@link Messages}. The <code>Const</code> constants must have been set before any method of this class can 
  * be called, otherwise an <code>Exception</code> will be thrown. Setting the <code>Msg</code> constants, on the other hand, is optional.
- * 
- * @author Tran Nam Quang
  */
 public final class AppUtil {
 	
@@ -60,9 +58,7 @@ public final class AppUtil {
 		
 		private String value;
 		
-		@Nullable public String get() {
-			return value;
-		}
+		@Nullable public String get() {	return value; }
 		
 		public void set(@NotNull String value) {
 			Util.checkNotNull(value);
@@ -74,9 +70,7 @@ public final class AppUtil {
 				this.value = value;
 		}
 		
-		public void set(boolean b) {
-			set(String.valueOf(b));
-		}
+		public void set(boolean b) { set(String.valueOf(b)); }
 		
 		private boolean asBoolean() {
 			return Boolean.parseBoolean(value);
@@ -90,7 +84,7 @@ public final class AppUtil {
 			if (initialized)
 				return;
 			
-			PROGRAM_NAME.set("DocFetcher");
+			PROGRAM_NAME.set("VaticanFetcher");
 			PROGRAM_VERSION.set("Unspecified");
 			PROGRAM_BUILD_DATE.set("Unspecified");
 			USER_DIR_PATH.set(Util.USER_DIR_PATH);
@@ -128,9 +122,7 @@ public final class AppUtil {
 			this.value = defaultValue;
 		}
 		
-		@NotNull public String get() {
-			return value;
-		}
+		@NotNull public String get() { return value; }
 		
 		public void set(@NotNull String value) {
 			this.value = Util.checkNotNull(value);
@@ -201,8 +193,7 @@ public final class AppUtil {
 	 * <li>Multiple instances from different locations can be run simultaneously by the same user.
 	 * </ul>
 	 * <p>
-	 * <b>Note</b>: The message container must be loaded before calling this method, 
-	 * otherwise the confirmation dialog will show untranslated strings.
+	 * <b>Note</b>: The message container must be loaded before calling this method, otherwise the confirmation dialog will show untranslated strings.
 	 */
 	// TODO doc: before calling this method, set USER_DIR_PATH, PROGRAM_NAME and all Msg enums
 	public static boolean checkSingleInstance() {
@@ -501,7 +492,7 @@ public final class AppUtil {
 		if (appDataDir != null)
 			return appDataDir; // Return cached value
 		
-		String appDataDirOverride = System.getenv("DOCFETCHER_HOME");
+		String appDataDirOverride = System.getenv("VATICANFETCHER_HOME");
 		if (appDataDirOverride != null) {
 			File appDataDir = Util.getCanonicalFile(appDataDirOverride);
 			if (!appDataDir.exists())
@@ -528,7 +519,7 @@ public final class AppUtil {
 			String winAppData = System.getenv("APPDATA");
 			if (winAppData == null)
 				/*
-				 * Bug #2812637: The previous System.getenv("APPDATA") call returns null if DocFetcher is started as an alternative user
+				 * Bug #2812637: The previous System.getenv("APPDATA") call returns null if VaticanFetcher is started as an alternative user
 				 * via the executable's "Run as..." context menu entry. If this happens, we'll have to fall back to this JNA-based workaround.
 				 */
 				winAppData = Shell32Util.getFolderPath(0x001a); // CSIDL_APPDATA = 0x001a

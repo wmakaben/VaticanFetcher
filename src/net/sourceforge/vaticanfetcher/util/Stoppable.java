@@ -9,38 +9,29 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.util;
+package net.sourceforge.vaticanfetcher.util;
 
-import net.sourceforge.docfetcher.util.annotations.Nullable;
+import net.sourceforge.vaticanfetcher.util.annotations.Nullable;
 
-/**
- * @author Tran Nam Quang
- */
 public abstract class Stoppable <T extends Throwable> {
 	
 	private boolean stopped = false;
 	@Nullable private T t;
 	
-	/**
-	 * Returns whether a stop signal was sent.
-	 */
+	/** Returns whether a stop signal was sent. */
 	public final boolean isStopped() {
 		return stopped;
 	}
 	
-	/**
-	 * Sends a stop signal to the running process.
-	 */
+	/** Sends a stop signal to the running process. */
 	public final void stop() {
 		stopped = true;
 	}
 	
 	/**
-	 * Sends a stop signal to the running process and throws the given Throwable
-	 * after the process has stopped. If this method is called multiple times,
-	 * each call will replace the last Throwable with the new one. Note that the
-	 * Throwable argument can be null, in which case no Throwable will be
-	 * thrown.
+	 * Sends a stop signal to the running process and throws the given Throwable after the process has stopped. 
+	 * If this method is called multiple times, each call will replace the last Throwable with the new one. 
+	 * Note that the Throwable argument can be null, in which case no Throwable will be thrown.
 	 */
 	public final void stop(@Nullable T t) {
 		stopped = true;
@@ -48,9 +39,8 @@ public abstract class Stoppable <T extends Throwable> {
 	}
 	
 	/**
-	 * Starts the process. If a non-null Throwable was set via
-	 * {@link #stop(Throwable)} during the execution of the process, this method
-	 * will throw the Throwable.
+	 * Starts the process. If a non-null Throwable was set via {@link #stop(Throwable)} during the 
+	 * execution of the process, this method will throw the Throwable.
 	 */
 	public final void run() throws T {
 		try {
@@ -61,10 +51,7 @@ public abstract class Stoppable <T extends Throwable> {
 		if (t != null) throw t;
 	}
 	
-	/**
-	 * Starts the process. Does not throw any Throwables, even if one was set
-	 * via {@link #stop(Throwable)}.
-	 */
+	/** Starts the process. Does not throw any Throwables, even if one was set via {@link #stop(Throwable)}. */
 	public final void runSilently() {
 		doRun();
 		runFinally();

@@ -9,7 +9,7 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.util;
+package net.sourceforge.vaticanfetcher.util;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -22,9 +22,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-/**
- * @author Tran Nam Quang
- */
 public class UtilTest {
 	
 	@Test

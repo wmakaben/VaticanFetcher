@@ -12,7 +12,7 @@
  * @author Tran Nam Quang
  */
 
-package net.sourceforge.docfetcher.util;
+package net.sourceforge.vaticanfetcher.util;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedWriter;
@@ -34,8 +34,8 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
-import net.sourceforge.docfetcher.util.annotations.MutableCopy;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.MutableCopy;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
 
 import com.google.common.collect.Lists;
 import com.google.common.io.Closeables;

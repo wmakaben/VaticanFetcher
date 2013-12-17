@@ -12,14 +12,14 @@
  * @author Tran Nam Quang
  */
 
-package net.sourceforge.docfetcher.util;
+package net.sourceforge.vaticanfetcher.util;
 
 import java.io.File;
 import java.io.IOException;
 
 import org.aspectj.lang.annotation.SuppressAjWarnings;
 
-import net.sourceforge.docfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
 
 public final class SwtJarLoader {
 	

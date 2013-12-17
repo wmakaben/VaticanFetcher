@@ -9,7 +9,7 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.util;
+package net.sourceforge.vaticanfetcher.util;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -18,9 +18,9 @@ import java.io.InputStream;
 import java.io.StringReader;
 import java.util.Properties;
 
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.annotations.NotThreadSafe;
-import net.sourceforge.docfetcher.util.annotations.Nullable;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.NotThreadSafe;
+import net.sourceforge.vaticanfetcher.util.annotations.Nullable;
 
 import org.mozilla.universalchardet.UniversalDetector;
 
@@ -28,9 +28,6 @@ import com.google.common.base.Charsets;
 import com.google.common.io.ByteStreams;
 import com.google.common.io.Files;
 
-/**
- * @author Tran Nam Quang
- */
 public final class CharsetDetectorHelper {
 	
 	@Nullable private static UniversalDetector charsetDetector;
@@ -50,24 +47,21 @@ public final class CharsetDetectorHelper {
 	
 	@NotNull
 	@NotThreadSafe
-	public static String toString(@NotNull InputStream in)
-			throws IOException {
+	public static String toString(@NotNull InputStream in)throws IOException {
 		byte[] bytes = ByteStreams.toByteArray(in);
 		return toString(bytes);
 	}
 	
 	@NotNull
 	@NotThreadSafe
-	public static String toString(@NotNull File file)
-			throws IOException {
+	public static String toString(@NotNull File file) throws IOException {
 		byte[] bytes = Files.toByteArray(file);
 		return toString(bytes);
 	}
 	
 	@NotNull
 	@NotThreadSafe
-	public static String toString(@NotNull byte[] bytes)
-			throws IOException {
+	public static String toString(@NotNull byte[] bytes)throws IOException {
 		if (charsetDetector == null)
 			charsetDetector = new UniversalDetector(null);
 		
@@ -81,8 +75,7 @@ public final class CharsetDetectorHelper {
 		String charsetName = charsetDetector.getDetectedCharset();
 		charsetDetector.reset();
 		
-		String contents = charsetName == null ? new String(
-			bytes, Charsets.ISO_8859_1) : new String(bytes, charsetName);
+		String contents = charsetName == null ? new String(bytes, Charsets.ISO_8859_1) : new String(bytes, charsetName);
 		return contents;
 	}
 

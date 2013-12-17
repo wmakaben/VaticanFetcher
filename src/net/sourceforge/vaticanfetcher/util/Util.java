@@ -12,7 +12,7 @@
  * @author Tran Nam Quang
  */
 
-package net.sourceforge.docfetcher.util;
+package net.sourceforge.vaticanfetcher.util;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -27,11 +27,11 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.sourceforge.docfetcher.util.annotations.MutableCopy;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.annotations.Nullable;
-import net.sourceforge.docfetcher.util.annotations.ThreadSafe;
-import net.sourceforge.docfetcher.util.gui.Col;
+import net.sourceforge.vaticanfetcher.util.annotations.MutableCopy;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.Nullable;
+import net.sourceforge.vaticanfetcher.util.annotations.ThreadSafe;
+import net.sourceforge.vaticanfetcher.util.gui.Col;
 
 import org.aspectj.lang.annotation.SuppressAjWarnings;
 import org.eclipse.swt.SWT;
@@ -391,9 +391,7 @@ public final class Util {
 		shell.setLocation(shellPosX, shellPosY);
 	}
 
-	/**
-	 * Packs the given shell and then centers it relative to the given control.
-	 */
+	/** Packs the given shell and then centers it relative to the given control. */
 	public static void setCenteredBounds(@NotNull Shell shell, @NotNull Control control) {
 		shell.pack();
 		Point shellSize = shell.getSize();

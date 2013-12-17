@@ -9,13 +9,10 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.util;
+package net.sourceforge.vaticanfetcher.util;
 
-import net.sourceforge.docfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
 
-/**
- * @author Tran Nam Quang
- */
 public final class CheckedOutOfMemoryError extends Exception {
 	
 	private static final long serialVersionUID = 1L;

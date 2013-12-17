@@ -9,7 +9,7 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.util;
+package net.sourceforge.vaticanfetcher.util;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -32,8 +32,6 @@ import org.aspectj.lang.annotation.SuppressAjWarnings;
  * milliseconds has passed between the checkpoints when the loop was run.</li>
  * </ul>
  * To reset this class, call {@link #clearTimes()}.
- * 
- * @author Tran Nam Quang
  */
 public class LoopTimer {
 	
@@ -50,8 +48,7 @@ public class LoopTimer {
 	}
 	
 	/**
-	 * Add a checkpoint with the given label at this execution point. Labels
-	 * must be unique for each checkpoint.
+	 * Add a checkpoint with the given label at this execution point. Labels must be unique for each checkpoint.
 	 * 
 	 * @see LoopTimer
 	 */
@@ -74,8 +71,7 @@ public class LoopTimer {
 	}
 	
 	/**
-	 * Returns a printout of how much time in milliseconds passed between each
-	 * checkpoint and the previous checkpoint.
+	 * Returns a printout of how much time in milliseconds passed between each checkpoint and the previous checkpoint.
 	 * 
 	 * @see LoopTimer
 	 */
@@ -87,8 +83,7 @@ public class LoopTimer {
 	}
 	
 	/**
-	 * Writes the printout returned by {@link #getTimes()} to the standard
-	 * output.
+	 * Writes the printout returned by {@link #getTimes()} to the standard output.
 	 * 
 	 * @see LoopTimer
 	 */
