@@ -1,12 +1,12 @@
-package net.sourceforge.docfetcher.model.parse;
+package net.sourceforge.vaticanfetcher.model.parse;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Collection;
 
-import net.sourceforge.docfetcher.enums.Msg;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.enums.Msg;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
 
 /**
  * <p>Based on ID3 specifications in http://id3.org
@@ -17,20 +17,15 @@ import net.sourceforge.docfetcher.util.annotations.NotNull;
  */
 final class MP3Parser extends StreamParser {
 
-	private static final Collection<String> extensions = Arrays.asList(
-			"mp3");
+	private static final Collection<String> extensions = Arrays.asList("mp3");
 
-	private static final Collection<String> types = Arrays.asList(
-			"audio/mpeg");
+	private static final Collection<String> types = Arrays.asList("audio/mpeg");
 
 	@NotNull
-	private static String extract(@NotNull InputStream in, boolean forViewing)
-			throws IOException, ParseException {
+	private static String extract(@NotNull InputStream in, boolean forViewing)throws IOException, ParseException {
 		StringBuffer sb = new StringBuffer();
 		
-		/*
-		 * Check if the file starts with the ID3 identifier.
-		 */
+		/* Check if the file starts with the ID3 identifier. */
 		byte[] data = new byte[10];
 		long pos = in.read(data);
 		if (Arrays.equals(Arrays.copyOfRange(data, 0, 3), new byte[] {0x49, 0x44, 0x33}) == false) { // "ID3"

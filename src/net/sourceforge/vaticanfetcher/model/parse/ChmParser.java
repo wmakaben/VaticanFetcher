@@ -9,7 +9,7 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model.parse;
+package net.sourceforge.vaticanfetcher.model.parse;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -19,17 +19,14 @@ import java.util.Collection;
 import java.util.Collections;
 
 import net.htmlparser.jericho.Source;
-import net.sourceforge.docfetcher.enums.Msg;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.enums.Msg;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
 
 import org.chm4j.ChmEntry;
 import org.chm4j.ChmFile;
 
 import com.google.common.io.Closeables;
 
-/**
- * @author Tran Nam Quang
- */
 final class ChmParser extends FileParser {
 
 	/*
@@ -42,20 +39,17 @@ final class ChmParser extends FileParser {
 	private static final Collection<String> extensions = Collections.singleton("chm");
 	
 	@Override
-	protected ParseResult parse(File file,
-								ParseContext context) throws ParseException {
+	protected ParseResult parse(File file, ParseContext context) throws ParseException {
 		return new ParseResult(renderText(file, false));
 	}
 	
 	@Override
-	protected String renderText(File file, String filename)
-			throws ParseException {
+	protected String renderText(File file, String filename)	throws ParseException {
 		return renderText(file, true);
 	}
 	
 	@NotNull
-	private String renderText(@NotNull File file, boolean renderText)
-			throws ParseException {
+	private String renderText(@NotNull File file, boolean renderText) throws ParseException {
 		StringBuilder contents = new StringBuilder();
 		try {
 			ChmFile chmFile = new ChmFile(file);
@@ -70,17 +64,13 @@ final class ChmParser extends FileParser {
 	}
 	
 	/**
-	 * Converts all <tt>ChmEntry</tt>s under <tt>entry</tt> to strings and
-	 * puts them into the given <tt>StringBuilder</tt>.
+	 * Converts all <tt>ChmEntry</tt>s under <tt>entry</tt> to strings and puts them into the given <tt>StringBuilder</tt>.
 	 * 
 	 * @param renderText
 	 *            Whether the textual contents of the <tt>ChmEntry</tt>s
-	 *            should be extracted in a readable format (true) or as raw
-	 *            strings (false).
+	 *            should be extracted in a readable format (true) or as raw strings (false).
 	 */
-	private void append(@NotNull StringBuilder sb,
-						@NotNull ChmEntry entry,
-						boolean renderText) throws IOException {
+	private void append(@NotNull StringBuilder sb, @NotNull ChmEntry entry,	boolean renderText) throws IOException {
 		if (entry.hasAttribute(ChmEntry.Attribute.DIRECTORY)) {
 			for (ChmEntry child : entry.entries(ChmEntry.Attribute.ALL))
 				append(sb, child, renderText);
@@ -89,8 +79,7 @@ final class ChmParser extends FileParser {
 			BufferedReader reader = null;
 			try {
 				reader = new BufferedReader(
-						new InputStreamReader(
-								entry.getInputStream(),
+						new InputStreamReader(entry.getInputStream(),
 								"utf8" // Just guessing... //$NON-NLS-1$
 						)
 				);
@@ -100,9 +89,8 @@ final class ChmParser extends FileParser {
 					entryBuffer.append(line).append("\n\n"); //$NON-NLS-1$
 
 				/*
-				 * The current version of chm4j doesn't allow differentiating
-				 * between binary files (such as images) and HTML files. Therefore
-				 * we scan the text for HTML tags to select the HTML files.
+				 * The current version of chm4j doesn't allow differentiating between binary files (such as images) 
+				 * and HTML files. Therefore we scan the text for HTML tags to select the HTML files.
 				 */
 				if (isHTML(entryBuffer)) {
 					Source source = new Source(entryBuffer);
@@ -123,14 +111,11 @@ final class ChmParser extends FileParser {
 	}
 	
 	/**
-	 * Returns true if the given StringBuilder appears to contain HTML. This is
-	 * determined by parsing the input with a simple finite state machine that
-	 * checks whether the input contains an html start tag, followed by an html
-	 * end tag.
+	 * Returns true if the given StringBuilder appears to contain HTML. This is determined by parsing the input with a simple 
+	 * finite state machine that checks whether the input contains an html start tag, followed by an html end tag.
 	 * <p>
-	 * Note: This is better than using regular expressions because the latter
-	 * can crash the program with a StackOverflowError, as seen in bug report
-	 * #2948903.
+	 * Note: This is better than using regular expressions because the latter can crash the program 
+	 * with a StackOverflowError, as seen in bug report #2948903.
 	 */
 	private static boolean isHTML(@NotNull StringBuilder input) {
 		final int OUTSIDE = 0;
@@ -140,9 +125,8 @@ final class ChmParser extends FileParser {
 			char c = input.charAt(i);
 			if (state == OUTSIDE) {
 				/*
-				 * Note that we're checking for the occurrence of <html, not
-				 * <html>, since in some HTML documents the html start tag
-				 * contains additional attributes, e.g. <html attr="value">.
+				 * Note that we're checking for the occurrence of <html, not <html>, since in some HTML 
+				 * documents the html start tag contains additional attributes, e.g. <html attr="value">.
 				 */
 				if (c == 'l' || c == 'L') { // last char in 'html'
 					if (i >= 4) {
@@ -170,10 +154,7 @@ final class ChmParser extends FileParser {
 	}
 
 	protected Collection<String> getTypes() {
-		/*
-		 * The mime-util library doesn't seem to be able to detect CHM files, so
-		 * we'll return an empty list here.
-		 */
+		/* The mime-util library doesn't seem to be able to detect CHM files, so we'll return an empty list here. */
 		return Collections.emptyList();
 	}
 	

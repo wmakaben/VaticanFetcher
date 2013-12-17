@@ -9,7 +9,7 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model.parse;
+package net.sourceforge.vaticanfetcher.model.parse;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -31,17 +31,14 @@ import net.htmlparser.jericho.CharacterReference;
 import net.htmlparser.jericho.Element;
 import net.htmlparser.jericho.Source;
 import net.htmlparser.jericho.StartTag;
-import net.sourceforge.docfetcher.enums.Msg;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.annotations.Nullable;
+import net.sourceforge.vaticanfetcher.enums.Msg;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.Nullable;
 
 import com.catcode.odf.OpenDocumentTextInputStream;
 import com.google.common.io.CharStreams;
 import com.google.common.io.Closeables;
 
-/**
- * @author Tran Nam Quang
- */
 abstract class OpenOfficeParser extends FileParser {
 	
 	public static final class OpenOfficeWriterParser extends OpenOfficeParser {

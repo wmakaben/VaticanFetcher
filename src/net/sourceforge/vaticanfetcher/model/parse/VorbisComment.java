@@ -1,11 +1,10 @@
-package net.sourceforge.docfetcher.model.parse;
+package net.sourceforge.vaticanfetcher.model.parse;
 
 import java.io.DataInputStream;
 import java.io.IOException;
 
 /**
- * This class is created because several media formats
- * use the Vorbis Comment specification for metadata.
+ * This class is created because several media formats use the Vorbis Comment specification for metadata.
  * 
  * @author psiahu
  */

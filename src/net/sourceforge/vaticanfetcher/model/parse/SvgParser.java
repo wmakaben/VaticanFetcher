@@ -9,7 +9,7 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model.parse;
+package net.sourceforge.vaticanfetcher.model.parse;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,11 +19,8 @@ import java.util.Collections;
 import net.htmlparser.jericho.CharacterReference;
 import net.htmlparser.jericho.Element;
 import net.htmlparser.jericho.Source;
-import net.sourceforge.docfetcher.enums.Msg;
+import net.sourceforge.vaticanfetcher.enums.Msg;
 
-/**
- * @author Tran Nam Quang
- */
 final class SvgParser extends StreamParser {
 	
 	private static final Collection<String> extensions = Collections.singleton("svg");

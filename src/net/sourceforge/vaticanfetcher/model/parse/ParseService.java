@@ -9,7 +9,7 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model.parse;
+package net.sourceforge.vaticanfetcher.model.parse;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -24,31 +24,31 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
-import net.sourceforge.docfetcher.enums.Msg;
-import net.sourceforge.docfetcher.enums.ProgramConf;
-import net.sourceforge.docfetcher.model.Cancelable;
-import net.sourceforge.docfetcher.model.Path;
-import net.sourceforge.docfetcher.model.index.IndexingConfig;
-import net.sourceforge.docfetcher.model.index.IndexingException;
-import net.sourceforge.docfetcher.model.index.IndexingReporter;
-import net.sourceforge.docfetcher.model.index.PatternAction;
-import net.sourceforge.docfetcher.model.index.PatternAction.MatchAction;
-import net.sourceforge.docfetcher.model.parse.MSOffice2007Parser.MSExcel2007Parser;
-import net.sourceforge.docfetcher.model.parse.MSOffice2007Parser.MSPowerPoint2007Parser;
-import net.sourceforge.docfetcher.model.parse.MSOffice2007Parser.MSWord2007Parser;
-import net.sourceforge.docfetcher.model.parse.MSOfficeParser.MSPowerPointParser;
-import net.sourceforge.docfetcher.model.parse.MSOfficeParser.MSVisioParser;
-import net.sourceforge.docfetcher.model.parse.MSOfficeParser.MSWordParser;
-import net.sourceforge.docfetcher.model.parse.OpenOfficeParser.OpenOfficeCalcParser;
-import net.sourceforge.docfetcher.model.parse.OpenOfficeParser.OpenOfficeDrawParser;
-import net.sourceforge.docfetcher.model.parse.OpenOfficeParser.OpenOfficeImpressParser;
-import net.sourceforge.docfetcher.model.parse.OpenOfficeParser.OpenOfficeWriterParser;
-import net.sourceforge.docfetcher.util.CheckedOutOfMemoryError;
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.Immutable;
-import net.sourceforge.docfetcher.util.annotations.MutableCopy;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.annotations.Nullable;
+import net.sourceforge.vaticanfetcher.enums.Msg;
+import net.sourceforge.vaticanfetcher.enums.ProgramConf;
+import net.sourceforge.vaticanfetcher.model.Cancelable;
+import net.sourceforge.vaticanfetcher.model.Path;
+import net.sourceforge.vaticanfetcher.model.index.IndexingConfig;
+import net.sourceforge.vaticanfetcher.model.index.IndexingException;
+import net.sourceforge.vaticanfetcher.model.index.IndexingReporter;
+import net.sourceforge.vaticanfetcher.model.index.PatternAction;
+import net.sourceforge.vaticanfetcher.model.index.PatternAction.MatchAction;
+import net.sourceforge.vaticanfetcher.model.parse.MSOffice2007Parser.MSExcel2007Parser;
+import net.sourceforge.vaticanfetcher.model.parse.MSOffice2007Parser.MSPowerPoint2007Parser;
+import net.sourceforge.vaticanfetcher.model.parse.MSOffice2007Parser.MSWord2007Parser;
+import net.sourceforge.vaticanfetcher.model.parse.MSOfficeParser.MSPowerPointParser;
+import net.sourceforge.vaticanfetcher.model.parse.MSOfficeParser.MSVisioParser;
+import net.sourceforge.vaticanfetcher.model.parse.MSOfficeParser.MSWordParser;
+import net.sourceforge.vaticanfetcher.model.parse.OpenOfficeParser.OpenOfficeCalcParser;
+import net.sourceforge.vaticanfetcher.model.parse.OpenOfficeParser.OpenOfficeDrawParser;
+import net.sourceforge.vaticanfetcher.model.parse.OpenOfficeParser.OpenOfficeImpressParser;
+import net.sourceforge.vaticanfetcher.model.parse.OpenOfficeParser.OpenOfficeWriterParser;
+import net.sourceforge.vaticanfetcher.util.CheckedOutOfMemoryError;
+import net.sourceforge.vaticanfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.annotations.Immutable;
+import net.sourceforge.vaticanfetcher.util.annotations.MutableCopy;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.Nullable;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Sets;
@@ -60,15 +60,10 @@ import de.schlichtherle.truezip.file.TFileInputStream;
 import eu.medsea.mimeutil.detector.MagicMimeMimeDetector;
 
 
-/**
- * @author Tran Nam Quang
- */
+
 public final class ParseService {
 
-	/*
-	 * Construction of this object seems relatively expensive, so we'll keep a
-	 * single instance of it.
-	 */
+	/* Construction of this object seems relatively expensive, so we'll keep a single instance of it. */
 	private static final MagicMimeMimeDetector mimeDetector = new MagicMimeMimeDetector();
 	private static final String FILENAME_PARSER = "FilenameParser";
 	
@@ -117,21 +112,16 @@ public final class ParseService {
 	}
 
 	/**
-	 * Returns a list containing all parsers that support the mime type and/or
-	 * file extension of the given file.
+	 * Returns a list containing all parsers that support the mime type and/or file extension of the given file.
 	 * <p>
-	 * The list is sorted by the degree of matching: If a parser supports
-	 * <em>both</em> the mime type <em>and</em> the file extension of the given
-	 * file, it appears in the returned list before other parsers that support
+	 * The list is sorted by the degree of matching: If a parser supports <em>both</em> the mime type <em>and</em> 
+	 * the file extension of the given file, it appears in the returned list before other parsers that support
 	 * either only the mime type or only the file extension.
 	 */
 	@MutableCopy
 	@NotNull
 	@VisibleForTesting
-	static List<Parser> getSortedMatchingParsers(	@NotNull IndexingConfig config,
-													@NotNull File file,
-													@NotNull String filename)
-			throws IOException {
+	static List<Parser> getSortedMatchingParsers(@NotNull IndexingConfig config, @NotNull File file, @NotNull String filename) throws IOException {
 		class Match {
 			final Parser parser;
 			boolean mimeMatch = false;
@@ -194,12 +184,8 @@ public final class ParseService {
 	// must have the correct file extension.
 	// Accepts TrueZIP files
 	@NotNull
-	public static ParseResult parse(@NotNull IndexingConfig config,
-	                                @NotNull File file,
-	                                @NotNull String filename,
-	                                @NotNull Path filepath,
-	                                @NotNull IndexingReporter reporter,
-	                                @NotNull Cancelable cancelable)
+	public static ParseResult parse(@NotNull IndexingConfig config, @NotNull File file, @NotNull String filename,
+	                                @NotNull Path filepath, @NotNull IndexingReporter reporter, @NotNull Cancelable cancelable)
 			throws ParseException, CheckedOutOfMemoryError {
 		ParseContext context = new ParseContext(filename, reporter, cancelable);
 		
@@ -231,10 +217,7 @@ public final class ParseService {
 		if (parser != null)
 			return doParse(config, parser, file, context);
 		
-		/*
-		 * Fall back to filename parser if allowed. The filename will be added
-		 * to the contents later.
-		 */
+		/* Fall back to filename parser if allowed. The filename will be added to the contents later. */
 		if (config.isIndexFilenames())
 			return new ParseResult("").setParserName(FILENAME_PARSER);
 		
@@ -243,10 +226,7 @@ public final class ParseService {
 
 	// accepts TrueZIP files
 	@NotNull
-	private static ParseResult doParse(	@NotNull IndexingConfig config,
-										@NotNull Parser parser,
-										@NotNull File file,
-										@NotNull ParseContext context)
+	private static ParseResult doParse(	@NotNull IndexingConfig config,	@NotNull Parser parser,	@NotNull File file,	@NotNull ParseContext context)
 			throws ParseException, CheckedOutOfMemoryError {
 		try {
 			ParseResult result = null;
@@ -283,13 +263,10 @@ public final class ParseService {
 					}
 					catch (RuntimeException e) {
 						/*
-						 * Bug #408: We'll get an InvalidPathException if we try
-						 * to unpack a file whose name contains a character that
-						 * is not valid on the current platform. For example,
-						 * the user could create a file with a colon (':') in
-						 * its name on Linux, put this file in an archive, and
-						 * then try to index the archive on Windows. - The colon
-						 * character is supported on Linux, but not on Windows.
+						 * Bug #408: We'll get an InvalidPathException if we try to unpack a file whose name contains a 
+						 * character that is not valid on the current platform. For example, the user could create a file 
+						 * with a colon (':') in its name on Linux, put this file in an archive, and then try to index 
+						 * the archive on Windows. - The colon character is supported on Linux, but not on Windows.
 						 */
 						throw new ParseException(e);
 					}
@@ -326,10 +303,7 @@ public final class ParseService {
 	// does not accept TrueZIP files
 	// may throw OutOfMemoryErrors
 	@NotNull
-	public static String renderText(@NotNull IndexingConfig config,
-	                                @NotNull File file,
-	                                @NotNull String filename,
-									@NotNull String parserName)
+	public static String renderText(@NotNull IndexingConfig config, @NotNull File file, @NotNull String filename, @NotNull String parserName)
 			throws ParseException, CheckedOutOfMemoryError {
 		Util.checkThat(! (file instanceof TFile));
 		if (parserName.equals(FILENAME_PARSER)) {
@@ -364,7 +338,7 @@ public final class ParseService {
 		}
 		/*
 		 * This could happen when somebody indexes a CHM file on Windows/Linux,
-		 * then moves DocFetcher to Mac OS X and tries to view the indexed CHM
+		 * then moves VaticanFetcher to Mac OS X and tries to view the indexed CHM
 		 * file in the preview panel.
 		 */
 		throw new ParseException(Msg.parser_not_found.get());
@@ -372,8 +346,7 @@ public final class ParseService {
 	}
 	
 	@Nullable
-	private static Parser findParserByName(	@NotNull IndexingConfig config,
-											@NotNull String filename) {
+	private static Parser findParserByName(@NotNull IndexingConfig config, @NotNull String filename) {
 		String ext = Util.getExtension(filename);
 		for (Parser parser : parsers)
 			for (String candidateExt : getExtensions(config, parser))
@@ -384,8 +357,7 @@ public final class ParseService {
 
 	@Immutable
 	@NotNull
-	private static Collection<String> getExtensions(@NotNull IndexingConfig config,
-													@NotNull Parser parser) {
+	private static Collection<String> getExtensions(@NotNull IndexingConfig config,	@NotNull Parser parser) {
 		if (parser == textParser)
 			return config.getTextExtensions();
 		else if (parser == htmlParser)
@@ -393,10 +365,8 @@ public final class ParseService {
 		return parser.getExtensions();
 	}
 	
-	public static boolean canParseByName(	@NotNull IndexingConfig config,
-											@NotNull String filename) {
-		return config.isIndexFilenames()
-				|| findParserByName(config, filename) != null;
+	public static boolean canParseByName(@NotNull IndexingConfig config,@NotNull String filename) {
+		return config.isIndexFilenames() || findParserByName(config, filename) != null;
 	}
 	
 	public static boolean isBuiltInExtension(	@NotNull IndexingConfig config,
@@ -420,8 +390,7 @@ public final class ParseService {
 	@MutableCopy
 	@NotNull
 	@VisibleForTesting
-	static List<String> getPossibleMimeTypes(@NotNull File file)
-			throws IOException {
+	static List<String> getPossibleMimeTypes(@NotNull File file) throws IOException {
 		InputStream in = null;
 		try {
 			in = new TFileInputStream(file);

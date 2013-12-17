@@ -9,15 +9,15 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model.parse;
+package net.sourceforge.vaticanfetcher.model.parse;
 
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collection;
 
-import net.sourceforge.docfetcher.enums.Msg;
-import net.sourceforge.docfetcher.enums.ProgramConf;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.enums.Msg;
+import net.sourceforge.vaticanfetcher.enums.ProgramConf;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
 
 import org.apache.poi.POITextExtractor;
 import org.apache.poi.extractor.ExtractorFactory;
@@ -27,9 +27,6 @@ import org.apache.poi.openxml4j.opc.PackageProperties;
 import org.apache.poi.xssf.extractor.XSSFExcelExtractor;
 import com.google.common.io.Closeables;
 
-/**
- * @author Tran Nam Quang
- */
 abstract class MSOffice2007Parser extends FileParser {
 	
 	public static final class MSWord2007Parser extends MSOffice2007Parser {

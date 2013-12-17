@@ -14,46 +14,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.sourceforge.docfetcher.model.parse;
+package net.sourceforge.vaticanfetcher.model.parse;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
 
 /**
- * Content type detection of plain text documents. This detector looks at the
- * beginning of the document input stream and considers the document to be a
- * text document if no ASCII (ISO-Latin-1, UTF-8, etc.) control bytes are found.
- * As a special case some control bytes (up to 2% of all characters) are also
- * allowed in a text document if it also contains no or just a few (less than
- * 10%) characters above the 7-bit ASCII range.
+ * Content type detection of plain text documents. This detector looks at the beginning of the document input stream 
+ * and considers the document to be a text document if no ASCII (ISO-Latin-1, UTF-8, etc.) control bytes are found.
+ * As a special case some control bytes (up to 2% of all characters) are also allowed in a text document if it also 
+ * contains no or just a few (less than 10%) characters above the 7-bit ASCII range.
  * <p>
- * This class is a modified version of
- * {@code org.apache.tika.detect.TextDetector} from Apache Tika 0.10.
+ * This class is a modified version of {@code org.apache.tika.detect.TextDetector} from Apache Tika 0.10.
  * 
  * @author Tran Nam Quang
  */
 final class TextDetector {
 
-	/**
-	 * The number of bytes from the beginning of the document stream to test for
-	 * control bytes.
-	 */
+	/** The number of bytes from the beginning of the document stream to test for control bytes. */
     private static final int NUMBER_OF_BYTES_TO_TEST = 512;
 
 	/**
-	 * Lookup table for all the ASCII/ISO-Latin/UTF-8/etc. control bytes in the
-	 * range below 0x20 (the space character). If an entry in this table is
-	 * <code>true</code> then that byte is very unlikely to occur in a plain
-	 * text document.
+	 * Lookup table for all the ASCII/ISO-Latin/UTF-8/etc. control bytes in the range below 0x20 (the space character). 
+	 * If an entry in this table is <code>true</code> then that byte is very unlikely to occur in a plain text document.
 	 * <p>
-	 * The contents of this lookup table are based on the following definition
-	 * from section 4 of the "Content-Type Processing Model" Internet-draft (<a
-	 * href="http://webblaze.cs.berkeley.edu/2009/mime-sniff/mime-sniff.txt"
-	 * >draft-abarth-mime-sniff-01</a>).
+	 * The contents of this lookup table are based on the following definition from section 4 of the "Content-Type Processing Model" 
+	 * Internet-draft (<a href="http://webblaze.cs.berkeley.edu/2009/mime-sniff/mime-sniff.txt">draft-abarth-mime-sniff-01</a>).
 	 * 
 	 * <pre>
 	 * +-------------------------+
@@ -83,12 +73,10 @@ final class TextDetector {
 	}
 
 	/**
-	 * Looks at the beginning of the document input stream to determine whether
-	 * the document is text or not. The input stream must support mark and
-	 * reset.
+	 * Looks at the beginning of the document input stream to determine whether the document is text or not. 
+	 * The input stream must support mark and reset.
 	 * 
-	 * @return true if the input stream suggests a text document, false
-	 *         otherwise
+	 * @return true if the input stream suggests a text document, false otherwise
 	 */
 	public static boolean isText(@NotNull InputStream input) throws IOException {
     	Util.checkThat(input.markSupported());
@@ -117,8 +105,7 @@ final class TextDetector {
                 // No control characters, so treat it as text
                 return true;
             }
-            else if (controls < chars * 2 / 100
-                    && asciis > chars * 90 / 100) {
+            else if (controls < chars * 2 / 100 && asciis > chars * 90 / 100) {
                 // Almost plain text (< 2% control, > 90% ASCII range)
                 // See https://issues.apache.org/jira/browse/TIKA-688
                 return true;

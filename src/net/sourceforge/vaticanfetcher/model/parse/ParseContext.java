@@ -9,16 +9,13 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model.parse;
+package net.sourceforge.vaticanfetcher.model.parse;
 
-import net.sourceforge.docfetcher.model.Cancelable;
-import net.sourceforge.docfetcher.model.index.IndexingReporter;
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.model.Cancelable;
+import net.sourceforge.vaticanfetcher.model.index.IndexingReporter;
+import net.sourceforge.vaticanfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
 
-/**
- * @author Tran Nam Quang
- */
 final class ParseContext {
 	
 	private final String filename;
@@ -29,9 +26,7 @@ final class ParseContext {
 		this(filename, IndexingReporter.nullReporter, Cancelable.nullCancelable);
 	}
 	
-	public ParseContext(@NotNull String filename,
-	                    @NotNull IndexingReporter reporter,
-						@NotNull Cancelable cancelable) {
+	public ParseContext(@NotNull String filename, @NotNull IndexingReporter reporter, @NotNull Cancelable cancelable) {
 		Util.checkNotNull(filename, reporter, cancelable);
 		this.filename = filename;
 		this.reporter = reporter;
@@ -39,18 +34,12 @@ final class ParseContext {
 	}
 	
 	@NotNull
-	public String getFilename() {
-		return filename;
-	}
+	public String getFilename() { return filename; }
 
 	@NotNull
-	public IndexingReporter getReporter() {
-		return reporter;
-	}
+	public IndexingReporter getReporter() {	return reporter; }
 
 	@NotNull
-	public Cancelable getCancelable() {
-		return cancelable;
-	}
+	public Cancelable getCancelable() {	return cancelable; }
 
 }

@@ -9,7 +9,7 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model.parse;
+package net.sourceforge.vaticanfetcher.model.parse;
 
 import static org.junit.Assert.assertTrue;
 
@@ -18,21 +18,18 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import net.sourceforge.docfetcher.TestFiles;
-import net.sourceforge.docfetcher.model.index.IndexingConfig;
-import net.sourceforge.docfetcher.model.parse.MSOffice2007Parser.MSWord2007Parser;
-import net.sourceforge.docfetcher.model.parse.MSOfficeParser.MSPowerPointParser;
-import net.sourceforge.docfetcher.model.parse.MSOfficeParser.MSWordParser;
-import net.sourceforge.docfetcher.model.parse.OpenOfficeParser.OpenOfficeWriterParser;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.collect.ListMap;
-import net.sourceforge.docfetcher.util.collect.ListMap.Entry;
+import net.sourceforge.vaticanfetcher.TestFiles;
+import net.sourceforge.vaticanfetcher.model.index.IndexingConfig;
+import net.sourceforge.vaticanfetcher.model.parse.MSOffice2007Parser.MSWord2007Parser;
+import net.sourceforge.vaticanfetcher.model.parse.MSOfficeParser.MSPowerPointParser;
+import net.sourceforge.vaticanfetcher.model.parse.MSOfficeParser.MSWordParser;
+import net.sourceforge.vaticanfetcher.model.parse.OpenOfficeParser.OpenOfficeWriterParser;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.collect.ListMap;
+import net.sourceforge.vaticanfetcher.util.collect.ListMap.Entry;
 
 import org.junit.Test;
 
-/**
- * @author Tran Nam Quang
- */
 public final class ParseServiceTest {
 	
 	@Test

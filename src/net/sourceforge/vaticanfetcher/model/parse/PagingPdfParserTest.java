@@ -9,7 +9,7 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model.parse;
+package net.sourceforge.vaticanfetcher.model.parse;
 
 import static org.junit.Assert.assertEquals;
 
@@ -17,15 +17,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-import net.sourceforge.docfetcher.TestFiles;
-import net.sourceforge.docfetcher.util.CheckedOutOfMemoryError;
-import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.TestFiles;
+import net.sourceforge.vaticanfetcher.util.CheckedOutOfMemoryError;
+import net.sourceforge.vaticanfetcher.util.Util;
 
 import org.junit.Test;
 
-/**
- * @author Tran Nam Quang
- */
 public final class PagingPdfParserTest {
 	
 	@Test

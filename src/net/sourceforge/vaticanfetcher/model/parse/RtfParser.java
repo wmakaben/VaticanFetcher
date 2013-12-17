@@ -9,22 +9,19 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model.parse;
+package net.sourceforge.vaticanfetcher.model.parse;
 
 import java.io.InputStream;
 import java.util.Collection;
 import java.util.Collections;
 
-import net.sourceforge.docfetcher.enums.Msg;
+import net.sourceforge.vaticanfetcher.enums.Msg;
 
 import org.apache.tika.metadata.Metadata;
 import org.apache.tika.parser.rtf.TextExtractor;
 import org.apache.tika.sax.BodyContentHandler;
 import org.apache.tika.sax.XHTMLContentHandler;
 
-/**
- * @author Tran Nam Quang
- */
 final class RtfParser extends StreamParser {
 	
 	private static final Collection<String> extensions = Collections.singleton("rtf");
@@ -39,10 +36,7 @@ final class RtfParser extends StreamParser {
 		try {
 			extractor.extract(in);
 			
-			/*
-			 * See TextExtractor#processControlWord() for a list of the
-			 * available metadata.
-			 */
+			/* See TextExtractor#processControlWord() for a list of the available metadata. */
 			return new ParseResult(bodyHandler.toString())
 				.addAuthor(metadata.get(Metadata.AUTHOR))
 				.setTitle(metadata.get(Metadata.TITLE))
@@ -54,10 +48,7 @@ final class RtfParser extends StreamParser {
 				.addMiscMetadata(metadata.get(Metadata.MANAGER));
 		}
 		catch (AssertionError e) {
-			/*
-			 * With the RTF parser in Tika 0.10, calling TextExtractor.extract
-			 * results in an AssertionError. See bug #3443948.
-			 */
+			/* With the RTF parser in Tika 0.10, calling TextExtractor.extract results in an AssertionError. See bug #3443948. */
 			throw new ParseException(e);
 		}
 		catch (Exception e) {
@@ -65,8 +56,7 @@ final class RtfParser extends StreamParser {
 		}
 	}
 	
-	protected String renderText(InputStream in, String filename)
-			throws ParseException {
+	protected String renderText(InputStream in, String filename)throws ParseException {
 		BodyContentHandler bodyHandler = new BodyContentHandler(-1);
 		Metadata metadata = new Metadata();
 		XHTMLContentHandler handler = new XHTMLContentHandler(bodyHandler, metadata);
@@ -80,16 +70,10 @@ final class RtfParser extends StreamParser {
 		}
 	}
 
-	protected Collection<String> getExtensions() {
-		return extensions;
-	}
+	protected Collection<String> getExtensions() {return extensions;}
 
-	protected Collection<String> getTypes() {
-		return types;
-	}
+	protected Collection<String> getTypes() {return types;}
 
-	public String getTypeLabel() {
-		return Msg.filetype_rtf.get();
-	}
+	public String getTypeLabel() {return Msg.filetype_rtf.get();}
 
 }

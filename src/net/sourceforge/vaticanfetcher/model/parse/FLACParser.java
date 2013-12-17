@@ -1,4 +1,4 @@
-package net.sourceforge.docfetcher.model.parse;
+package net.sourceforge.vaticanfetcher.model.parse;
 
 import java.io.DataInputStream;
 import java.io.IOException;
@@ -6,22 +6,19 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Collection;
 
-import net.sourceforge.docfetcher.enums.Msg;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.enums.Msg;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
 
 /**
  * <p>Based on FLAC specifications in http://flac.sourceforge.net/format.html#metadata_block_vorbis_comment
- * 
  * 
  * @author Paulos Siahu
  */
 final class FLACParser extends StreamParser {
 
-	private static final Collection<String> extensions = Arrays.asList(
-			"flac");
+	private static final Collection<String> extensions = Arrays.asList("flac");
 
-	private static final Collection<String> types = Arrays.asList(
-			"audio/flac");
+	private static final Collection<String> types = Arrays.asList("audio/flac");
 
 	
 	private static long[] readMetadataBlock(byte[] data) {
@@ -36,22 +33,17 @@ final class FLACParser extends StreamParser {
 
 	
 	@NotNull
-	private static String extract(@NotNull InputStream in, boolean forViewing)
-			throws IOException, ParseException {
+	private static String extract(@NotNull InputStream in, boolean forViewing) throws IOException, ParseException {
 		StringBuffer sb = new StringBuffer();
 		DataInputStream dis = new DataInputStream(in);
 		
-		/*
-		 * Check if the file starts with the FLAC identifier.
-		 */
+		/* Check if the file starts with the FLAC identifier. */
 		int id = dis.readInt();
 		if (id != 0x664C6143) { // "fLaC"
 			return sb.toString();
 		}
 		
-		/*
-		 * Loop through each metadata block until METADATA BLOCK VORBIS COMMENT IS FOUND
-		 */
+		/* Loop through each metadata block until METADATA BLOCK VORBIS COMMENT IS FOUND */
 		long[] typesize = null;
 		for (int i = 0; i < 100; i++) { // 100 is a safe-guard number to prevent an infinite loop due to corrupted data stream
 			byte[] data = new byte[4];
@@ -79,8 +71,7 @@ final class FLACParser extends StreamParser {
 	
 	
 	@Override
-	protected ParseResult parse(InputStream in, ParseContext context)
-			throws ParseException {
+	protected ParseResult parse(InputStream in, ParseContext context) throws ParseException {
 		String text = "";
 		try {
 			text = extract(in, false);
@@ -91,8 +82,7 @@ final class FLACParser extends StreamParser {
 	}
 	
 	@Override
-	protected String renderText(InputStream in, String filename)
-			throws ParseException {
+	protected String renderText(InputStream in, String filename) throws ParseException {
 		String text = "";
 		try {
 			text = extract(in, true);
@@ -103,18 +93,12 @@ final class FLACParser extends StreamParser {
 	}
 
 	@Override
-	protected Collection<String> getExtensions() {
-		return extensions;
-	}
+	protected Collection<String> getExtensions() {return extensions;}
 
 	@Override
-	protected Collection<String> getTypes() {
-		return types;
-	}
+	protected Collection<String> getTypes() {return types;}
 	
 	@Override
-	public String getTypeLabel() {
-		return Msg.filetype_flac.get();
-	}
+	public String getTypeLabel() {return Msg.filetype_flac.get();}
 
 }

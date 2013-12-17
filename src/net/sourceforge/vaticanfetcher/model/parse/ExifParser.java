@@ -9,7 +9,7 @@
  *    Paulos Siahu - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model.parse;
+package net.sourceforge.vaticanfetcher.model.parse;
 
 import java.io.InputStream;
 import java.util.Arrays;
@@ -21,22 +21,16 @@ import com.drew.metadata.Directory;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.Tag;
 
-import net.sourceforge.docfetcher.enums.Msg;
+import net.sourceforge.vaticanfetcher.enums.Msg;
 
-/**
- * @author Paulos Siahu
- */
 final class ExifParser extends StreamParser {
 
-	private static final Collection<String> extensions = Arrays.asList(
-			"jpg", "jpeg");
+	private static final Collection<String> extensions = Arrays.asList("jpg", "jpeg");
 
-	private static final Collection<String> types = Arrays.asList(
-			"image/jpg");
+	private static final Collection<String> types = Arrays.asList("image/jpg");
 
 	@Override
-	protected ParseResult parse(InputStream in, ParseContext context)
-			throws ParseException {
+	protected ParseResult parse(InputStream in, ParseContext context)throws ParseException {
 		StringBuilder sb = new StringBuilder();
 		try {
 			Metadata metadata = JpegMetadataReader.readMetadata(in);
@@ -53,8 +47,7 @@ final class ExifParser extends StreamParser {
 	}
 	
 	@Override
-	protected String renderText(InputStream in, String filename)
-			throws ParseException {
+	protected String renderText(InputStream in, String filename)throws ParseException {
 		StringBuilder sb = new StringBuilder();
 		try {
 			Metadata metadata = JpegMetadataReader.readMetadata(in);

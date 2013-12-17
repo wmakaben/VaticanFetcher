@@ -9,7 +9,7 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model.parse;
+package net.sourceforge.vaticanfetcher.model.parse;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,27 +21,22 @@ import java.util.zip.GZIPInputStream;
 
 import net.htmlparser.jericho.Element;
 import net.htmlparser.jericho.Source;
-import net.sourceforge.docfetcher.enums.Msg;
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.annotations.Nullable;
+import net.sourceforge.vaticanfetcher.enums.Msg;
+import net.sourceforge.vaticanfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.Nullable;
 
 import com.google.common.io.Closeables;
 
-/**
- * @author Tran Nam Quang
- */
 final class AbiWordParser extends StreamParser {
 	
-	private static final Collection<String> extensions = Arrays.asList(
-		"abw", "abw.gz", "zabw");
+	private static final Collection<String> extensions = Arrays.asList("abw", "abw.gz", "zabw");
 	private static final Collection<String> types = Arrays.asList(
 		MediaType.text("xml"),
 		MediaType.application("x-gzip"));
 
 	@Override
-	protected ParseResult parse(InputStream in,
-	                            ParseContext context) throws ParseException {
+	protected ParseResult parse(InputStream in, ParseContext context) throws ParseException {
 		Source source = getSource(in, context.getFilename());
 		String author = getMetaData(source, "dc.creator"); //$NON-NLS-1$
 		String title = getMetaData(source, "dc.title"); //$NON-NLS-1$
@@ -49,10 +44,7 @@ final class AbiWordParser extends StreamParser {
 		return new ParseResult(contents).setTitle(title).addAuthor(author);
 	}
 	
-	/**
-	 * Returns the value of the given metadata key in the given {@code Source},
-	 * or null if the key-value-pair was not found.
-	 */
+	/** Returns the value of the given metadata key in the given {@code Source}, or null if the key-value-pair was not found. */
 	@Nullable
 	private String getMetaData(@NotNull Source source, @NotNull String key) {
 		Element metaElement = source.getNextElement(0, "key", key, false); //$NON-NLS-1$
@@ -62,8 +54,7 @@ final class AbiWordParser extends StreamParser {
 	}
 	
 	@Override
-	protected String renderText(InputStream in, String filename)
-			throws ParseException {
+	protected String renderText(InputStream in, String filename)throws ParseException {
 		Source source = getSource(in, filename);
 		
 		// Find all top level elements, excluding the metadata element
@@ -85,13 +76,9 @@ final class AbiWordParser extends StreamParser {
 		return sb.toString();
 	}
 	
-	/**
-	 * Returns a {@code Source} for the given AbiWord file.
-	 */
+	/** Returns a {@code Source} for the given AbiWord file. */
 	@NotNull
-	private static Source getSource(@NotNull InputStream in,
-									@NotNull String filename)
-			throws ParseException {
+	private static Source getSource(@NotNull InputStream in, @NotNull String filename) throws ParseException {
 		try {
 			String ext = Util.getExtension(filename);
 			if (ext.equals("zabw") || ext.equals("abw.gz")) //$NON-NLS-1$ //$NON-NLS-2$
@@ -109,16 +96,10 @@ final class AbiWordParser extends StreamParser {
 		}
 	}
 
-	protected Collection<String> getExtensions() {
-		return extensions;
-	}
+	protected Collection<String> getExtensions() { return extensions; }
 
-	protected Collection<String> getTypes() {
-		return types;
-	}
+	protected Collection<String> getTypes() { return types; }
 
-	public String getTypeLabel() {
-		return Msg.filetype_abi.get();
-	}
+	public String getTypeLabel() { return Msg.filetype_abi.get(); }
 
 }

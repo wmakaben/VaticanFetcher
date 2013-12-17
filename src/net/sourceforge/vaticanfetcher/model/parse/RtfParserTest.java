@@ -9,27 +9,24 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model.parse;
+package net.sourceforge.vaticanfetcher.model.parse;
 
 import java.io.File;
 
-import net.sourceforge.docfetcher.TestFiles;
-import net.sourceforge.docfetcher.model.Cancelable;
-import net.sourceforge.docfetcher.model.index.IndexingError;
-import net.sourceforge.docfetcher.model.index.IndexingReporter;
-import net.sourceforge.docfetcher.model.index.file.FileIndex;
+import net.sourceforge.vaticanfetcher.TestFiles;
+import net.sourceforge.vaticanfetcher.model.Cancelable;
+import net.sourceforge.vaticanfetcher.model.index.IndexingError;
+import net.sourceforge.vaticanfetcher.model.index.IndexingReporter;
+import net.sourceforge.vaticanfetcher.model.index.file.FileIndex;
 
 import org.junit.Test;
 
-/**
- * @author Tran Nam Quang
- */
 public final class RtfParserTest {
 	
 	@Test
 	public void testTextMakerRtf() {
 		/*
-		 * RTF files created by TextMaker caused parse errors in DocFetcher
+		 * RTF files created by TextMaker caused parse errors in vaticanfetcher
 		 * 1.1.6 and earlier. See:
 		 * http://sourceforge.net/p/docfetcher/discussion/702424/thread/8a3dd4f6/
 		 */

@@ -9,7 +9,7 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model.parse;
+package net.sourceforge.vaticanfetcher.model.parse;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,9 +17,9 @@ import java.io.StringWriter;
 import java.util.Collection;
 import java.util.Collections;
 
-import net.sourceforge.docfetcher.enums.Msg;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.annotations.Nullable;
+import net.sourceforge.vaticanfetcher.enums.Msg;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.Nullable;
 
 import org.apache.pdfbox.exceptions.CryptographyException;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -27,9 +27,7 @@ import org.apache.pdfbox.pdmodel.PDDocumentInformation;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.util.PDFTextStripper;
 
-/**
- * @author Tran Nam Quang
- */
+
 public final class PdfParser extends StreamParser {
 	
 	private static final Collection<String> extensions = Collections.singleton("pdf");
@@ -39,15 +37,10 @@ public final class PdfParser extends StreamParser {
 	}
 	
 	@Override
-	protected ParseResult parse(@NotNull InputStream in,
-	                            @NotNull final ParseContext context)
-			throws ParseException {
+	protected ParseResult parse(@NotNull InputStream in, @NotNull final ParseContext context) throws ParseException {
 		PDDocument pdfDoc = null;
 		try {
-			/*
-			 * TODO post-release-1.1: check if 'force' argument in PDDocument/Stripper increases
-			 * number of parsed PDF files
-			 */
+			/* TODO post-release-1.1: check if 'force' argument in PDDocument/Stripper increases number of parsed PDF files */
 			pdfDoc = PDDocument.load(in, true);
 			PDDocumentInformation pdInfo;
 			final int pageCount;
@@ -62,12 +55,10 @@ public final class PdfParser extends StreamParser {
 			StringWriter writer = new StringWriter();
 			
 			/*
-			 * If the PDF file is encrypted, the PDF stripper will automatically
-			 * try an empty password.
+			 * If the PDF file is encrypted, the PDF stripper will automatically try an empty password.
 			 * 
-			 * In contrast to the paging PDF parser that is used for the
-			 * preview, we do not need to call setSortByPosition(true) here
-			 * because the extracted text will be digested by Lucene anyway.
+			 * In contrast to the paging PDF parser that is used for the preview, we do not need to call 
+			 * setSortByPosition(true) here because the extracted text will be digested by Lucene anyway.
 			 */
 			PDFTextStripper stripper = new PDFTextStripper() {
 				protected void startPage(PDPage page) throws IOException {
@@ -84,10 +75,7 @@ public final class PdfParser extends StreamParser {
 				stripper.writeText(pdfDoc, writer);
 			}
 			catch (RuntimeException e) {
-				/*
-				 * PDFTextStripper.writeText can throw various
-				 * RuntimeExceptions, see bugs #3446010, #3448272, #3444887.
-				 */
+				/* PDFTextStripper.writeText can throw various RuntimeExceptions, see bugs #3446010, #3448272, #3444887. */
 				throw new ParseException(e);
 			}
 
@@ -117,16 +105,10 @@ public final class PdfParser extends StreamParser {
 		}
 	}
 	
-	protected Collection<String> getExtensions() {
-		return extensions;
-	}
+	protected Collection<String> getExtensions() { return extensions; }
 	
-	protected Collection<String> getTypes() {
-		return types;
-	}
+	protected Collection<String> getTypes() { return types; }
 	
-	public String getTypeLabel() {
-		return Msg.filetype_pdf.get();
-	}
+	public String getTypeLabel() { return Msg.filetype_pdf.get(); }
 
 }

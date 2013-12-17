@@ -9,7 +9,7 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model.parse;
+package net.sourceforge.vaticanfetcher.model.parse;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -19,9 +19,9 @@ import java.io.InputStream;
 import jxl.Cell;
 import jxl.Sheet;
 import jxl.Workbook;
-import net.sourceforge.docfetcher.enums.Msg;
-import net.sourceforge.docfetcher.enums.ProgramConf;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.enums.Msg;
+import net.sourceforge.vaticanfetcher.enums.ProgramConf;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
 
 import org.apache.poi.hssf.OldExcelFormatException;
 import org.apache.poi.hssf.extractor.ExcelExtractor;
@@ -29,9 +29,6 @@ import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 
 import com.google.common.io.Closeables;
 
-/**
- * @author Tran Nam Quang
- */
 final class MSExcelParser extends MSOfficeParser {
 	
 	public MSExcelParser() {
@@ -43,8 +40,7 @@ final class MSExcelParser extends MSOfficeParser {
 		throw new UnsupportedOperationException();
 	}
 
-	protected String renderText(File file, String filename)
-			throws ParseException {
+	protected String renderText(File file, String filename) throws ParseException {
 		InputStream in = null;
 		try {
 			in = new FileInputStream(file);
@@ -78,8 +74,7 @@ final class MSExcelParser extends MSOfficeParser {
 	}
 
 	@NotNull
-	private String extractWithJexcelAPI(@NotNull File file)
-			throws ParseException {
+	private String extractWithJexcelAPI(@NotNull File file)	throws ParseException {
 		Workbook workbook = null;
 		try {
 			workbook = Workbook.getWorkbook(file);

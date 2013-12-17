@@ -9,18 +9,15 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model.parse;
+package net.sourceforge.vaticanfetcher.model.parse;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
 
-import net.sourceforge.docfetcher.enums.Msg;
-import net.sourceforge.docfetcher.util.CharsetDetectorHelper;
+import net.sourceforge.vaticanfetcher.enums.Msg;
+import net.sourceforge.vaticanfetcher.util.CharsetDetectorHelper;
 
-/**
- * @author Tran Nam Quang
- */
 public final class TextParser extends StreamParser {
 	
 	private final Collection<String> types = MediaType.Col.text("plain");
@@ -29,8 +26,7 @@ public final class TextParser extends StreamParser {
 	}
 
 	@Override
-	protected ParseResult parse(InputStream in,
-	                            ParseContext context) throws ParseException {
+	protected ParseResult parse(InputStream in, ParseContext context) throws ParseException {
 		try {
 			String contents = CharsetDetectorHelper.toString(in);
 			return new ParseResult(contents);

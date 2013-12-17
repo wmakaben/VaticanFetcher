@@ -9,7 +9,7 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model.parse;
+package net.sourceforge.vaticanfetcher.model.parse;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,13 +21,10 @@ import net.htmlparser.jericho.Element;
 import net.htmlparser.jericho.HTMLElementName;
 import net.htmlparser.jericho.Source;
 import net.htmlparser.jericho.StartTag;
-import net.sourceforge.docfetcher.enums.Msg;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.annotations.Nullable;
+import net.sourceforge.vaticanfetcher.enums.Msg;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.Nullable;
 
-/**
- * @author Tran Nam Quang
- */
 public final class HtmlParser extends StreamParser {
 	
 	private static final Collection<String> types = Arrays.asList(
@@ -41,8 +38,7 @@ public final class HtmlParser extends StreamParser {
 	}
 	
 	@Override
-	public ParseResult parse(	InputStream in,
-	                         	ParseContext context) throws ParseException {
+	public ParseResult parse(InputStream in, ParseContext context) throws ParseException {
 		Source source;
 		try {
 			source = new Source(in);
@@ -74,10 +70,7 @@ public final class HtmlParser extends StreamParser {
 			.addMiscMetadata(keywords);
 	}
 	
-	/**
-	 * Returns the value of the meta tag with the given name in the specified
-	 * HTML source. Returns null if the meta tag does not exist.
-	 */
+	/** Returns the value of the meta tag with the given name in the specified HTML source. Returns null if the meta tag does not exist. */
 	@Nullable
 	private String getMetaValue(@NotNull Source source, @NotNull String key) {
 		int pos = 0;
@@ -92,8 +85,7 @@ public final class HtmlParser extends StreamParser {
 	}
 	
 	@Override
-	protected String renderText(InputStream in, String filename)
-			throws ParseException {
+	protected String renderText(InputStream in, String filename) throws ParseException {
 		try {
 			Source source = new Source(in);
 			source.setLogger(null);
@@ -104,16 +96,10 @@ public final class HtmlParser extends StreamParser {
 		}
 	}
 	
-	protected Collection<String> getExtensions() {
-		throw new UnsupportedOperationException();
-	}
+	protected Collection<String> getExtensions() {throw new UnsupportedOperationException();}
 	
-	protected Collection<String> getTypes() {
-		return types;
-	}
+	protected Collection<String> getTypes() {return types;}
 	
-	public String getTypeLabel() {
-		return Msg.filetype_html.get();
-	}
+	public String getTypeLabel() {return Msg.filetype_html.get();}
 
 }

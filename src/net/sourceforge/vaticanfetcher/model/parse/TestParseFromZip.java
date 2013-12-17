@@ -9,7 +9,7 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model.parse;
+package net.sourceforge.vaticanfetcher.model.parse;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -21,8 +21,8 @@ import java.io.StringWriter;
 
 import net.htmlparser.jericho.Source;
 import net.htmlparser.jericho.TextExtractor;
-import net.sourceforge.docfetcher.TestFiles;
-import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.TestFiles;
+import net.sourceforge.vaticanfetcher.util.Util;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDDocumentInformation;
@@ -44,8 +44,6 @@ import de.schlichtherle.truezip.file.TVFS;
 /**
  * This unit test checks that all the libraries used for parsing files are
  * capable of handling input streams from zip archive entries.
- * 
- * @author Tran Nam Quang
  */
 public final class TestParseFromZip {
 	

@@ -9,7 +9,7 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model.parse;
+package net.sourceforge.vaticanfetcher.model.parse;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -18,9 +18,9 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Collection;
 
-import net.sourceforge.docfetcher.enums.Msg;
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.enums.Msg;
+import net.sourceforge.vaticanfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
 
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.hdgf.extractor.VisioTextExtractor;
@@ -38,9 +38,6 @@ import org.apache.poi.poifs.eventfilesystem.POIFSReaderListener;
 
 import com.google.common.io.Closeables;
 
-/**
- * @author Tran Nam Quang
- */
 abstract class MSOfficeParser extends FileParser {
 	
 	public static final class MSWordParser extends MSOfficeParser {
@@ -48,8 +45,7 @@ abstract class MSOfficeParser extends FileParser {
 			// TODO post-release-1.1: 'dot' extension might interfere with GraphViz dot format
 			super(Msg.filetype_doc.get(), "doc", "dot");
 		}
-		protected String extractText(InputStream in)
-				throws IOException, ParseException {
+		protected String extractText(InputStream in)throws IOException, ParseException {
 			try {
 				return new WordExtractor(in).getText();
 			}
@@ -67,8 +63,7 @@ abstract class MSOfficeParser extends FileParser {
 		public MSPowerPointParser() {
 			super(Msg.filetype_ppt.get(), "ppt", "pps");
 		}
-		protected String extractText(InputStream in)
-				throws IOException, ParseException {
+		protected String extractText(InputStream in)throws IOException, ParseException {
 			try {
 				return new PowerPointExtractor(in).getText(true, true, true, true);
 			}
@@ -86,29 +81,23 @@ abstract class MSOfficeParser extends FileParser {
 		public MSVisioParser() {
 			super(Msg.filetype_vsd.get(), "vsd");
 		}
-		protected String extractText(InputStream in)
-				throws IOException {
+		protected String extractText(InputStream in)throws IOException {
 			return new VisioTextExtractor(in).getText();
 		}
 	}
 	
-	/*
-	 * The mime magic detector seems to identify all MS Office files as
-	 * 'application/msword', even when they're not MS Word files.
-	 */
+	/* The mime magic detector seems to identify all MS Office files as 'application/msword', even when they're not MS Word files. */
 	private static final Collection<String> types = MediaType.Col.application("msword");
 	
 	private final String typeLabel;
 	private final Collection<String> extensions;
 	
-	MSOfficeParser(	@NotNull String typeLabel,
-					@NotNull String... extensions) {
+	MSOfficeParser(	@NotNull String typeLabel, @NotNull String... extensions) {
 		this.typeLabel = typeLabel;
 		this.extensions = Arrays.asList(extensions);
 	}
 
-	protected final ParseResult parse(File file, ParseContext context)
-			throws ParseException {
+	protected final ParseResult parse(File file, ParseContext context)throws ParseException {
 		String contents = renderText(file, context.getFilename());
 		ParseResult parseResult = new ParseResult(contents);
 		
@@ -145,8 +134,7 @@ abstract class MSOfficeParser extends FileParser {
 		return parseResult;
 	}
 	
-	protected String renderText(File file, String filename)
-			throws ParseException {
+	protected String renderText(File file, String filename)	throws ParseException {
 		InputStream in = null;
 		try {
 			in = new FileInputStream(file);
@@ -161,11 +149,9 @@ abstract class MSOfficeParser extends FileParser {
 		}
 		catch (RuntimeException e) {
 			/*
-			 * As seen in numerous bug reports (3439858, 3439576, 3439057,
-			 * 3438353, 3437768, 3437667), Apache POI seems to throw a lot of
-			 * runtime exceptions, taking down the entire program with it. To
-			 * avoid crashing, we'll intercept all runtime exceptions and turn
-			 * them into regular indexing errors.
+			 * As seen in numerous bug reports (3439858, 3439576, 3439057, 3438353, 3437768, 3437667), 
+			 * Apache POI seems to throw a lot of runtime exceptions, taking down the entire program with it. 
+			 * To avoid crashing, we'll intercept all runtime exceptions and turn them into regular indexing errors.
 			 */
 			throw new ParseException(e);
 		}
@@ -175,8 +161,7 @@ abstract class MSOfficeParser extends FileParser {
 	}
 	
 	@NotNull
-	protected abstract String extractText(@NotNull InputStream in)
-			throws IOException, ParseException;
+	protected abstract String extractText(@NotNull InputStream in) throws IOException, ParseException;
 
 	protected final Collection<String> getExtensions() {
 		return extensions;
