@@ -1,5 +1,5 @@
 # Set a different program name to make it easier to distinguish between
 # development instances and normal program instances.
-ProgramName = Vatican Fetcher
+ProgramName = VaticanFetcher
 # Turn development mode on
 IsDevelopmentVersion = true

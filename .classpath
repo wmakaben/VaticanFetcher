@@ -20,12 +20,12 @@
 	<classpathentry kind="lib" path="lib/pegdown/pegdown-1.1.0.jar" sourcepath="lib/pegdown/pegdown-1.1.0-sources.jar"/>
 	<classpathentry kind="lib" path="lib/jxgrabkey/JXGrabKey-0.3.2.jar" sourcepath="lib/jxgrabkey/JXGrabKey-0.3.2-src.zip">
 		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="DocFetcher-1.1/lib/jxgrabkey"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="VaticanFetcher/lib/jxgrabkey"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/jintellitype/jintellitype-1.3.7.jar" sourcepath="lib/jintellitype/jintellitype-1.3.7-sources.jar">
 		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="DocFetcher-1.1/lib/jintellitype"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="VaticanFetcher/lib/jintellitype"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/commons-compress/commons-compress-1.4.1.jar" sourcepath="lib/commons-compress/commons-compress-1.4.1-sources.jar"/>
@@ -48,7 +48,7 @@
 	<classpathentry kind="lib" path="lib/jexcelapi/jexcelapi-2.6.12.jar" sourcepath="lib/jexcelapi/jexcelapi-2.6.12-src.zip"/>
 	<classpathentry kind="lib" path="lib/chm4j/chm4j.jar">
 		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="DocFetcher-1.1/lib/chm4j"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="VaticanFetcher/lib/chm4j"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/pegdown/asm-all-3.3.1.jar"/>

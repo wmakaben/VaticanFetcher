@@ -2,7 +2,7 @@
 
 '''
 This is not the actual build script. The real "build script" is a small Java
-program in the package 'net.sourceforge.docfetcher.build'. This script merely
+program in the package 'net.sourceforge.vaticanfetcher.build'. This script merely
 compiles and launches the Java builder.
 '''
 
@@ -39,7 +39,7 @@ for root, dirs, files in os.walk('lib'):
 		if not filename.endswith('.jar'): continue
 		jars.append(join(root, filename))
 
-package = 'net.sourceforge.docfetcher'
+package = 'net.sourceforge.vaticanfetcher'
 package_path = package.replace('.', '/')
 
 print('Compiling sources...')
@@ -64,7 +64,7 @@ execute([
 	' '.join(compile_paths)
 ])
 
-jar_path = 'build/tmp/docfetcher-builder.jar'
+jar_path = 'build/tmp/vaticanfetcher-builder.jar'
 main_class = package + '.build.BuildMain'
 
 print('Creating builder jar...')

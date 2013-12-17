@@ -224,7 +224,7 @@ bool FolderWatcher::findIndexesFile() {
 		log("Portable version : working with file %s", _indexes_file_path.c_str());
 		return true;
 	}else{
-		// Normal version -> indexes.txt is in APPDATA\DocFetcher folder
+		// Normal version -> indexes.txt is in APPDATA\VaticanFetcher folder
 		log("Directory %s does not exist -> installed version", indexes_directory.c_str());
 
 		TCHAR szPath[MAX_PATH];
@@ -232,7 +232,7 @@ bool FolderWatcher::findIndexesFile() {
 		if(SUCCEEDED(SHGetFolderPath(NULL, CSIDL_APPDATA, NULL, 0, szPath)))
 		{
 			_indexes_file_path = szPath;
-			_indexes_file_path += "\\DocFetcher\\.indexes.txt";
+			_indexes_file_path += "\\VaticanFetcher\\.indexes.txt";
 			log("Normal version : working with file %s", _indexes_file_path.c_str());
 			return true;
 		}else{

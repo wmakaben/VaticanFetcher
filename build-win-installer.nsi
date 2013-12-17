@@ -1,7 +1,7 @@
 ; NSIS script for building the Windows installer
 ;
 ; This must be run after running build.py, because it expects to find the
-; DocFetcher jar in the build folder.
+; VaticanFetcher jar in the build folder.
 ;
 ; DEPENDENCIES
 ; All dependencies of this script can be found in dev/nsis-dependencies. They
@@ -23,15 +23,15 @@ SetCompress force
 SetCompressor /FINAL zlib
 
 !define /file VERSION "current-version.txt"
-!define PORTABLE_PATH build\DocFetcher-${VERSION}
+!define PORTABLE_PATH build\VaticanFetcher-${VERSION}
 !define JRE_VERSION "1.6"
 !define JRE_URL "http://javadl.sun.com/webapps/download/AutoDL?BundleId=52252"
 !include "JREDyna_Inetc.nsh"
 
-Name "DocFetcher ${VERSION}"
+Name "VaticanFetcher ${VERSION}"
 XPStyle on
-OutFile build\docfetcher_${VERSION}_win32_setup.exe
-InstallDir $PROGRAMFILES\DocFetcher
+OutFile build\vaticanfetcher_${VERSION}_win32_setup.exe
+InstallDir $PROGRAMFILES\VaticanFetcher
 Page directory
 Page instfiles
 Page custom finalPage
@@ -49,7 +49,7 @@ AutoCloseWindow true
 !insertmacro GetTime
 
 ; Follow the list of languages on the wiki:
-; http://sourceforge.net/apps/mediawiki/docfetcher/index.php?title=How_to_translate_DocFetcher#Translations_that_are_already_finished_or_in_progress
+; http://sourceforge.net/apps/mediawiki/fetcher/index.php?title=How_to_translate_DocFetcher#Translations_that_are_already_finished_or_in_progress
 LoadLanguageFile "${NSISDIR}\Contrib\Language files\English.nlf"
 LoadLanguageFile "${NSISDIR}\Contrib\Language files\Portuguese.nlf"
 LoadLanguageFile "${NSISDIR}\Contrib\Language files\German.nlf"
@@ -64,10 +64,10 @@ LoadLanguageFile "${NSISDIR}\Contrib\Language files\Spanish.nlf"
 
 Function .onInit
 	startinst:
-	Processes::FindProcess "DocFetcher.exe"
+	Processes::FindProcess "VaticanFetcher.exe"
 	StrCmp $R0 0 done
 	MessageBox MB_RETRYCANCEL|MB_ICONEXCLAMATION \
-		"     DocFetcher is running! $\n$\nPlease close all open instances before upgrading." \
+		"     VaticanFetcher is running! $\n$\nPlease close all open instances before upgrading." \
 	IDRETRY startinst
 	Abort
 	done:
@@ -87,9 +87,9 @@ Function finalPage
 	noreboot:
 	nsDialogs::Create 1018
 	Pop $0
-	${NSD_CreateLabel} 75u 30u 80% 8u "DocFetcher was succesfully installed on your computer."
+	${NSD_CreateLabel} 75u 30u 80% 8u "VaticanFetcher was succesfully installed on your computer."
 	Pop $0
-	${NSD_CreateCheckbox} 80u 50u 50% 8u "Run DocFetcher v${VERSION}"
+	${NSD_CreateCheckbox} 80u 50u 50% 8u "Run VaticanFetcher v${VERSION}"
 	Pop $CHECKBOX
 	SendMessage $CHECKBOX ${BM_SETCHECK} ${BST_CHECKED} 0
 	GetFunctionAddress $1 OnCheckbox
@@ -114,18 +114,18 @@ FunctionEnd
 Function .onInstSuccess
 	IfRebootFlag endpage 0
 	${If} $boolCHECKBOX != "False"
-		Exec "$INSTDIR\DocFetcher.exe"
+		Exec "$INSTDIR\VaticanFetcher.exe"
 	${EndIf}
 	endpage:
 FunctionEnd
 Function .onInstFailed
     DetailPrint " --- "
-    DetailPrint " Make sure DocFetcher is not running and try installation again "
+    DetailPrint " Make sure VaticanFetcher is not running and try installation again "
     MessageBox MB_OK|MB_ICONEXCLAMATION "Please restart your computer and try the installation again."
 FunctionEnd
 
 
-Section "DocFetcher"
+Section "VaticanFetcher"
 	SetShellVarContext all
 	Call DownloadAndInstallJREIfNecessary
     killdaemon:
@@ -137,7 +137,7 @@ Section "DocFetcher"
     Goto killdaemon
     nodaemon:
 	
-	; Remove existing DocFetcher folder. This is necessary because:
+	; Remove existing VaticanFetcher folder. This is necessary because:
 	; - Otherwise the uninstaller might not work cleanly.
 	; - Loading different versions of the same library might crash the program. See bug #3558268.
 	RMDir /r $INSTDIR
@@ -165,10 +165,10 @@ Section "DocFetcher"
 	;SetOutPath $INSTDIR\templates
 	;File /r ${PORTABLE_PATH}\templates\*.xml
 	
-	Delete /REBOOTOK "$INSTDIR\lib\net.sourceforge.docfetcher_*.*"
+	Delete /REBOOTOK "$INSTDIR\lib\net.sourceforge.vaticanfetcher_*.*"
 	SetOutPath $INSTDIR\lib
-	File /r /x *.so /x *.dylib /x *linux* /x *macosx* /x *docfetcher*.jar ${PORTABLE_PATH}\lib\*.*
-	File build\tmp\net.sourceforge.docfetcher*.jar
+	File /r /x *.so /x *.dylib /x *linux* /x *macosx* /x *vaticanfetcher*.jar ${PORTABLE_PATH}\lib\*.*
+	File build\tmp\net.sourceforge.vaticanfetcher*.jar
 
 	; Uninstaller
 	WriteUninstaller $INSTDIR\uninstaller.exe
@@ -176,12 +176,12 @@ Section "DocFetcher"
 	; Write to registry
 	Var /GLOBAL regkey
 	Var /GLOBAL homepage
-	StrCpy $regkey "Software\Microsoft\Windows\CurrentVersion\Uninstall\DocFetcher"
-	StrCpy $homepage "http://docfetcher.sourceforge.net"
-	WriteRegStr HKLM $regkey "DisplayName" "DocFetcher"
+	StrCpy $regkey "Software\Microsoft\Windows\CurrentVersion\Uninstall\VaticanFetcher"
+	StrCpy $homepage "http://vaticanfetcher.sourceforge.net"
+	WriteRegStr HKLM $regkey "DisplayName" "VaticanFetcher"
 	WriteRegStr HKLM $regkey "UninstallString" "$INSTDIR\uninstaller.exe"
 	WriteRegStr HKLM $regkey "InstallLocation" $INSTDIR
-	WriteRegStr HKLM $regkey "DisplayIcon" "$INSTDIR\DocFetcher.exe,0"
+	WriteRegStr HKLM $regkey "DisplayIcon" "$INSTDIR\VaticanFetcher.exe,0"
 	WriteRegStr HKLM $regkey "HelpLink" $homepage
 	WriteRegStr HKLM $regkey "URLUpdateInfo" $homepage
 	WriteRegStr HKLM $regkey "URLInfoAbout" $homepage
@@ -193,10 +193,10 @@ Section "DocFetcher"
 	SetShellVarContext current
 
 	; Start menu entries
-	CreateDirectory $SMPROGRAMS\DocFetcher
-	CreateShortCut $SMPROGRAMS\DocFetcher\DocFetcher.lnk $INSTDIR\DocFetcher.exe
-	CreateShortCut "$SMPROGRAMS\DocFetcher\Uninstall DocFetcher.lnk" $INSTDIR\uninstaller.exe
-	CreateShortCut $SMPROGRAMS\DocFetcher\Readme.lnk $INSTDIR\Readme.txt
+	CreateDirectory $SMPROGRAMS\VaticanFetcher
+	CreateShortCut $SMPROGRAMS\VaticanFetcher\VaticanFetcher.lnk $INSTDIR\VaticanFetcher.exe
+	CreateShortCut "$SMPROGRAMS\VaticanFetcher\Uninstall VaticanFetcher.lnk" $INSTDIR\uninstaller.exe
+	CreateShortCut $SMPROGRAMS\VaticanFetcher\Readme.lnk $INSTDIR\Readme.txt
 
 	; Launch daemon
 	Exec '"$INSTDIR\docfetcher-daemon-windows.exe"'
@@ -213,17 +213,17 @@ Section "un.Uninstall"
 	RMDir /r /REBOOTOK $INSTDIR
 
 	; Remove registry key
-	DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\DocFetcher"
+	DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\VaticanFetcher"
 	DeleteRegValue HKCU "Software\Microsoft\Windows\CurrentVersion\Run" "DocFetcher-Daemon"
 
 	SetShellVarContext current
 
 	; Remove application data folder
-	RMDir /r /REBOOTOK $APPDATA\DocFetcher
+	RMDir /r /REBOOTOK $APPDATA\VaticanFetcher
 
 	; Remove start menu entries
-	Delete /REBOOTOK $SMPROGRAMS\DocFetcher\DocFetcher.lnk
-	Delete /REBOOTOK "$SMPROGRAMS\DocFetcher\Uninstall DocFetcher.lnk"
-	Delete $SMPROGRAMS\DocFetcher\Readme.lnk
-	RMDir $SMPROGRAMS\DocFetcher
+	Delete /REBOOTOK $SMPROGRAMS\VaticanFetcher\VaticanFetcher.lnk
+	Delete /REBOOTOK "$SMPROGRAMS\VaticanFetcher\Uninstall VaticanFetcher.lnk"
+	Delete $SMPROGRAMS\VaticanFetcher\Readme.lnk
+	RMDir $SMPROGRAMS\VaticanFetcher
 SectionEnd

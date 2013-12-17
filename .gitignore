@@ -1,6 +1,6 @@
 /bin/
 /build/
-!src/net/sourceforge/docfetcher/build/
+!src/net/sourceforge/vaticanfetcher/build/
 .settings/
 /dist/help/
 /dist/website/

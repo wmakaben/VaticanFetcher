@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>Vatican_Fetcher</name>
+	<name>VaticanFetcher</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -19,7 +19,7 @@
 		<link>
 			<name>dist/help</name>
 			<type>2</type>
-			<locationURI>PARENT-2-PROJECT_LOC/Eclipse_Docs/Radio%20Vaticana%20DocFetcher/dist/help</locationURI>
+			<locationURI>PARENT-2-PROJECT_LOC/Eclipse_DF/VaticanFetcher/dist/help</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>

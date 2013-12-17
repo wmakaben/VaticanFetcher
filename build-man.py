@@ -38,11 +38,11 @@ execute([
 	'-classpath \"%s\"' % classpath_sep.join(jars),
 	'-nowarn',
 	'-d %s' % class_dir,
-	'src/net/sourceforge/docfetcher/man/Manual.java'
+	'src/net/sourceforge/vaticanfetcher/man/Manual.java'
 ])
 
-jar_path = 'build/man/docfetcher-man-builder.jar'
-main_class = 'net.sourceforge.docfetcher.man.Manual'
+jar_path = 'build/man/vaticanfetcher-man-builder.jar'
+main_class = 'net.sourceforge.vaticanfetcher.man.Manual'
 
 print 'Creating builder jar...'
 execute([
