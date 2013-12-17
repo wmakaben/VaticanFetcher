@@ -1,0 +1,20 @@
+
+
+CmdLine:	C:\Users\makabenta\Documents\Eclipse_DF\VaticanFetcher\dist\launchers\VaticanFetcher-1024.exe --l4j-debug
+WOW64:		yes
+Working dir:	C:\Users\makabenta\Documents\Eclipse_DF\VaticanFetcher\dist\launchers\.
+64-bit search:	SOFTWARE\JavaSoft\Java Runtime Environment...
+Match:		SOFTWARE\JavaSoft\Java Runtime Environment\1.7
+Match:		SOFTWARE\JavaSoft\Java Runtime Environment\1.7.0_45
+Using 64-bit runtime.
+64-bit search:	SOFTWARE\JavaSoft\Java Development Kit...
+Ignore:		SOFTWARE\JavaSoft\Java Development Kit\1.7
+Ignore:		SOFTWARE\JavaSoft\Java Development Kit\1.7.0_45
+Using 64-bit runtime.
+Check launcher:	C:\Program Files\Java\jre7\bin\javaw.exe (OK)
+Heap -Xmx:	Requested 1024 MB / 0%, Available: 5334 MB, Heap size: 1024 MB
+Add classpath:	lib\*.jar
+Launcher:	C:\Program Files\Java\jre7\bin\javaw.exe
+Launcher args:	-Xmx1024m -Djava.library.path="lib" -enableassertions -Xss2m -classpath "lib" net.sourceforge.vaticanfetcher.Main
+Args length:	113/32768 chars
+Exit code:	1

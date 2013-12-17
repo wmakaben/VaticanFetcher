@@ -1,0 +1,30 @@
+<launch4jConfig>
+  <dontWrapJar>true</dontWrapJar>
+  <headerType>gui</headerType>
+  <jar>lib</jar>
+  <outfile>C:\Users\makabenta\Documents\Eclipse_DF\VaticanFetcher\dist\launchers\VaticanFetcher-768.exe</outfile>
+  <errTitle></errTitle>
+  <cmdLine></cmdLine>
+  <chdir>.</chdir>
+  <priority>normal</priority>
+  <downloadUrl>http://java.com/download</downloadUrl>
+  <supportUrl></supportUrl>
+  <stayAlive>true</stayAlive>
+  <manifest></manifest>
+  <icon>C:\Users\makabenta\Documents\Eclipse_DF\VaticanFetcher\dist\VaticanFetcher.ico</icon>
+  <classPath>
+    <mainClass>net.sourceforge.vaticanfetcher.Main</mainClass>
+    <cp>lib\*.jar</cp>
+  </classPath>
+  <jre>
+    <path></path>
+    <bundledJre64Bit>false</bundledJre64Bit>
+    <minVersion>1.6.0</minVersion>
+    <maxVersion></maxVersion>
+    <jdkPreference>preferJre</jdkPreference>
+    <maxHeapSize>768</maxHeapSize>
+    <opt>-Djava.library.path=&quot;lib&quot;</opt>
+    <opt>-enableassertions</opt>
+    <opt>-Xss2m</opt>
+  </jre>
+</launch4jConfig>
