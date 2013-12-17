@@ -9,7 +9,7 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.enums;
+package net.sourceforge.vaticanfetcher.enums;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -19,9 +19,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import net.sourceforge.docfetcher.util.CharsetDetectorHelper;
-import net.sourceforge.docfetcher.util.ConfLoader;
-import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.CharsetDetectorHelper;
+import net.sourceforge.vaticanfetcher.util.ConfLoader;
+import net.sourceforge.vaticanfetcher.util.Util;
 
 import com.google.common.base.Charsets;
 import com.google.common.base.Function;
@@ -29,10 +29,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.io.Files;
 
-
-/**
- * @author Tran Nam Quang
- */
 public final class MsgMigrator {
 
 	public static void main(String[] args) throws Exception {

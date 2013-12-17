@@ -9,35 +9,30 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.enums;
+package net.sourceforge.vaticanfetcher.enums;
 
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.ConfLoader.Loadable;
-import net.sourceforge.docfetcher.util.annotations.Immutable;
+import net.sourceforge.vaticanfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.ConfLoader.Loadable;
+import net.sourceforge.vaticanfetcher.util.annotations.Immutable;
 
 import org.aspectj.lang.annotation.SuppressAjWarnings;
 
 /**
- * This class handles the retrieval of application-wide, <em>unmodifiable</em>
- * preferences and allows type safe access to them via nested enums. The default
- * values of the preferences are hardcoded so as to avoid program corruption
- * caused by manipulation of the preferences file by users.
+ * This class handles the retrieval of application-wide, <em>unmodifiable</em> preferences and allows 
+ * type safe access to them via nested enums. The default values of the preferences are hardcoded so 
+ * as to avoid program corruption caused by manipulation of the preferences file by users.
  * <p>
- * New preferences entries can be added by adding enum members to the nested
- * enums. CamelCase names are to be preferred to UPPERCASE names since the
- * former make the preferences file more readable. Duplicate names (e.g.
- * Conf.Bool.Test and Conf.Int.Test) are not supported and should be avoided.
+ * New preferences entries can be added by adding enum members to the nested enums. CamelCase names 
+ * are to be preferred to UPPERCASE names since the former make the preferences file more readable. 
+ * Duplicate names (e.g. Conf.Bool.Test and Conf.Int.Test) are not supported and should be avoided.
  * <p>
- * New enums (not enum <em>members</em>) must implement the
- * <code>Pref.Loadable</code> interface; everything else is handled
- * automatically via reflection.
- *
- * @author Tran Nam Quang
+ * New enums (not enum <em>members</em>) must implement the <code>Pref.Loadable</code> interface; 
+ * everything else is handled automatically via reflection.
  */
 public final class ProgramConf {
 
@@ -105,7 +100,7 @@ public final class ProgramConf {
 	}
 
 	public static enum Str implements Loadable {
-		AppName ("DocFetcher"),
+		AppName ("VaticanFetcher"),
 		;
 
 		private String value;

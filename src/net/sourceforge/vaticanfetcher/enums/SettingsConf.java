@@ -9,7 +9,7 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.enums;
+package net.sourceforge.vaticanfetcher.enums;
 
 import java.io.IOException;
 import java.net.URL;
@@ -19,12 +19,12 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.sourceforge.docfetcher.util.ConfLoader.Description;
-import net.sourceforge.docfetcher.util.ConfLoader.Storable;
-import net.sourceforge.docfetcher.util.Event;
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.Immutable;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.ConfLoader.Description;
+import net.sourceforge.vaticanfetcher.util.ConfLoader.Storable;
+import net.sourceforge.vaticanfetcher.util.Event;
+import net.sourceforge.vaticanfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.annotations.Immutable;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
 
 import org.aspectj.lang.annotation.SuppressAjWarnings;
 import org.eclipse.swt.SWT;
@@ -48,21 +48,16 @@ import com.google.common.io.Resources;
 import com.google.common.primitives.Ints;
 
 /**
- * This class handles the storage and retrieval of application-wide internal
- * program preferences and allows type safe access to them via nested enums. The
- * default values of the preferences entries are hardcoded so as to avoid
- * program corruption caused by manipulation of the preferences file by users.
+ * This class handles the storage and retrieval of application-wide internal program preferences and 
+ * allows type safe access to them via nested enums. The default values of the preferences entries are 
+ * hardcoded so as to avoid program corruption caused by manipulation of the preferences file by users.
  * <p>
- * New entries can be added by adding enum members to the nested enums.
- * CamelCase names are to be preferred to UPPERCASE names since the former make
- * the preferences file more readable. Duplicate names (e.g. Pref.Bool.Test and
- * Pref.Int.Test) are not supported and should be avoided.
+ * New entries can be added by adding enum members to the nested enums. CamelCase names are to be preferred 
+ * to UPPERCASE names since the former make the preferences file more readable. Duplicate names 
+ * (e.g. Pref.Bool.Test and Pref.Int.Test) are not supported and should be avoided.
  * <p>
- * New enums (not enum <em>members</em>) must implement the
- * <code>Storable</code> interface and have a <code>Description</code>
- * annotation; everything else is handled automatically via reflection.
- *
- * @author Tran Nam Quang
+ * New enums (not enum <em>members</em>) must implement the <code>Storable</code> interface and have 
+ * a <code>Description</code> annotation; everything else is handled automatically via reflection.
  */
 public final class SettingsConf {
 
@@ -315,13 +310,11 @@ public final class SettingsConf {
 		}
 
 		/**
-		 * Binds the enumeration's values to the column widths of the given
-		 * table, i.e. the column widths are initialized with the stored values
-		 * and the values are updated when the column widths change.
+		 * Binds the enumeration's values to the column widths of the given table, i.e. the column widths are 
+		 * initialized with the stored values and the values are updated when the column widths change.
 		 * <p>
-		 * This method supports binding multiple tables to the same enumeration:
-		 * If multiple tables are bound, the column widths are synchronized
-		 * across all bound tables.
+		 * This method supports binding multiple tables to the same enumeration: If multiple tables are bound, 
+		 * the column widths are synchronized across all bound tables.
 		 */
 		public void bind(@NotNull final Table table) {
 			final TableColumn[] columns = table.getColumns();
@@ -423,13 +416,11 @@ public final class SettingsConf {
 		}
 
 		/**
-		 * Binds the enumeration's values to the weights of the given sash form,
-		 * i.e. the sash weights are initialized with the stored values and the
-		 * values are updated when the sash weights change.
+		 * Binds the enumeration's values to the weights of the given sash form, i.e. the sash weights are 
+		 * initialized with the stored values and the values are updated when the sash weights change.
 		 * <p>
-		 * This method supports binding multiple sash forms to the same
-		 * enumeration: If multiple sash forms are bound, the sash weights are
-		 * synchronized across all bound sash forms.
+		 * This method supports binding multiple sash forms to the same enumeration: If multiple sash 
+		 * forms are bound, the sash weights are synchronized across all bound sash forms.
 		 */
 		public void bind(@NotNull final SashForm sash) {
 			Control[] children = sash.getChildren();
@@ -445,10 +436,7 @@ public final class SettingsConf {
 					public void controlResized(ControlEvent e) {
 						value = sash.getWeights();
 
-						/*
-						 * The event must be fired with asyncExec, otherwise
-						 * we'll get some nasty visual artifacts.
-						 */
+						/* The event must be fired with asyncExec, otherwise we'll get some nasty visual artifacts.	 */
 						Util.runAsyncExec(sash, new Runnable() {
 							public void run() {
 								evtChanged.fire(sash);
@@ -510,19 +498,11 @@ public final class SettingsConf {
 		public void load(String str) {
 			Matcher matcher = fontPattern.matcher(str);
 			if (! matcher.matches()) return;
-			value = new FontData(
-					matcher.group(1).trim(),
-					Integer.parseInt(matcher.group(2)),
-					Integer.parseInt(matcher.group(3))
-			);
+			value = new FontData(matcher.group(1).trim(), Integer.parseInt(matcher.group(2)), Integer.parseInt(matcher.group(3)));
 		}
 		public String valueToString() {
 			// The SWT API discourages accessing the FontData fields
-			return Util.join(", ",
-					value.getName(),
-					value.getHeight(),
-					value.getStyle()
-			);
+			return Util.join(", ", value.getName(),	value.getHeight(), value.getStyle() );
 		}
 		// Should only be called from within the SWT thread
 		// Caller is responsible for disposing the returned font
@@ -537,14 +517,11 @@ public final class SettingsConf {
 		}
 		@NotNull
 		public FontData createFontData() {
-			return new FontData(
-				value.getName(), value.getHeight(), value.getStyle());
+			return new FontData(value.getName(), value.getHeight(), value.getStyle());
 		}
 		@NotNull
 		public FontData createDefaultFontData() {
-			return new FontData(
-				defaultValue.getName(), defaultValue.getHeight(),
-				defaultValue.getStyle());
+			return new FontData(defaultValue.getName(), defaultValue.getHeight(), defaultValue.getStyle());
 		}
 	}
 

@@ -9,7 +9,7 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.enums;
+package net.sourceforge.vaticanfetcher.enums;
 
 import java.io.File;
 import java.util.Arrays;
@@ -18,28 +18,21 @@ import java.util.List;
 
 import org.aspectj.lang.annotation.SuppressAjWarnings;
 
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.ConfLoader.Loadable;
-import net.sourceforge.docfetcher.util.annotations.Immutable;
+import net.sourceforge.vaticanfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.ConfLoader.Loadable;
+import net.sourceforge.vaticanfetcher.util.annotations.Immutable;
 
 /**
- * This class handles the retrieval of application-wide system constants and
- * allows type safe access to them via nested enums.
+ * This class handles the retrieval of application-wide system constants and allows type safe access to them via nested enums.
  * <p>
- * New constants can be added by adding enum members to the nested enums.
- * CamelCase names are to be preferred to UPPERCASE names since the former make
- * the constants file more readable. Duplicate names (e.g. Const.Bool.Test and
- * Const.Int.Test) are not supported and should be avoided.
+ * New constants can be added by adding enum members to the nested enums. CamelCase names are to be 
+ * preferred to UPPERCASE names since the former make the constants file more readable. Duplicate 
+ * names (e.g. Const.Bool.Test and Const.Int.Test) are not supported and should be avoided.
  * <p>
- * New enums (not enum <em>members</em>) must implement the
- * <code>Pref.Loadable</code> interface; everything else is handled
- * automatically via reflection.
- * 
- * @author Tran Nam Quang
+ * New enums (not enum <em>members</em>) must implement the <code>Pref.Loadable</code> interface; 
+ * everything else is handled automatically via reflection.
  */
 public final class SystemConf {
-	
-	// TODO pre-release: remove unused entries
 	
 	public static enum Bool implements Loadable {
 		IsPortable (true),
