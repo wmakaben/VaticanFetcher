@@ -9,7 +9,7 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model;
+package net.sourceforge.vaticanfetcher.model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,23 +21,21 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import net.sourceforge.docfetcher.UtilGlobal;
-import net.sourceforge.docfetcher.util.Event;
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.ImmutableCopy;
-import net.sourceforge.docfetcher.util.annotations.MutableCopy;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.annotations.Nullable;
-import net.sourceforge.docfetcher.util.annotations.RecursiveMethod;
-import net.sourceforge.docfetcher.util.annotations.ThreadSafe;
-import net.sourceforge.docfetcher.util.annotations.VisibleForPackageGroup;
+import net.sourceforge.vaticanfetcher.UtilGlobal;
+import net.sourceforge.vaticanfetcher.util.Event;
+import net.sourceforge.vaticanfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.annotations.ImmutableCopy;
+import net.sourceforge.vaticanfetcher.util.annotations.MutableCopy;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.Nullable;
+import net.sourceforge.vaticanfetcher.util.annotations.RecursiveMethod;
+import net.sourceforge.vaticanfetcher.util.annotations.ThreadSafe;
+import net.sourceforge.vaticanfetcher.util.annotations.VisibleForPackageGroup;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Maps;
 
-/**
- * @author Tran Nam Quang
- */
+
 @VisibleForPackageGroup
 public abstract class Folder
 	<D extends Document<D, F>, F extends Folder<D, F>>
@@ -48,18 +46,14 @@ public abstract class Folder
 		public final Folder<?, ?> folder;
 
 		@VisibleForPackageGroup
-		public FolderEvent(	@NotNull Folder<?, ?> parent,
-							@NotNull Folder<?, ?> folder) {
+		public FolderEvent(	@NotNull Folder<?, ?> parent, @NotNull Folder<?, ?> folder) {
 			Util.checkNotNull(parent, folder);
 			this.parent = parent;
 			this.folder = folder;
 		}
 	}
 
-	/*
-	 * TODO post-release-1.1: Rethink the synchronization used here. Maybe use
-	 * a global static lock for all instances of TreeNode, Folder, Document, etc.?
-	 */
+	/* TODO post-release-1.1: Rethink the synchronization used here. Maybe use a global static lock for all instances of TreeNode, Folder, Document, etc.? */
 	
 	private static final long serialVersionUID = 1L;
 
@@ -69,46 +63,36 @@ public abstract class Folder
 	public static final Event<FolderEvent> evtFolderRemoved = new Event<FolderEvent>();
 
 	/*
-	 * The children of instances of this class are stored as maps for the
-	 * following reasons:
+	 * The children of instances of this class are stored as maps for the following reasons:
 	 *
-	 * (1) Running an index update involves computing a tree diff, which
-	 * requires quick access to the children using a string-valued identifier
-	 * (e.g. filename).
+	 * (1) Running an index update involves computing a tree diff, which requires quick 
+	 * access to the children using a string-valued identifier (e.g. filename).
 	 *
-	 * (2) It prevents insertion of duplicate identifiers. (However, using a map
-	 * doesn't prevent the situation that a document and a subfolder are stored
-	 * with the same identifier, since documents and subfolders are stored in
-	 * different maps.)
+	 * (2) It prevents insertion of duplicate identifiers. (However, using a map doesn't prevent 
+	 * the situation that a document and a subfolder are stored with the same identifier, since 
+	 * documents and subfolders are stored in different maps.)
 	 *
-	 * These maps are set to null when they're empty in order to avoid wasting
-	 * RAM when the tree is very large and has many empty leaf nodes.
+	 * These maps are set to null when they're empty in order to avoid wasting RAM when the tree 
+	 * is very large and has many empty leaf nodes.
 	 */
 	@Nullable private HashMap<String, D> documents;
 	@Nullable protected HashMap<String, F> subFolders;
 
 	/*
-	 * If this is a root folder, then it has a non-null path and a null parent.
-	 * For non-root folders, it's the exact opposite, i.e. they have a null path
-	 * and a non-null parent. HTML folders and SolidArchiveTree roots are
-	 * treated as root folders.
+	 * If this is a root folder, then it has a non-null path and a null parent. For non-root folders, it's the exact opposite, 
+	 * i.e. they have a null path and a non-null parent. HTML folders and SolidArchiveTree roots are treated as root folders.
 	 */
 	@Nullable protected F parent;
 	@Nullable protected Path path;
 	private int pathHashCode;
 
-	/**
-	 * The last time this object was modified. Null if the object has no last
-	 * modified field (e.g. regular folder).
-	 */
+	/** The last time this object was modified. Null if the object has no last modified field (e.g. regular folder). */
 	@Nullable private Long lastModified;
 
 	protected boolean isChecked = true;
 
 	@SuppressWarnings("unchecked")
-	protected Folder(	@NotNull F parent,
-						@NotNull String name,
-						@Nullable Long lastModified) {
+	protected Folder(@NotNull F parent,	@NotNull String name, @Nullable Long lastModified) {
 		super(name);
 		Util.checkNotNull(parent);
 		this.parent = parent;
@@ -236,10 +220,7 @@ public abstract class Folder
 		evtFolderAdded.fire(new FolderEvent(this, subFolder));
 	}
 
-	/**
-	 * Removes the given document from the receiver. Does nothing if the given
-	 * document is null.
-	 */
+	/** Removes the given document from the receiver. Does nothing if the given document is null. */
 	public synchronized final void removeDocument(@Nullable D doc) {
 		if (documents == null || doc == null) return;
 		D candidate = documents.remove(doc.getName());
@@ -273,9 +254,8 @@ public abstract class Folder
 	}
 
 	/**
-	 * Removes the given subfolder from the receiver. Does nothing if the given
-	 * subfolder is null. After it is removed, it will still have a valid path
-	 * that can be obtained via {@link #getPath()}.
+	 * Removes the given subfolder from the receiver. Does nothing if the given subfolder is null. 
+	 * After it is removed, it will still have a valid path that can be obtained via {@link #getPath()}.
 	 */
 	public final void removeSubFolder(@Nullable F subFolder) {
 		if (subFolder == null)
@@ -286,11 +266,7 @@ public abstract class Folder
 			F candidate = subFolders.remove(subFolder.getName());
 			Util.checkThat(candidate == subFolder);
 
-			/*
-			 * Folder instances must always either have a parent or a path, so we'll
-			 * reconstruct the subfolder's path and set it before we nullify the
-			 * parent.
-			 */
+			/* Folder instances must always either have a parent or a path, so we'll reconstruct the subfolder's path and set it before we nullify the parent. */
 			subFolder.path = subFolder.getPath();
 			subFolder.parent = null;
 
@@ -315,9 +291,8 @@ public abstract class Folder
 	}
 
 	/**
-	 * Removes all subfolders from the receiver that satisfy the given
-	 * predicate. The removed subfolders will still have valid paths that can be
-	 * obtained via {@link #getPath()}.
+	 * Removes all subfolders from the receiver that satisfy the given predicate. 
+	 * The removed subfolders will still have valid paths that can be obtained via {@link #getPath()}.
 	 */
 	public synchronized final void removeSubFolders(@NotNull Predicate<F> predicate) {
 		List<F> toNotify = new ArrayList<F>(subFolders == null ? 0 : subFolders.size());
@@ -457,14 +432,12 @@ public abstract class Folder
 	}
 
 	/**
-	 * Returns the tree node underneath the receiver that has the given path, or
-	 * null if there is no such tree node. The search for the tree node is done
-	 * recursively. Trailing slashes in the given path will be ignored, and
-	 * backward slashes are automatically converted to forward slashes.
+	 * Returns the tree node underneath the receiver that has the given path, or null if there is no 
+	 * such tree node. The search for the tree node is done recursively. Trailing slashes in the given 
+	 * path will be ignored, and backward slashes are automatically converted to forward slashes.
 	 * <p>
-	 * This method does not convert between absolute and relative paths, so if
-	 * the tree nodes of the receiver have relative paths, the given path must
-	 * also be a relative path.
+	 * This method does not convert between absolute and relative paths, so if the tree nodes of 
+	 * the receiver have relative paths, the given path must also be a relative path.
 	 */
 	@Nullable
 	@ThreadSafe
@@ -475,17 +448,14 @@ public abstract class Folder
 		return findTreeNodeUnchecked(targetPath);
 	}
 
-	/**
-	 * Recursive helper method for {@link #findTreeNode(String)}.
-	 */
+	/** Recursive helper method for {@link #findTreeNode(String)}. */
 	@Nullable
 	@RecursiveMethod
 	@ThreadSafe
 	protected synchronized TreeNode findTreeNodeUnchecked(@NotNull Path targetPath) {
 		/*
-		 * TODO post-release-1.1: since getPath() constructs the returned path
-		 * dynamically, this search algorithm is somewhat inefficient. Maybe
-		 * improve it? (Consider making use of the path hashcode.)
+		 * TODO post-release-1.1: since getPath() constructs the returned path dynamically, 
+		 * this search algorithm is somewhat inefficient. Maybe improve it? (Consider making use of the path hashcode.)
 		 */
 		if (documents != null) {
 			for (D document : documents.values()) {

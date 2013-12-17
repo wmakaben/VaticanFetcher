@@ -9,25 +9,17 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model;
+package net.sourceforge.vaticanfetcher.model;
 
 import java.util.List;
 
-import net.sourceforge.docfetcher.util.annotations.ImmutableCopy;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.ImmutableCopy;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
 
-/**
- * A node of a tree structure that can be displayed on the user interface. (This
- * contrasts with nodes that only serve internal purposes.)
- * 
- * @author Tran Nam Quang
- */
+/** A node of a tree structure that can be displayed on the user interface. (This contrasts with nodes that only serve internal purposes.) */
 public interface ViewNode {
 
-	/**
-	 * Returns a label for displaying the receiver on the user interface. The
-	 * returned label is not guaranteed to be unique.
-	 */
+	/** Returns a label for displaying the receiver on the user interface. The returned label is not guaranteed to be unique. */
 	@NotNull
 	public String getDisplayName();
 	

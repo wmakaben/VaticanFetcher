@@ -12,7 +12,7 @@
  * @author Tran Nam Quang
  */
 
-package net.sourceforge.docfetcher.model;
+package net.sourceforge.vaticanfetcher.model;
 
 import static org.junit.Assert.assertEquals;
 
@@ -24,17 +24,17 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import net.sourceforge.docfetcher.model.index.DiskSpaceException;
-import net.sourceforge.docfetcher.model.index.IndexingConfig;
-import net.sourceforge.docfetcher.model.index.IndexingError;
-import net.sourceforge.docfetcher.model.index.IndexingError.ErrorType;
-import net.sourceforge.docfetcher.model.index.IndexingException;
-import net.sourceforge.docfetcher.model.index.IndexingReporter;
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.ImmutableCopy;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.annotations.Nullable;
-import net.sourceforge.docfetcher.util.annotations.VisibleForPackageGroup;
+import net.sourceforge.vaticanfetcher.model.index.DiskSpaceException;
+import net.sourceforge.vaticanfetcher.model.index.IndexingConfig;
+import net.sourceforge.vaticanfetcher.model.index.IndexingError;
+import net.sourceforge.vaticanfetcher.model.index.IndexingError.ErrorType;
+import net.sourceforge.vaticanfetcher.model.index.IndexingException;
+import net.sourceforge.vaticanfetcher.model.index.IndexingReporter;
+import net.sourceforge.vaticanfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.annotations.ImmutableCopy;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.Nullable;
+import net.sourceforge.vaticanfetcher.util.annotations.VisibleForPackageGroup;
 
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.queryParser.QueryParser;
@@ -161,8 +161,7 @@ public final class UtilModel {
 	 * path/to/subfolder
 	 * </pre>
 	 * 
-	 * The returned paths always use "/" as path separator, and there are no
-	 * leading or trailing path separators.
+	 * The returned paths always use "/" as path separator, and there are no leading or trailing path separators.
 	 */
 	@NotNull
 	@VisibleForPackageGroup
@@ -180,11 +179,7 @@ public final class UtilModel {
 	@VisibleForPackageGroup
 	public static void assertResultCount(Directory luceneDir, String query,	int expectedCount) throws Exception {
 		IndexSearcher searcher = new IndexSearcher(luceneDir, true);
-		QueryParser parser = new QueryParser(
-				IndexRegistry.LUCENE_VERSION,
-				Fields.CONTENT.key(),
-				IndexRegistry.analyzer
-		);
+		QueryParser parser = new QueryParser(IndexRegistry.LUCENE_VERSION, Fields.CONTENT.key(), IndexRegistry.analyzer);
 		Query queryObject = parser.parse(query);
 		TopDocs topDocs = searcher.search(queryObject, Integer.MAX_VALUE);
 		assertEquals(expectedCount, topDocs.totalHits);
@@ -203,11 +198,7 @@ public final class UtilModel {
 			return false;
 		if (! file.isEntry())
 			return new java.io.File(file.getPath()).isFile();
-		return new TFile(
-				Util.getParentFile(file),
-				file.getName(),
-				TArchiveDetector.NULL
-		).isFile();
+		return new TFile(Util.getParentFile(file), file.getName(), TArchiveDetector.NULL).isFile();
 	}
 
 	/** Tries to unpack the given zip archive entry. Returns null if the given file is not a zip archive entry. */
@@ -233,8 +224,7 @@ public final class UtilModel {
 	
 	public static boolean isUnmodifiedArchive(@NotNull Folder<?, ?> folder,	@Nullable Long newLastModified) {
 		Long oldLastModified = folder.getLastModified();
-		if (oldLastModified != null && newLastModified != null
-				&& oldLastModified.equals(newLastModified))
+		if (oldLastModified != null && newLastModified != null && oldLastModified.equals(newLastModified))
 			return true;
 		return false;
 	}

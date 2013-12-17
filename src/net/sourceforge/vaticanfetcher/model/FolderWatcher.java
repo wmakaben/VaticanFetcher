@@ -9,7 +9,7 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model;
+package net.sourceforge.vaticanfetcher.model;
 
 import java.io.File;
 import java.util.List;
@@ -18,36 +18,33 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 
 import net.contentobjects.jnotify.JNotify;
-import net.sourceforge.docfetcher.enums.Msg;
-import net.sourceforge.docfetcher.gui.ManualLocator;
-import net.sourceforge.docfetcher.model.IndexRegistry.ExistingIndexesHandler;
-import net.sourceforge.docfetcher.model.index.IndexingConfig;
-import net.sourceforge.docfetcher.model.index.PatternAction;
-import net.sourceforge.docfetcher.model.index.Task.IndexAction;
-import net.sourceforge.docfetcher.model.index.file.FileDocument;
-import net.sourceforge.docfetcher.model.index.file.FileFolder;
-import net.sourceforge.docfetcher.model.index.file.FileIndex;
-import net.sourceforge.docfetcher.model.parse.ParseService;
-import net.sourceforge.docfetcher.util.Event;
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.annotations.Nullable;
-import net.sourceforge.docfetcher.util.concurrent.DelayedExecutor;
+import net.sourceforge.vaticanfetcher.enums.Msg;
+import net.sourceforge.vaticanfetcher.gui.ManualLocator;
+import net.sourceforge.vaticanfetcher.model.IndexRegistry.ExistingIndexesHandler;
+import net.sourceforge.vaticanfetcher.model.index.IndexingConfig;
+import net.sourceforge.vaticanfetcher.model.index.PatternAction;
+import net.sourceforge.vaticanfetcher.model.index.Task.IndexAction;
+import net.sourceforge.vaticanfetcher.model.index.file.FileDocument;
+import net.sourceforge.vaticanfetcher.model.index.file.FileFolder;
+import net.sourceforge.vaticanfetcher.model.index.file.FileIndex;
+import net.sourceforge.vaticanfetcher.model.parse.ParseService;
+import net.sourceforge.vaticanfetcher.util.Event;
+import net.sourceforge.vaticanfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.Nullable;
+import net.sourceforge.vaticanfetcher.util.concurrent.DelayedExecutor;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 
-/**
- * @author Tran Nam Quang
- */
+
 public final class FolderWatcher {
 	
 	public final Event<String> evtWatchLimitError = new Event<String>();
 	
 	/**
-	 * The watch queue is a collection of indexes to be processed by the worker
-	 * thread. The boolean map value indicates whether the index should be
-	 * watched or unwatched.
+	 * The watch queue is a collection of indexes to be processed by the worker thread. 
+	 * The boolean map value indicates whether the index should be watched or unwatched.
 	 */
 	private final Map<LuceneIndex, Boolean> watchQueue = Maps.newLinkedHashMap(); // guarded by lock
 	
@@ -73,9 +70,8 @@ public final class FolderWatcher {
 		initListeners();
 		
 		/*
-		 * Adding and removing watches is done in a dedicated thread because
-		 * adding watches can be a time-consuming operation, depending on the
-		 * depth of the tree to watch.
+		 * Adding and removing watches is done in a dedicated thread because adding watches can 
+		 * be a time-consuming operation, depending on the depth of the tree to watch.
 		 */
 		thread = new Thread(FolderWatcher.class.getName()) {
 			public void run() {
@@ -132,10 +128,7 @@ public final class FolderWatcher {
 			}
 		};
 
-		/*
-		 * This lock could be moved into the indexes handler, but we'll put it
-		 * here to avoid releasing and reacquiring it.
-		 */
+		/* This lock could be moved into the indexes handler, but we'll put it here to avoid releasing and reacquiring it. */
 		writeLock.lock();
 		try {
 			indexRegistry.addListeners(new ExistingIndexesHandler() {
@@ -180,10 +173,8 @@ public final class FolderWatcher {
 		}
 		
 		/*
-		 * If the shutdown flag is set, ignore the watch queue. Instead, just
-		 * remove all existing watches and terminate. Note that no lock is
-		 * needed when accessing the shutdown flag, since its value can only
-		 * change from false to true.
+		 * If the shutdown flag is set, ignore the watch queue. Instead, just remove all existing watches and terminate. 
+		 * Note that no lock is needed when accessing the shutdown flag, since its value can only change from false to true.
 		 */
 		if (shutdown) {
 			for (Integer id : watchIdMap.values()) {
@@ -207,16 +198,11 @@ public final class FolderWatcher {
 				continue;
 			
 			/*
-			 * Note: Before adding or removing a watch, we must check
-			 * whether the watch ID map already contains or doesn't contain
-			 * the index as a key, respectively. Theoretically, this could
-			 * happen if the watch state is 'flipped' forth and back before
-			 * the worker thread processes the change. For example, an index
-			 * that is already being watched could quickly flip from
-			 * 'watched' to 'unwatched' and then back to 'watched'. Without
-			 * looking at the watch ID map, it would then appear that we
-			 * need to add a watch for the index, even though we're already
-			 * watching it.
+			 * Note: Before adding or removing a watch, we must check whether the watch ID map already contains or doesn't contain
+			 * the index as a key, respectively. Theoretically, this could happen if the watch state is 'flipped' forth and back before
+			 * the worker thread processes the change. For example, an index that is already being watched could quickly flip from
+			 * 'watched' to 'unwatched' and then back to 'watched'. Without looking at the watch ID map, it would then appear that we
+			 * need to add a watch for the index, even though we're already* watching it.
 			 */
 			// Add watch
 			if (watchQueueCopy.get(index)) {
@@ -226,14 +212,10 @@ public final class FolderWatcher {
 					continue;
 
 				/*
-				 * Tests indicate that Linux can watch individual files, but
-				 * Windows and Mac OS X can't. That means on non-Linux platforms
-				 * we'll watch the parent folder instead if our target is a file
-				 * (for example a PST file).
+				 * Tests indicate that Linux can watch individual files, but Windows and Mac OS X can't. That means on non-Linux 
+				 * platforms we'll watch the parent folder instead if our target is a file (for example a PST file).
 				 */
-				File fileToWatch = rootFile.isFile() && !Util.IS_LINUX
-					? Util.getParentFile(rootFile)
-					: rootFile;
+				File fileToWatch = rootFile.isFile() && !Util.IS_LINUX ? Util.getParentFile(rootFile) : rootFile;
 
 				JNotifyListenerImpl listener = new JNotifyListenerImpl(index);
 				try {
@@ -242,8 +224,7 @@ public final class FolderWatcher {
 				}
 				catch (Exception e) {
 					String url = ManualLocator.getManualSubpageUrl("Watch_Limit.html");
-					String msg = Msg.install_watch_failed.format(
-						index.getDisplayName(), url, e.getMessage());
+					String msg = Msg.install_watch_failed.format(index.getDisplayName(), url, e.getMessage());
 					evtWatchLimitError.fire(msg);
 				}
 			}
@@ -292,10 +273,7 @@ public final class FolderWatcher {
 			if (!accept(targetFile, eventType))
 				return;
 			
-			/*
-			 * JNotify can fire many events in rapid succession, so we'll add a
-			 * small delay here in order to let the file system "cool down".
-			 */
+			/* JNotify can fire many events in rapid succession, so we'll add a small delay here in order to let the file system "cool down". */
 			delayedExecutor.schedule(new Runnable() {
 				public void run() {
 					indexRegistry.getQueue().addTask(
@@ -304,27 +282,22 @@ public final class FolderWatcher {
 			});
 		}
 		
-		private boolean accept(	@NotNull File target,
-								@NotNull EventType eventType) {
+		private boolean accept(	@NotNull File target, @NotNull EventType eventType) {
 			String name = target.getName();
 			boolean isFile = target.isFile();
 			boolean isDeleted = eventType == EventType.DELETED;
 			
 			/*
-			 * If the file was deleted, File.isFile() should have returned
-			 * false, regardless of whether the file object was a file or a
-			 * directory. Consequently, the isFile flag is of no use if the file
-			 * was deleted.
+			 * If the file was deleted, File.isFile() should have returned false, regardless of whether the file object was a file or a
+			 * directory. Consequently, the isFile flag is of no use if the file was deleted.
 			 */
 			if (isDeleted)
 				assert !isFile;
 			
 			/*
-			 * Ignore file events originating from the index directory -- the
-			 * user may have indexed the DocFetcher folder. If we don't ignore
-			 * these events, we may get stuck in an infinite loop of running
-			 * index updates and reacting to changes in the index directory
-			 * caused by our own index updates.
+			 * Ignore file events originating from the index directory -- the user may have indexed the VaticanFetcher folder. 
+			 * If we don't ignore these events, we may get stuck in an infinite loop of running index updates and reacting 
+			 * to changes in the index directory caused by our own index updates.
 			 */
 			if (Util.contains(indexRegistry.getIndexParentDir(), target))
 				return false;
@@ -364,16 +337,11 @@ public final class FolderWatcher {
 			}
 			
 			// Ignore unparsable files
-			if (isFile && !config.isArchive(name) && !mimeMatch
-					&& !ParseService.canParseByName(config, name))
+			if (isFile && !config.isArchive(name) && !mimeMatch	&& !ParseService.canParseByName(config, name))
 				return false;
 			
-			/*
-			 * Check if the file was *really* modified - JNotify tends to fire
-			 * even when files have only been accessed.
-			 */
-			if (eventType == EventType.MODIFIED
-					&& (watchedIndex instanceof FileIndex)) {
+			/* Check if the file was *really* modified - JNotify tends to fire even when files have only been accessed. */
+			if (eventType == EventType.MODIFIED	&& (watchedIndex instanceof FileIndex)) {
 				FileIndex index = (FileIndex) watchedIndex;
 				TreeNode treeNode = index.getRootFolder().findTreeNode(path);
 				if (sameLastModified(treeNode, target))
@@ -383,8 +351,7 @@ public final class FolderWatcher {
 			return true;
 		}
 
-		private boolean sameLastModified(	@Nullable TreeNode treeNode,
-											@NotNull File file) {
+		private boolean sameLastModified(@Nullable TreeNode treeNode, @NotNull File file) {
 			if (treeNode == null)
 				return false;
 			if (treeNode instanceof FileDocument) {

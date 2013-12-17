@@ -9,29 +9,27 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model;
+package net.sourceforge.vaticanfetcher.model;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import net.sourceforge.docfetcher.model.index.IndexingConfig;
-import net.sourceforge.docfetcher.model.index.IndexingReporter;
-import net.sourceforge.docfetcher.util.AppUtil;
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.ImmutableCopy;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.annotations.Nullable;
-import net.sourceforge.docfetcher.util.annotations.VisibleForPackageGroup;
+import net.sourceforge.vaticanfetcher.model.index.IndexingConfig;
+import net.sourceforge.vaticanfetcher.model.index.IndexingReporter;
+import net.sourceforge.vaticanfetcher.util.AppUtil;
+import net.sourceforge.vaticanfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.annotations.ImmutableCopy;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.Nullable;
+import net.sourceforge.vaticanfetcher.util.annotations.VisibleForPackageGroup;
 
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.RAMDirectory;
 
 @VisibleForPackageGroup
-public abstract class TreeIndex <
-	D extends Document<D, F>,
-	F extends Folder<D, F>> implements LuceneIndex {
+public abstract class TreeIndex <D extends Document<D, F>, F extends Folder<D, F>> implements LuceneIndex {
 	
 	public enum IndexingResult {
 		SUCCESS_CHANGED,
@@ -39,10 +37,7 @@ public abstract class TreeIndex <
 		FAILURE,
 	}
 	
-	/*
-	 * Note: It is important to always serialize Path objects instead of java.io.File objects 
-	 * to avoid certain portability issues caused by non-normalized file paths.
-	 */
+	/* Note: It is important to always serialize Path objects instead of java.io.File objects to avoid certain portability issues caused by non-normalized file paths. */
 	
 	private static final long serialVersionUID = 1L;
 	

@@ -9,24 +9,18 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model;
+package net.sourceforge.vaticanfetcher.model;
 
 import java.util.HashSet;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
 
-/**
- * @author Tran Nam Quang
- */
 public final class TreeCheckState {
 	
-	/*
-	 * TODO post-release-1.1: Check for multi-threading issues in this class,
-	 * especially check-then-act operations on Folder objects and the likes.
-	 */
+	/* TODO post-release-1.1: Check for multi-threading issues in this class, especially check-then-act operations on Folder objects and the likes. */
 	
 	private final Set<FolderWrapper> checkedSet = new HashSet<FolderWrapper>();
 	private int folderCount = 0; // includes unchecked and checked folders
@@ -62,9 +56,8 @@ public final class TreeCheckState {
 		
 		public boolean equals(Object obj) {
 			/*
-			 * The hash map implementation will call this equals method rather
-			 * than the one on the FolderWrapper, so we'll override this equal
-			 * method and redirect to the equals method of the FolderWrapper.
+			 * The hash map implementation will call this equals method rather than the one on the FolderWrapper, 
+			 * so we'll override this equal method and redirect to the equals method of the FolderWrapper.
 			 */
 			return ((FolderWrapper) obj).equals(this);
 		}
@@ -83,10 +76,8 @@ public final class TreeCheckState {
 		
 		public boolean equals(Object obj) {
 			/*
-			 * This equals method is called either as a result of adding
-			 * FolderWrapper instances to the checked set, or as a result of
-			 * determining whether the checked set "contains" a particular
-			 * PathWrapper.
+			 * This equals method is called either as a result of adding FolderWrapper instances to the checked set, 
+			 * or as a result of determining whether the checked set "contains" a particular PathWrapper.
 			 */
 			if (obj instanceof FolderWrapper) {
 				FolderWrapper other = (FolderWrapper) obj;
@@ -118,10 +109,7 @@ public final class TreeCheckState {
 			return true;
 		}
 		
-		/*
-		 * TODO post-release-1.1: Compute and store the path length as an int
-		 * field in Folder during indexing, instead of computing it here.
-		 */
+		/* TODO post-release-1.1: Compute and store the path length as an int field in Folder during indexing, instead of computing it here.*/
 		private int getPathLength(@NotNull Folder<?, ?> folder) {
 			int count = 0;
 			Folder<?, ?> current = folder;
@@ -195,12 +183,9 @@ public final class TreeCheckState {
 		private String string;
 		private int i = -1;
 		
-		public StringReverseIterator() {
-		}
+		public StringReverseIterator() {}
 		
-		public StringReverseIterator(@NotNull String string) {
-			setString(string);
-		}
+		public StringReverseIterator(@NotNull String string) {setString(string);}
 		
 		public void setString(@NotNull String string) {
 			this.string = string;
@@ -213,9 +198,7 @@ public final class TreeCheckState {
 			return string.charAt(i--);
 		}
 		
-		public boolean hasNext() {
-			return i >= 0;
-		}
+		public boolean hasNext() {	return i >= 0;	}
 	}
 
 }

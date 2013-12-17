@@ -9,17 +9,14 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model;
+package net.sourceforge.vaticanfetcher.model;
 
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.annotations.NotThreadSafe;
-import net.sourceforge.docfetcher.util.annotations.ThreadSafe;
-import net.sourceforge.docfetcher.util.annotations.VisibleForPackageGroup;
+import net.sourceforge.vaticanfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.NotThreadSafe;
+import net.sourceforge.vaticanfetcher.util.annotations.ThreadSafe;
+import net.sourceforge.vaticanfetcher.util.annotations.VisibleForPackageGroup;
 
-/**
- * @author Tran Nam Quang
- */
 @VisibleForPackageGroup
 public final class PendingDeletion {
 	

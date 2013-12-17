@@ -9,19 +9,16 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model;
+package net.sourceforge.vaticanfetcher.model;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import net.sourceforge.docfetcher.TestFiles;
+import net.sourceforge.vaticanfetcher.TestFiles;
 import org.junit.Test;
 
 import de.schlichtherle.truezip.file.TFile;
 
-/**
- * @author Tran Nam Quang
- */
 public final class UtilModelTest {
 	
 	@Test
@@ -45,7 +42,7 @@ public final class UtilModelTest {
 				
 				// case: src and dst beside each other
 				"/path/to/one/file", "/path/to/another/file", "../../another/file",
-				"C:\\Windows\\System", "C:\\Program Files\\DocFetcher", "../../Program Files/DocFetcher",
+				"C:\\Windows\\System", "C:\\Program Files\\VaticanFetcher", "../../Program Files/VaticanFetcher",
 				"path/to/file", "some/thing/else", "../../../some/thing/else",
 				"C:", "D:\\Windows\\", "../D:/Windows",
 		};

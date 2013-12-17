@@ -9,20 +9,17 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model;
+package net.sourceforge.vaticanfetcher.model;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.collect.LazyList;
+import net.sourceforge.vaticanfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.collect.LazyList;
 
-/**
- * @author Tran Nam Quang
- */
 public final class IndexLoadingProblems {
 	
 	private final List<File> obsoleteFiles = new LazyList<File>();
@@ -49,15 +46,12 @@ public final class IndexLoadingProblems {
 		return Collections.unmodifiableList(corruptedIndexes);
 	}
 	
-	/**
-	 * A corrupted index that couldn't be loaded during initialization.
-	 */
+	/** A corrupted index that couldn't be loaded during initialization. */
 	public static final class CorruptedIndex {
 		@NotNull public final LuceneIndex index;
 		@NotNull public final IOException ioException;
 		
-		public CorruptedIndex(	@NotNull LuceneIndex index,
-								@NotNull IOException ioException) {
+		public CorruptedIndex(@NotNull LuceneIndex index, @NotNull IOException ioException) {
 			this.index = Util.checkNotNull(index);
 			this.ioException = Util.checkNotNull(ioException);
 		}

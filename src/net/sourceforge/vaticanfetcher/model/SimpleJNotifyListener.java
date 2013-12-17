@@ -9,21 +9,18 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model;
+package net.sourceforge.vaticanfetcher.model;
 
 import java.io.File;
 
 import net.contentobjects.jnotify.JNotify;
 import net.contentobjects.jnotify.JNotifyException;
 import net.contentobjects.jnotify.JNotifyListener;
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.CallOnce;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.annotations.Nullable;
+import net.sourceforge.vaticanfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.annotations.CallOnce;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.Nullable;
 
-/**
- * @author Tran Nam Quang
- */
 abstract class SimpleJNotifyListener {
 	
 	enum EventType {
@@ -31,36 +28,22 @@ abstract class SimpleJNotifyListener {
 	}
 
 	@Nullable private JNotifyListener listener = new JNotifyListener() {
-		public final void fileCreated(int wd, String rootPath, String name) {
-			handleEvent(rootPath, name, EventType.CREATED);
-		}
+		public final void fileCreated(int wd, String rootPath, String name) {handleEvent(rootPath, name, EventType.CREATED);}
 
-		public final void fileDeleted(int wd, String rootPath, String name) {
-			handleEvent(rootPath, name, EventType.DELETED);
-		}
+		public final void fileDeleted(int wd, String rootPath, String name) {handleEvent(rootPath, name, EventType.DELETED);}
 
-		public final void fileModified(int wd, String rootPath, String name) {
-			handleEvent(rootPath, name, EventType.MODIFIED);
-		}
+		public final void fileModified(int wd, String rootPath, String name) {handleEvent(rootPath, name, EventType.MODIFIED);}
 
-		public final void fileRenamed(	int wd,
-		                              	String rootPath,
-		                              	String oldName,
-		                              	String newName) {
-			handleEvent(rootPath, newName, EventType.RENAMED);
-		}
+		public final void fileRenamed(int wd, String rootPath, String oldName, String newName) {handleEvent(rootPath, newName, EventType.RENAMED);}
 	};
 	
-	private void handleEvent(	@NotNull String rootPath,
-								@NotNull String name,
-								@NotNull EventType eventType) {
+	private void handleEvent(@NotNull String rootPath,	@NotNull String name, @NotNull EventType eventType) {
 		// Calling File.getAbsoluteFile() is probably not necessary, but just in case...
 		handleEvent(new File(rootPath, name).getAbsoluteFile(), eventType);
 	}
 	
 	// The given file is always absolute
-	protected abstract void handleEvent(@NotNull File targetFile,
-										@NotNull EventType eventType);
+	protected abstract void handleEvent(@NotNull File targetFile, @NotNull EventType eventType);
 	
 	@CallOnce
 	public final int addWatch(@NotNull File watchFile) throws JNotifyException {

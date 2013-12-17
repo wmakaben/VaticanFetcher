@@ -9,11 +9,8 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model;
+package net.sourceforge.vaticanfetcher.model;
 
-/**
- * @author Tran Nam Quang
- */
 public interface Cancelable {
 	
 	public static final Cancelable nullCancelable = new Cancelable() {

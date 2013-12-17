@@ -9,7 +9,7 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model;
+package net.sourceforge.vaticanfetcher.model;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -31,25 +31,25 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import net.contentobjects.jnotify.JNotify;
 import net.contentobjects.jnotify.JNotifyException;
-import net.sourceforge.docfetcher.enums.ProgramConf;
-import net.sourceforge.docfetcher.model.IndexLoadingProblems.CorruptedIndex;
-import net.sourceforge.docfetcher.model.index.IndexingQueue;
-import net.sourceforge.docfetcher.model.index.file.FileFactory;
-import net.sourceforge.docfetcher.model.index.outlook.OutlookMailFactory;
-import net.sourceforge.docfetcher.model.search.Searcher;
-import net.sourceforge.docfetcher.model.search.SourceCodeTokenizer;
-import net.sourceforge.docfetcher.util.Event;
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.CallOnce;
-import net.sourceforge.docfetcher.util.annotations.ImmutableCopy;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.annotations.Nullable;
-import net.sourceforge.docfetcher.util.annotations.ThreadSafe;
-import net.sourceforge.docfetcher.util.annotations.VisibleForPackageGroup;
-import net.sourceforge.docfetcher.util.collect.AlphanumComparator;
-import net.sourceforge.docfetcher.util.collect.LazyList;
-import net.sourceforge.docfetcher.util.concurrent.BlockingWrapper;
-import net.sourceforge.docfetcher.util.concurrent.DelayedExecutor;
+import net.sourceforge.vaticanfetcher.enums.ProgramConf;
+import net.sourceforge.vaticanfetcher.model.IndexLoadingProblems.CorruptedIndex;
+import net.sourceforge.vaticanfetcher.model.index.IndexingQueue;
+import net.sourceforge.vaticanfetcher.model.index.file.FileFactory;
+import net.sourceforge.vaticanfetcher.model.index.outlook.OutlookMailFactory;
+import net.sourceforge.vaticanfetcher.model.search.Searcher;
+import net.sourceforge.vaticanfetcher.model.search.SourceCodeTokenizer;
+import net.sourceforge.vaticanfetcher.util.Event;
+import net.sourceforge.vaticanfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.annotations.CallOnce;
+import net.sourceforge.vaticanfetcher.util.annotations.ImmutableCopy;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.Nullable;
+import net.sourceforge.vaticanfetcher.util.annotations.ThreadSafe;
+import net.sourceforge.vaticanfetcher.util.annotations.VisibleForPackageGroup;
+import net.sourceforge.vaticanfetcher.util.collect.AlphanumComparator;
+import net.sourceforge.vaticanfetcher.util.collect.LazyList;
+import net.sourceforge.vaticanfetcher.util.concurrent.BlockingWrapper;
+import net.sourceforge.vaticanfetcher.util.concurrent.DelayedExecutor;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.LowerCaseFilter;
@@ -291,8 +291,8 @@ public final class IndexRegistry {
 				File serFile = new File(file, SER_FILENAME);
 				if (serFile.isFile()) {
 					/*
-					 * Try to load the tree-index.ser. If this fails, we're probably dealing with a tree-index.ser from DocFetcher
-					 * 1.1 beta 1 through DocFetcher 1.1 beta 6, because the serialization version UID was changed after 1.1 beta 6.
+					 * Try to load the tree-index.ser. If this fails, we're probably dealing with a tree-index.ser from VaticanFetcher
+					 * 1.1 beta 1 through VaticanFetcher 1.1 beta 6, because the serialization version UID was changed after 1.1 beta 6.
 					 */
 					if (!loadIndex(serFile))
 						loadingProblems.addObsoleteFile(file);
@@ -300,7 +300,7 @@ public final class IndexRegistry {
 				else if (!serFile.exists()) {
 					/*
 					 * If no tree-index.ser exists and the containing folder has a name that ends with a timestamp, 
-					 * it's probably an index folder from DocFetcher 1.0.3 or earlier.
+					 * it's probably an index folder from VaticanFetcher 1.0.3 or earlier.
 					 */
 					if (file.getName().matches(".*?_\\d+"))
 						loadingProblems.addObsoleteFile(file);
@@ -308,7 +308,7 @@ public final class IndexRegistry {
 				// Ignore if tree-index.ser is a directory
 			}
 			else if (file.isFile()) {
-				/* ScopeRegistry.ser files were used in DocFetcher 1.0.3 and earlier. */
+				/* ScopeRegistry.ser files were used in VaticanFetcher 1.0.3 and earlier. */
 				if (file.getName().equals("ScopeRegistry.ser"))
 					loadingProblems.addObsoleteFile(file);
 			}
@@ -435,7 +435,7 @@ public final class IndexRegistry {
 			indexDir.mkdirs();
 			File serFile = new File(indexDir, SER_FILENAME);
 
-			/* DocFetcher might have been burned onto a CD-ROM; if so, then just ignore it. */
+			/* VaticanFetcher might have been burned onto a CD-ROM; if so, then just ignore it. */
 			if (serFile.exists() && !serFile.canWrite())
 				return;
 

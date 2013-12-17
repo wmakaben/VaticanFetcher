@@ -9,29 +9,25 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model;
+package net.sourceforge.vaticanfetcher.model;
 
 import java.io.File;
 import java.util.Date;
 import java.util.List;
 
-import net.sourceforge.docfetcher.model.search.HighlightedString;
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.Immutable;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.annotations.Nullable;
+import net.sourceforge.vaticanfetcher.model.search.HighlightedString;
+import net.sourceforge.vaticanfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.annotations.Immutable;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.Nullable;
 
-/**
- * @author Tran Nam Quang
- */
 public abstract class MailResource {
 	
 	public final class Attachment {
 		private final String filename;
 		private final FileResource fileResource;
 
-		public Attachment(	@NotNull String filename,
-							@NotNull FileResource fileResource) {
+		public Attachment(@NotNull String filename, @NotNull FileResource fileResource) {
 			this.filename = Util.checkNotNull(filename);
 			this.fileResource = Util.checkNotNull(fileResource);
 		}

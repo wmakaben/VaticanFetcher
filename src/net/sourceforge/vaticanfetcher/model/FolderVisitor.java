@@ -9,15 +9,12 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model;
+package net.sourceforge.vaticanfetcher.model;
 
-import net.sourceforge.docfetcher.util.Stoppable;
-import net.sourceforge.docfetcher.util.annotations.Nullable;
-import net.sourceforge.docfetcher.util.annotations.RecursiveMethod;
+import net.sourceforge.vaticanfetcher.util.Stoppable;
+import net.sourceforge.vaticanfetcher.util.annotations.Nullable;
+import net.sourceforge.vaticanfetcher.util.annotations.RecursiveMethod;
 
-/**
- * @author Tran Nam Quang
- */
 public class FolderVisitor<D extends Document<D, F>, F extends Folder<D, F>, T extends Throwable> extends Stoppable<T> {
 	
 	@Nullable

@@ -9,15 +9,12 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model;
+package net.sourceforge.vaticanfetcher.model;
 
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.annotations.Nullable;
-import net.sourceforge.docfetcher.util.annotations.VisibleForPackageGroup;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.Nullable;
+import net.sourceforge.vaticanfetcher.util.annotations.VisibleForPackageGroup;
 
-/**
- * @author Tran Nam Quang
- */
 @VisibleForPackageGroup
 public abstract class Document<D extends Document<D, F>, F extends Folder<D, F>> extends TreeNode {
 	
@@ -28,10 +25,7 @@ public abstract class Document<D extends Document<D, F>, F extends Folder<D, F>>
 	
 	// will replace document with identical name in parent
 	@SuppressWarnings("unchecked")
-	public Document(@NotNull F parent,
-	                @NotNull String name,
-	                @Nullable String displayName,
-					long lastModified) {
+	public Document(@NotNull F parent, @NotNull String name, @Nullable String displayName, long lastModified) {
 		super(name, displayName);
 		parent.putDocument((D) this); // Will set parent field for this instance
 		this.lastModified = lastModified;
@@ -53,10 +47,7 @@ public abstract class Document<D extends Document<D, F>, F extends Folder<D, F>>
 		return getType().createUniqueId(getPath());
 	}
 	
-	/*
-	 * TODO post-release-1.1: This method is somewhat expensive. Try to avoid
-	 * calling it. May also have multi-threading issues.
-	 */
+	/* TODO post-release-1.1: This method is somewhat expensive. Try to avoid calling it. May also have multi-threading issues. */
 	@NotNull
 	public final Path getPath() {
 		return parent.getPath().createSubPath(getName());

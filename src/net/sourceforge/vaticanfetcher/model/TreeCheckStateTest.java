@@ -9,20 +9,17 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model;
+package net.sourceforge.vaticanfetcher.model;
 
 import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
 import java.util.List;
 
-import net.sourceforge.docfetcher.model.index.file.FileFolder;
+import net.sourceforge.vaticanfetcher.model.index.file.FileFolder;
 
 import org.junit.Test;
 
-/**
- * @author Tran Nam Quang
- */
 public final class TreeCheckStateTest {
 	
 	@Test

@@ -9,57 +9,44 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model;
+package net.sourceforge.vaticanfetcher.model;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 
-import net.sourceforge.docfetcher.model.TreeIndex.IndexingResult;
-import net.sourceforge.docfetcher.model.index.IndexingConfig;
-import net.sourceforge.docfetcher.model.index.IndexingReporter;
-import net.sourceforge.docfetcher.util.Event;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.annotations.Nullable;
+import net.sourceforge.vaticanfetcher.model.TreeIndex.IndexingResult;
+import net.sourceforge.vaticanfetcher.model.index.IndexingConfig;
+import net.sourceforge.vaticanfetcher.model.index.IndexingReporter;
+import net.sourceforge.vaticanfetcher.util.Event;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.Nullable;
 
 import org.apache.lucene.store.Directory;
 
-/**
- * This interface is used for hiding the generic parameters of {@link TreeIndex}
- * from clients.
- * 
- * @author Tran Nam Quang
- */
+/** This interface is used for hiding the generic parameters of {@link TreeIndex} from clients. */
 public interface LuceneIndex extends ViewNode, Serializable {
 	
 	public static final Event<LuceneIndex> evtWatchFoldersChanged = new Event<LuceneIndex>();
 	
-	/**
-	 * Returns the directory where the Lucene index files are kept. Returns null
-	 * if the Lucene index was created in memory.
-	 */
+	/** Returns the directory where the Lucene index files are kept. Returns null if the Lucene index was created in memory. */
 	@Nullable
 	public Path getIndexDirPath();
 	
 	/**
-	 * Warning: If the root file corresponds to the current working directory,
-	 * the path of the returned root folder will be an empty string (regardless
-	 * of the 'store relative paths' setting), and calling <code>new
+	 * Warning: If the root file corresponds to the current working directory, the path of the returned root 
+	 * folder will be an empty string (regardless of the 'store relative paths' setting), and calling <code>new
 	 * File("").exists()</code> will return false.
 	 */
 	@NotNull
 	public Folder<?, ?> getRootFolder();
 	
-	/**
-	 * Returns the file or directory containing the user's files (i.e. the
-	 * document repository that was indexed), in canonical form.
-	 */
+	/** Returns the file or directory containing the user's files (i.e. the document repository that was indexed), in canonical form. */
 	@NotNull
 	public File getCanonicalRootFile();
 	
 	@NotNull
-	public IndexingResult update(	@Nullable IndexingReporter reporter,
-	                             	@Nullable Cancelable cancelable);
+	public IndexingResult update(@Nullable IndexingReporter reporter, @Nullable Cancelable cancelable);
 	
 	@NotNull
 	public Directory getLuceneDir() throws IOException;

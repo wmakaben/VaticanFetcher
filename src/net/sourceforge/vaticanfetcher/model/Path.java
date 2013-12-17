@@ -9,26 +9,23 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model;
+package net.sourceforge.vaticanfetcher.model;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.text.Normalizer;
 
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.annotations.Nullable;
-import net.sourceforge.docfetcher.util.annotations.RecursiveMethod;
+import net.sourceforge.vaticanfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.Nullable;
+import net.sourceforge.vaticanfetcher.util.annotations.RecursiveMethod;
 
 import org.aspectj.lang.annotation.SuppressAjWarnings;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Predicate;
 
-/**
- * @author Tran Nam Quang
- */
 public final class Path implements Serializable {
 	
 	public static final class PathParts {
@@ -40,13 +37,9 @@ public final class Path implements Serializable {
 			this.right = right;
 		}
 		@NotNull
-		public Path getLeft() {
-			return left;
-		}
+		public Path getLeft() {return left;}
 		@NotNull
-		public String getRight() {
-			return right;
-		}
+		public String getRight() {return right;}
 	}
 	
 	private static final class FilePredicate implements Predicate<Path> {
@@ -73,10 +66,8 @@ public final class Path implements Serializable {
 		this.canonicalFile = getCanonicalFile();
 		
 		/*
-		 * If the file is a root, such as '/' or 'C:', then File.getName() will
-		 * return an empty string. In that case, use toString() instead, which
-		 * will return '/' and 'C:', respectively. We don't want an empty string
-		 * as name because it will be used for display on the GUI.
+		 * If the file is a root, such as '/' or 'C:', then File.getName() will return an empty string. In that case, use toString() instead, 
+		 * which will return '/' and 'C:', respectively. We don't want an empty string as name because it will be used for display on the GUI.
 		 */
 		this.name = getDisplayName(canonicalFile);
 	}
@@ -84,9 +75,7 @@ public final class Path implements Serializable {
 	@NotNull
 	@SuppressAjWarnings
 	private static String getDisplayName(@NotNull File canonicalFile) {
-		return canonicalFile.getParent() == null
-			? canonicalFile.toString()
-			: canonicalFile.getName();
+		return canonicalFile.getParent() == null ? canonicalFile.toString()	: canonicalFile.getName();
 	}
 	
 	@NotNull
@@ -105,35 +94,22 @@ public final class Path implements Serializable {
 	}
 	
 	@NotNull
-	public String getName() {
-		return name;
-	}
+	public String getName() {return name;}
 	
 	@NotNull
-	public String getPath() {
-		return path;
-	}
+	public String getPath() {return path;}
 	
-	public boolean isAbsolute() {
-		return new File(path).isAbsolute();
-	}
+	public boolean isAbsolute() {return new File(path).isAbsolute();}
 	
 	@NotNull
-	public Path createSubPath(@NotNull String pathPart) {
-		return new Path(Util.joinPath(path, pathPart));
-	}
+	public Path createSubPath(@NotNull String pathPart) {return new Path(Util.joinPath(path, pathPart));}
 	
-	public boolean contains(@NotNull Path subPath) {
-		return subPath.getCanonicalPath().startsWith(getCanonicalPath() + Util.FS);
-	}
+	public boolean contains(@NotNull Path subPath) {return subPath.getCanonicalPath().startsWith(getCanonicalPath() + Util.FS);}
 	
 	@NotNull
 	public File getCanonicalFile() {
 		if (canonicalFile == null) {
-			/*
-			 * On Mac OS X, return a file with decomposed path. On all other
-			 * platforms, return a file with composed path.
-			 */
+			/* On Mac OS X, return a file with decomposed path. On all other platforms, return a file with composed path. */
 			String path1 = normalizeUnicode(path, !Util.IS_MAC_OS_X);
 			canonicalFile = Util.getCanonicalFile(path1);
 		}
@@ -141,14 +117,10 @@ public final class Path implements Serializable {
 	}
 	
 	@NotNull
-	public String getCanonicalPath() {
-		return getCanonicalFile().getPath();
-	}
+	public String getCanonicalPath() {return getCanonicalFile().getPath();}
 	
 	@NotNull
-	public String toString() {
-		return path;
-	}
+	public String toString() {return path;}
 	
 	public boolean equals(Object obj) {
 		if (!(obj instanceof Path))
@@ -156,9 +128,7 @@ public final class Path implements Serializable {
 		return Objects.equal(path, ((Path)obj).path);
 	}
 	
-	public int hashCode() {
-		return path.hashCode();
-	}
+	public int hashCode() {return path.hashCode();}
 	
 	@Nullable
 	public PathParts splitFromRight(@NotNull Predicate<Path> leftPredicate) {
@@ -177,9 +147,7 @@ public final class Path implements Serializable {
 
 	@Nullable
 	@RecursiveMethod
-	private static PathParts splitFromRight(@NotNull Path left,
-											@NotNull String right,
-											@NotNull Predicate<Path> leftPredicate) {
+	private static PathParts splitFromRight(@NotNull Path left,	@NotNull String right, @NotNull Predicate<Path> leftPredicate) {
 		if (leftPredicate.apply(left))
 			return new PathParts(left, right);
 		
@@ -209,10 +177,8 @@ public final class Path implements Serializable {
 	}
 	
 	/**
-	 * Splits the given path string at the last path separator character (either
-	 * forward or backward slash). If the given string does not contain path
-	 * separators, the returned array contains the given string and an empty
-	 * string.
+	 * Splits the given path string at the last path separator character (either forward or backward slash). If the given 
+	 * string does not contain path separators, the returned array contains the given string and an empty string.
 	 */
 	@NotNull
 	private static String[] splitAtLastSeparator(@NotNull String string) {

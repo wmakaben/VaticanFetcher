@@ -9,15 +9,12 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model;
+package net.sourceforge.vaticanfetcher.model;
 
 import java.io.File;
 
-import net.sourceforge.docfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
 
-/**
- * @author Tran Nam Quang
- */
 public interface FileResource {
 
 	// Client MUST call dispose when the file is not needed anymore.

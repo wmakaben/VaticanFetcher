@@ -9,20 +9,17 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model;
+package net.sourceforge.vaticanfetcher.model;
 
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sourceforge.docfetcher.model.Path.PathParts;
+import net.sourceforge.vaticanfetcher.model.Path.PathParts;
 
 import org.junit.Test;
 
-/**
- * @author Tran Nam Quang
- */
 public final class PathTest {
 	
 	@Test

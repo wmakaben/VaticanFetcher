@@ -9,33 +9,29 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model;
+package net.sourceforge.vaticanfetcher.model;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.annotations.Nullable;
-import net.sourceforge.docfetcher.util.annotations.VisibleForPackageGroup;
-import net.sourceforge.docfetcher.util.collect.SafeKeyMap;
+import net.sourceforge.vaticanfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.Nullable;
+import net.sourceforge.vaticanfetcher.util.annotations.VisibleForPackageGroup;
+import net.sourceforge.vaticanfetcher.util.collect.SafeKeyMap;
 
 import com.google.common.annotations.VisibleForTesting;
 
 /**
- * Cold items are eligible for deletion, depending on the cold cache size. Cold
- * cache is a LRU cache. Hot items are not deleted until client calls dispose
- * method. Retrieving cold items moves them to the hot cache when get(key) is
- * called; if getCold(key) is called, cold items are left cold.
+ * Cold items are eligible for deletion, depending on the cold cache size. Cold cache is a LRU cache. 
+ * Hot items are not deleted until client calls dispose method. Retrieving cold items moves them to 
+ * the hot cache when get(key) is called; if getCold(key) is called, cold items are left cold.
  * 
- * The primary purpose of this file cache is not to improve performance (the
- * speedup is probably tiny in most cases), but to keep unpacked files around
- * for a while, so as to avoid the nasty surprise of deleting files which are
- * currently open in an external application.
- * 
- * @author Tran Nam Quang
+ * The primary purpose of this file cache is not to improve performance (the speedup is probably 
+ * tiny in most cases), but to keep unpacked files around for a while, so as to avoid the nasty 
+ * surprise of deleting files which are currently open in an external application.
  */
 @VisibleForPackageGroup
 public final class HotColdFileCache {
@@ -62,11 +58,7 @@ public final class HotColdFileCache {
 		private volatile int useCount;
 		
 		// Creates deletable resource
-		public TemporaryFileResource(	@NotNull File file,
-										@NotNull HotColdFileCache cache,
-										@NotNull String key,
-										@NotNull File deletable,
-										int useCount) {
+		public TemporaryFileResource(@NotNull File file, @NotNull HotColdFileCache cache, @NotNull String key, @NotNull File deletable,	int useCount) {
 			Util.checkNotNull(file, cache, key, deletable);
 			Util.checkThat(!cache.coldCache.containsKeySafe(key));
 			Util.checkThat(!cache.hotCache.containsKeySafe(key));
@@ -86,10 +78,8 @@ public final class HotColdFileCache {
 		}
 	}
 	
-	// Helper proxy class to ensure that any resource returned from the cache
-	// can only be disposed once.
-	// Without this, clients would not be allowed to call dispose multiple times
-	// without interfering with other clients.
+	// Helper proxy class to ensure that any resource returned from the cache can only be disposed once.
+	// Without this, clients would not be allowed to call dispose multiple times without interfering with other clients.
 	private static final class DisposeOnceProxyResource implements FileResource {
 		private final FileResource innerResource;
 		private boolean disposed = false;
@@ -151,17 +141,13 @@ public final class HotColdFileCache {
 	}
 	
 	@NotNull
-	public synchronized FileResource putIfAbsent(	@NotNull Path key,
-													@NotNull File deletableFile) {
+	public synchronized FileResource putIfAbsent(@NotNull Path key,	@NotNull File deletableFile) {
 		return putIfAbsent(key, deletableFile, deletableFile);
 	}
 	
-	// If the cache already contains the given key,
-	// returns the file resource associated with that key and deletes the given deletable
+	// If the cache already contains the given key, returns the file resource associated with that key and deletes the given deletable
 	@NotNull
-	public synchronized FileResource putIfAbsent(	@NotNull Path key,
-													@NotNull File file,
-													@NotNull File deletable) {
+	public synchronized FileResource putIfAbsent(@NotNull Path key,	@NotNull File file,	@NotNull File deletable) {
 		Util.checkNotNull(key, file, deletable);
 		FileResource fileResource = get(key);
 		if (fileResource != null) {
@@ -174,8 +160,7 @@ public final class HotColdFileCache {
 			return new DisposeOnceProxyResource(fileResource);
 		}
 		String absKey = key.getCanonicalPath();
-		TemporaryFileResource newFileResource = new TemporaryFileResource(
-			file, this, absKey, deletable, 1);
+		TemporaryFileResource newFileResource = new TemporaryFileResource(file, this, absKey, deletable, 1);
 		hotCache.put(absKey, newFileResource);
 		return new DisposeOnceProxyResource(newFileResource);
 	}

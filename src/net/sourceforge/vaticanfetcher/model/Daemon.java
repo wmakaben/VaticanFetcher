@@ -9,7 +9,7 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model;
+package net.sourceforge.vaticanfetcher.model;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -17,20 +17,17 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import net.sourceforge.docfetcher.model.index.IndexingQueue;
-import net.sourceforge.docfetcher.model.index.Task.IndexAction;
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.annotations.Nullable;
+import net.sourceforge.vaticanfetcher.model.index.IndexingQueue;
+import net.sourceforge.vaticanfetcher.model.index.Task.IndexAction;
+import net.sourceforge.vaticanfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.Nullable;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Closeables;
 import com.google.common.io.Files;
 import com.google.common.io.LineProcessor;
 
-/**
- * @author Tran Nam Quang
- */
 public final class Daemon {
 	
 	private final IndexRegistry indexRegistry;
@@ -43,10 +40,7 @@ public final class Daemon {
 		File indexParentDir = indexRegistry.getIndexParentDir();
 		indexesFile = new File(indexParentDir, ".indexes.txt");
 		
-		/*
-		 * Open a FileOutputStream for writing. This lets the daemon know that
-		 * DocFetcher is currently running.
-		 */
+		/* Open a FileOutputStream for writing. This lets the daemon know that VaticanFetcher is currently running. */
 		String lockPath = Util.getAbsPath(indexesFile) + ".lock";
 		try {
 			final FileOutputStream daemonLock = new FileOutputStream(lockPath);
@@ -57,18 +51,12 @@ public final class Daemon {
 			});
 		}
 		catch (FileNotFoundException e) {
-			/*
-			 * This can occur if two instances are running, if someone is using
-			 * the file or if DocFetcher is run from a CD-ROM.
-			 */
+			/* This can occur if two instances are running, if someone is using the file or if VaticanFetcher is run from a CD-ROM. */
 			Util.printErr(e);
 		}
 	}
 	
-	/**
-	 * Checks if the daemon has detected changes in the indexed folders and runs
-	 * index updates on all changed folders.
-	 */
+	/** Checks if the daemon has detected changes in the indexed folders and runs index updates on all changed folders. */
 	public void enqueueUpdateTasks() {
 		if (!indexesFile.exists())
 			return; // Happens when we're inside the IDE
