@@ -9,7 +9,7 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model.index;
+package net.sourceforge.vaticanfetcher.model.index;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,15 +23,15 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import net.sourceforge.docfetcher.enums.Msg;
-import net.sourceforge.docfetcher.enums.ProgramConf;
-import net.sourceforge.docfetcher.model.Path;
-import net.sourceforge.docfetcher.model.UtilModel;
-import net.sourceforge.docfetcher.model.index.file.SolidArchiveFactory;
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.Immutable;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.annotations.Nullable;
+import net.sourceforge.vaticanfetcher.enums.Msg;
+import net.sourceforge.vaticanfetcher.enums.ProgramConf;
+import net.sourceforge.vaticanfetcher.model.Path;
+import net.sourceforge.vaticanfetcher.model.UtilModel;
+import net.sourceforge.vaticanfetcher.model.index.file.SolidArchiveFactory;
+import net.sourceforge.vaticanfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.annotations.Immutable;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.Nullable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -42,11 +42,7 @@ import de.schlichtherle.truezip.fs.FsDriverProvider;
 import de.schlichtherle.truezip.fs.FsScheme;
 import de.schlichtherle.truezip.fs.sl.FsDriverLocator;
 
-/**
- * Should not be subclassed outside the package group of this class.
- * 
- * @author Tran Nam Quang
- */
+/** Should not be subclassed outside the package group of this class. */
 public class IndexingConfig implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -57,8 +53,7 @@ public class IndexingConfig implements Serializable {
 		new PatternAction(".*\\.class"),
 		new PatternAction(".*\\.pyc"));
 	
-	public static final List<String> hiddenZipExtensions = Arrays.asList(
-		"tar", "tar.gz", "tgz", "tar.bz2", "tb2", "tbz");
+	public static final List<String> hiddenZipExtensions = Arrays.asList("tar", "tar.gz", "tgz", "tar.bz2", "tb2", "tbz");
 	
 	private static final Pattern dotSlashPattern = Pattern.compile("\\.\\.?[/\\\\].*");
 	
@@ -98,9 +93,8 @@ public class IndexingConfig implements Serializable {
 	}
 
 	/**
-	 * Sets the temporary directory to be used during indexing. The directory
-	 * specified by the given path will only be used if it represents an
-	 * existing, writable directory.
+	 * Sets the temporary directory to be used during indexing. The directory specified 
+	 * by the given path will only be used if it represents an existing, writable directory.
 	 */
 	public final void setTempDir(@Nullable File tempDir) {
 		this.tempDir = tempDir;
@@ -120,18 +114,14 @@ public class IndexingConfig implements Serializable {
 	protected void onStoreRelativePathsChanged() {}
 
 	/**
-	 * For the given file, a path is returned that can be stored without
-	 * breaking program portability. More specifically, this method returns
-	 * either an absolute path or a path relative to the current directory,
-	 * depending on the value of {@link #isStoreRelativePaths()}.
+	 * For the given file, a path is returned that can be stored without breaking program portability. More specifically, this method returns
+	 * either an absolute path or a path relative to the current directory, depending on the value of {@link #isStoreRelativePaths()}.
 	 * <p>
-	 * On Windows, there is one exception: If the file and the current directory
-	 * reside on different drives (e.g. "C:\" and "D:\"), this method returns an
-	 * absolute path.
+	 * On Windows, there is one exception: If the file and the current directory reside on different 
+	 * drives (e.g. "C:\" and "D:\"), this method returns an absolute path.
 	 * <p>
-	 * The separators are always forward slashes (i.e., "/"). This does not
-	 * affect portability since forward slashes are valid path separators on
-	 * both Windows and Linux.
+	 * The separators are always forward slashes (i.e., "/"). This does not affect portability 
+	 * since forward slashes are valid path separators on both Windows and Linux.
 	 */
 	@NotNull
 	public final Path getStorablePath(@NotNull File file) {
@@ -139,8 +129,7 @@ public class IndexingConfig implements Serializable {
 	}
 	
 	@NotNull
-	public static Path getStorablePath(	@NotNull File file,
-										boolean storeRelativePaths) {
+	public static Path getStorablePath(@NotNull File file, boolean storeRelativePaths) {
 		// Path should not start with any of these:
 		// ./   ../   .\   ..\
 		Util.checkNotNull(file);
@@ -240,9 +229,7 @@ public class IndexingConfig implements Serializable {
 	@NotNull
 	public final TArchiveDetector createZipDetector() {
 		/*
-		 * Create an extended copy of the default driver map where all
-		 * user-defined extensions not known to TrueZIP are associated with the
-		 * zip driver.
+		 * Create an extended copy of the default driver map where all user-defined extensions not known to TrueZIP are associated with the zip driver.
 		 */
 		final Map<FsScheme, FsDriver> driverMap = Maps.newHashMap(FsDriverLocator.SINGLETON.get());
 		FsDriver zipDriver = driverMap.get(FsScheme.create("zip"));
@@ -284,8 +271,7 @@ public class IndexingConfig implements Serializable {
 	@Nullable
 	public final SolidArchiveFactory getSolidArchiveFactory(@NotNull String filename) {
 		/*
-		 * JUnRar does not seem to support SFX RAR archives, but TrueZIP and
-		 * J7Zip do support SFX Zip and SFX 7z archives, respectively.
+		 * JUnRar does not seem to support SFX RAR archives, but TrueZIP and J7Zip do support SFX Zip and SFX 7z archives, respectively.
 		 */
 		String ext = Util.getExtension(filename);
 		if (detectExecutableArchives && ext.equals("exe"))

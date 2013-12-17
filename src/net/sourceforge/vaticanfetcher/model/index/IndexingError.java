@@ -9,20 +9,18 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model.index;
+package net.sourceforge.vaticanfetcher.model.index;
 
 import java.io.Serializable;
 
-import net.sourceforge.docfetcher.enums.Msg;
-import net.sourceforge.docfetcher.model.TreeNode;
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.annotations.Nullable;
-import net.sourceforge.docfetcher.util.annotations.VisibleForPackageGroup;
+import net.sourceforge.vaticanfetcher.enums.Msg;
+import net.sourceforge.vaticanfetcher.model.TreeNode;
+import net.sourceforge.vaticanfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.Nullable;
+import net.sourceforge.vaticanfetcher.util.annotations.VisibleForPackageGroup;
 
-/**
- * @author Tran Nam Quang
- */
+
 @VisibleForPackageGroup
 public final class IndexingError implements Serializable {
 	

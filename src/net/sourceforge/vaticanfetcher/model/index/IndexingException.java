@@ -9,23 +9,20 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model.index;
+package net.sourceforge.vaticanfetcher.model.index;
 
 import java.io.IOException;
 
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.annotations.VisibleForPackageGroup;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.VisibleForPackageGroup;
 
 /**
  * A wrapper for unrecoverable IOExceptions which may occur during indexing and
  * should cause the entire indexing process to terminate as soon as possible.
  * Examples: Corrupted index files or inaccessible temporary directory.
  * <p>
- * This class helps to distinguish between these unrecoverable IOExceptions and
- * other, less severe IOExceptions that result from bad user data and can thus
- * be swallowed locally.
- * 
- * @author Tran Nam Quang
+ * This class helps to distinguish between these unrecoverable IOExceptions and other, 
+ * less severe IOExceptions that result from bad user data and can thus be swallowed locally.
  */
 @VisibleForPackageGroup
 public final class IndexingException extends Exception {

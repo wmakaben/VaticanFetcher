@@ -9,18 +9,18 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model.index;
+package net.sourceforge.vaticanfetcher.model.index;
 
-import net.sourceforge.docfetcher.model.Cancelable;
-import net.sourceforge.docfetcher.model.LuceneIndex;
-import net.sourceforge.docfetcher.model.PendingDeletion;
-import net.sourceforge.docfetcher.model.TreeIndex.IndexingResult;
-import net.sourceforge.docfetcher.model.index.DelegatingReporter.ExistingMessagesHandler;
-import net.sourceforge.docfetcher.util.Event;
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.annotations.Nullable;
-import net.sourceforge.docfetcher.util.annotations.ThreadSafe;
+import net.sourceforge.vaticanfetcher.model.Cancelable;
+import net.sourceforge.vaticanfetcher.model.LuceneIndex;
+import net.sourceforge.vaticanfetcher.model.PendingDeletion;
+import net.sourceforge.vaticanfetcher.model.TreeIndex.IndexingResult;
+import net.sourceforge.vaticanfetcher.model.index.DelegatingReporter.ExistingMessagesHandler;
+import net.sourceforge.vaticanfetcher.util.Event;
+import net.sourceforge.vaticanfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.Nullable;
+import net.sourceforge.vaticanfetcher.util.annotations.ThreadSafe;
 
 import com.google.common.base.Objects;
 

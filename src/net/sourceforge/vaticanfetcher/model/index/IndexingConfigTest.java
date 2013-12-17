@@ -9,16 +9,13 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model.index;
+package net.sourceforge.vaticanfetcher.model.index;
 
 import static org.junit.Assert.assertTrue;
-import net.sourceforge.docfetcher.util.AppUtil;
+import net.sourceforge.vaticanfetcher.util.AppUtil;
 
 import org.junit.Test;
 
-/**
- * @author Tran Nam Quang
- */
 public final class IndexingConfigTest {
 	
 	static {

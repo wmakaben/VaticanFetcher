@@ -9,25 +9,21 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model.index;
+package net.sourceforge.vaticanfetcher.model.index;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.MutableCopy;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.annotations.Nullable;
-import net.sourceforge.docfetcher.util.collect.BoundedList;
+import net.sourceforge.vaticanfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.annotations.MutableCopy;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.Nullable;
+import net.sourceforge.vaticanfetcher.util.collect.BoundedList;
 
-/**
- * @author Tran Nam Quang
- */
 public final class DelegatingReporter extends IndexingReporter {
 
 	public interface ExistingMessagesHandler {
-		public void handleMessages(	@MutableCopy @NotNull List<IndexingInfo> infos,
-									@MutableCopy @NotNull List<IndexingError> errors);
+		public void handleMessages(	@MutableCopy @NotNull List<IndexingInfo> infos,	@MutableCopy @NotNull List<IndexingError> errors);
 	}
 
 	@Nullable private IndexingReporter delegate;
@@ -42,8 +38,7 @@ public final class DelegatingReporter extends IndexingReporter {
 	}
 
 	// delegate and handler are called under lock of receiver, so beware of lock-ordering deadlocks!
-	public synchronized void attachDelegate(@NotNull IndexingReporter delegate,
-											@NotNull ExistingMessagesHandler handler) {
+	public synchronized void attachDelegate(@NotNull IndexingReporter delegate,	@NotNull ExistingMessagesHandler handler) {
 		Util.checkNotNull(delegate, handler);
 		Util.checkThat(this.delegate == null);
 		

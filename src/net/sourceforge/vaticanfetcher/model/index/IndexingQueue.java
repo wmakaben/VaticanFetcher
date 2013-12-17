@@ -9,7 +9,7 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model.index;
+package net.sourceforge.vaticanfetcher.model.index;
 
 import java.io.File;
 import java.util.Iterator;
@@ -17,24 +17,24 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
-import net.sourceforge.docfetcher.model.IndexRegistry;
-import net.sourceforge.docfetcher.model.LuceneIndex;
-import net.sourceforge.docfetcher.model.PendingDeletion;
-import net.sourceforge.docfetcher.model.TreeIndex.IndexingResult;
-import net.sourceforge.docfetcher.model.index.Task.CancelAction;
-import net.sourceforge.docfetcher.model.index.Task.CancelHandler;
-import net.sourceforge.docfetcher.model.index.Task.IndexAction;
-import net.sourceforge.docfetcher.model.index.Task.TaskState;
-import net.sourceforge.docfetcher.model.index.file.FileIndex;
-import net.sourceforge.docfetcher.model.index.outlook.OutlookIndex;
-import net.sourceforge.docfetcher.util.Event;
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.annotations.NotThreadSafe;
-import net.sourceforge.docfetcher.util.annotations.Nullable;
-import net.sourceforge.docfetcher.util.annotations.ThreadSafe;
-import net.sourceforge.docfetcher.util.annotations.VisibleForPackageGroup;
-import net.sourceforge.docfetcher.util.collect.LazyList;
+import net.sourceforge.vaticanfetcher.model.IndexRegistry;
+import net.sourceforge.vaticanfetcher.model.LuceneIndex;
+import net.sourceforge.vaticanfetcher.model.PendingDeletion;
+import net.sourceforge.vaticanfetcher.model.TreeIndex.IndexingResult;
+import net.sourceforge.vaticanfetcher.model.index.Task.CancelAction;
+import net.sourceforge.vaticanfetcher.model.index.Task.CancelHandler;
+import net.sourceforge.vaticanfetcher.model.index.Task.IndexAction;
+import net.sourceforge.vaticanfetcher.model.index.Task.TaskState;
+import net.sourceforge.vaticanfetcher.model.index.file.FileIndex;
+import net.sourceforge.vaticanfetcher.model.index.outlook.OutlookIndex;
+import net.sourceforge.vaticanfetcher.util.Event;
+import net.sourceforge.vaticanfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.NotThreadSafe;
+import net.sourceforge.vaticanfetcher.util.annotations.Nullable;
+import net.sourceforge.vaticanfetcher.util.annotations.ThreadSafe;
+import net.sourceforge.vaticanfetcher.util.annotations.VisibleForPackageGroup;
+import net.sourceforge.vaticanfetcher.util.collect.LazyList;
 
 import com.google.common.collect.ImmutableList;
 
@@ -308,8 +308,7 @@ public final class IndexingQueue {
 			else if (index instanceof OutlookIndex) {
 				/* Reject a request to create or rebuild an Outlook index if it has the same PST file as another Outlook index in the registry. */
 				for (LuceneIndex index0 : indexesInRegistry)
-					if (index0 instanceof OutlookIndex
-							&& sameTarget(index0, task))
+					if (index0 instanceof OutlookIndex && sameTarget(index0, task))
 						return Rejection.SAME_IN_REGISTRY;
 
 				/*

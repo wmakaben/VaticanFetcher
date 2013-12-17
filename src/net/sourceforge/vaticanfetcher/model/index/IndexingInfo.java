@@ -9,16 +9,14 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model.index;
+package net.sourceforge.vaticanfetcher.model.index;
 
-import net.sourceforge.docfetcher.model.TreeNode;
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.annotations.Nullable;
+import net.sourceforge.vaticanfetcher.model.TreeNode;
+import net.sourceforge.vaticanfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.Nullable;
 
-/**
- * @author Tran Nam Quang
- */
+
 public final class IndexingInfo {
 
 	public enum InfoType {
@@ -49,18 +47,12 @@ public final class IndexingInfo {
 	}
 
 	@NotNull
-	public TreeNode getTreeNode() {
-		return treeNode;
-	}
+	public TreeNode getTreeNode() {return treeNode;}
 	
-	public int getNumber() {
-		return number;
-	}
+	public int getNumber() {return number;}
 
 	@Nullable
-	public int[] getPercentage() {
-		return percentage;
-	}
+	public int[] getPercentage() {return percentage;}
 
 	public void setPercentage(@Nullable int... percentage) {
 		Util.checkThat(percentage == null || percentage.length == 2);

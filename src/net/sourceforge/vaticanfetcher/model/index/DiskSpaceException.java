@@ -9,13 +9,10 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model.index;
+package net.sourceforge.vaticanfetcher.model.index;
 
-import net.sourceforge.docfetcher.util.annotations.VisibleForPackageGroup;
+import net.sourceforge.vaticanfetcher.util.annotations.VisibleForPackageGroup;
 
-/**
- * @author Tran Nam Quang
- */
 @VisibleForPackageGroup
 public final class DiskSpaceException extends Exception {
 	

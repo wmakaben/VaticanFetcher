@@ -9,16 +9,16 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model.index;
+package net.sourceforge.vaticanfetcher.model.index;
 
 import java.io.Closeable;
 import java.io.IOException;
 
-import net.sourceforge.docfetcher.model.Fields;
-import net.sourceforge.docfetcher.model.IndexRegistry;
-import net.sourceforge.docfetcher.util.CheckedOutOfMemoryError;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.annotations.VisibleForPackageGroup;
+import net.sourceforge.vaticanfetcher.model.Fields;
+import net.sourceforge.vaticanfetcher.model.IndexRegistry;
+import net.sourceforge.vaticanfetcher.util.CheckedOutOfMemoryError;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.VisibleForPackageGroup;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexWriter;
@@ -28,10 +28,7 @@ import org.apache.lucene.store.Directory;
 
 import com.google.common.io.Closeables;
 
-/**
- * Wrapper for Lucene's IndexWriter that adds some functionality.
- * @author Tran Nam Quang
- */
+/** Wrapper for Lucene's IndexWriter that adds some functionality. */
 @VisibleForPackageGroup
 public final class IndexWriterAdapter implements Closeable {
 	

@@ -9,21 +9,18 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model.index;
+package net.sourceforge.vaticanfetcher.model.index;
 
 import java.io.Serializable;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-import net.sourceforge.docfetcher.enums.Msg;
-import net.sourceforge.docfetcher.model.Path;
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.annotations.Nullable;
+import net.sourceforge.vaticanfetcher.enums.Msg;
+import net.sourceforge.vaticanfetcher.model.Path;
+import net.sourceforge.vaticanfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.Nullable;
 
-/**
- * @author Tran Nam Quang
- */
 public final class PatternAction implements Serializable {
 	
 	public enum MatchTarget {
@@ -60,9 +57,7 @@ public final class PatternAction implements Serializable {
 	}
 	
 	// might throw PatternSyntaxException
-	public boolean matches(	@NotNull String filename,
-							@NotNull Path path,
-							boolean isFile) {
+	public boolean matches(	@NotNull String filename,@NotNull Path path, boolean isFile) {
 		// TODO post-release-1.1: patterns are currently not applied to regular directories
 		if (!isFile)
 			return false;
@@ -102,26 +97,16 @@ public final class PatternAction implements Serializable {
 	}
 
 	@NotNull
-	public String getRegex() {
-		return regex;
-	}
+	public String getRegex() {return regex;}
 
-	public void setTarget(@NotNull MatchTarget target) {
-		this.target = Util.checkNotNull(target);
-	}
+	public void setTarget(@NotNull MatchTarget target) {this.target = Util.checkNotNull(target);}
 
 	@NotNull
-	public MatchTarget getTarget() {
-		return target;
-	}
+	public MatchTarget getTarget() {return target;}
 
-	public void setAction(@NotNull MatchAction action) {
-		this.action = Util.checkNotNull(action);
-	}
+	public void setAction(@NotNull MatchAction action) {this.action = Util.checkNotNull(action);}
 
 	@NotNull
-	public MatchAction getAction() {
-		return action;
-	}
+	public MatchAction getAction() {return action;}
 	
 }

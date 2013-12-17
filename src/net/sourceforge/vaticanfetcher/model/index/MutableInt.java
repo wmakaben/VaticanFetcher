@@ -9,25 +9,29 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.model.index;
+package net.sourceforge.vaticanfetcher.model.index;
 
-import net.sourceforge.docfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.VisibleForPackageGroup;
 
-/**
- * @author Tran Nam Quang
- */
-public class IndexingReporter {
+@VisibleForPackageGroup
+public final class MutableInt {
 	
-	public static final IndexingReporter nullReporter = new IndexingReporter();
+	private int value;
 	
-	public void setStartTime(long time) {}
+	public MutableInt(int value) {
+		this.value = value;
+	}
+
+	public int get() {
+		return value;
+	}
 	
-	public void setEndTime(long time) {}
+	public void set(int value) {
+		this.value = value;
+	}
 	
-	public void info(@NotNull IndexingInfo info) {}
-	
-	public void subInfo(int current, int total) {}
-	
-	public void fail(@NotNull IndexingError error) {}
-	
+	public void increment() {
+		value++;
+	}
+
 }
