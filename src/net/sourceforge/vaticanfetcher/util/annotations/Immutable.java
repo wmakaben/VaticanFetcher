@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 Tran Nam Quang.
+ * Copyright (c) 2010, 2011 Tran Nam Quang.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -9,26 +9,20 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.util.annotations;
+package net.sourceforge.vaticanfetcher.util.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-/**
- * Indicates that the annotated element is only marked public for usage by
- * packages related to the current package, e.g. superpackages and subpackages.
- * 
- * @author Tran Nam Quang
- */
+/** Indicates that the annotated Iterable is immutable. */
 @Target({
-	ElementType.TYPE,
 	ElementType.FIELD,
 	ElementType.METHOD,
-	ElementType.CONSTRUCTOR
+	ElementType.PARAMETER
 })
 @Retention(RetentionPolicy.SOURCE)
-public @interface VisibleForPackageGroup {
+public @interface Immutable {
 
 }

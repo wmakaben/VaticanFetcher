@@ -9,23 +9,18 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.util.annotations;
+package net.sourceforge.vaticanfetcher.util.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-/**
- * Indicates that the annotated type is thread-safe.
- * 
- * @author Tran Nam Quang
- */
+/** Indicates that the annotated method can only be called once. */
 @Target({
-	ElementType.TYPE,
 	ElementType.METHOD
 })
 @Retention(RetentionPolicy.SOURCE)
-public @interface ThreadSafe {
+public @interface CallOnce {
 
 }
