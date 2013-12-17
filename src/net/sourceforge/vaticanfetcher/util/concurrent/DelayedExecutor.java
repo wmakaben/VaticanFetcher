@@ -9,15 +9,12 @@
  *    Tran Nam Quang - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.util.concurrent;
+package net.sourceforge.vaticanfetcher.util.concurrent;
 
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.annotations.Nullable;
+import net.sourceforge.vaticanfetcher.util.Util;
+import net.sourceforge.vaticanfetcher.util.annotations.NotNull;
+import net.sourceforge.vaticanfetcher.util.annotations.Nullable;
 
-/**
- * @author Tran Nam Quang
- */
 public final class DelayedExecutor {
 	
 	private final long delay;
@@ -34,13 +31,11 @@ public final class DelayedExecutor {
 	}
 	
 	/**
-	 * Schedules the given runnable for execution. Any previously scheduled
-	 * runnables will be discarded if the amount of time passed since they were
-	 * scheduled is less than the delay set for the receiver.
+	 * Schedules the given runnable for execution. Any previously scheduled runnables will be discarded if 
+	 * the amount of time passed since they were scheduled is less than the delay set for the receiver.
 	 * <p>
-	 * If the given runnable throws an exception, the exception will be
-	 * propagated to the default exception handler. The executor will then
-	 * continue to operate normally.
+	 * If the given runnable throws an exception, the exception will be propagated to the default 
+	 * exception handler. The executor will then continue to operate normally.
 	 */
 	public void schedule(@NotNull Runnable runnable) {
 		Util.checkNotNull(runnable);
