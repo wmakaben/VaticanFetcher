@@ -3,6 +3,7 @@
 #===========================================================
 - These are the instructions to set up the original DocFetcher but it can also be used to set up the Vatican Fetcher - Will Makabenta
 
+- Currently a bug with the Vatican Fetcher. Unable to exit out of indexing once it starts.
 
 #===========================================================
 #	Setup in Eclipse
